@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bridge Inspection Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,600;0,8..60,700;1,8..60,300&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d2b4e;
+    --blue: #1a5fa8;
+    --blue-light: #2e7fd4;
+    --blue-pale: #e8f1fb;
+    --blue-pale2: #f0f6ff;
+    --accent: #c8a84b;
+    --accent-light: #f5edcc;
+    --text: #1a2433;
+    --text-secondary: #4a6080;
+    --border: #d0dded;
+    --white: #ffffff;
+    --success: #1a7a4a;
+    --success-bg: #e8f5ee;
+    --radius: 10px;
+    --shadow: 0 2px 16px rgba(13,43,78,0.08);
+    --shadow-lg: 0 8px 40px rgba(13,43,78,0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--blue-pale2);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-icon {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .header-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+  }
+  .header-subtitle { font-size: 11px; opacity: 0.65; font-weight: 300; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
+  .header-badge {
+    background: rgba(200,168,75,0.2);
+    border: 1px solid rgba(200,168,75,0.4);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 32px 80px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 32px;
+    background: white;
+    border-radius: 50px;
+    padding: 6px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .progress-step {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .progress-step.active {
+    background: var(--navy);
+    color: white;
+  }
+  .progress-step.done {
+    color: var(--success);
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .progress-step.active .step-num {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.6);
+  }
+  .progress-step.done .step-num {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+  }
+  .step-label { display: none; }
+  @media (min-width: 600px) { .step-label { display: inline; } }
+
+  /* CARDS */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 24px;
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-header-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--blue-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .card-header h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .card-header p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 1px;
+  }
+  .card-body { padding: 24px; }
+
+  /* SCENARIO SECTION */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 700px) { .scenario-grid { grid-template-columns: 1fr; } }
+
+  .scenario-info {
+    background: var(--blue-pale2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .scenario-info h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .scenario-info p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .anomaly-box {
+    background: #fff8e8;
+    border: 1px solid #e8d49a;
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .anomaly-box .icon { font-size: 20px; flex-shrink: 0; }
+  .anomaly-box h4 { font-size: 13px; font-weight: 600; color: #7a5a00; margin-bottom: 4px; }
+  .anomaly-box p { font-size: 14px; color: var(--text); line-height: 1.5; }
+
+  /* VIDEO */
+  .video-container {
+    background: #0a1628;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-placeholder {
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+  }
+  .video-placeholder .play-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .video-placeholder .play-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
+  .video-placeholder p { font-size: 13px; opacity: 0.7; }
+
+  /* FORM */
+  .form-section { display: none; }
+  .form-section.active { display: block; }
+
+  .mode-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 600px) { .mode-selector { grid-template-columns: 1fr; } }
+
+  .mode-card {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    position: relative;
+    background: white;
+  }
+  .mode-card:hover { border-color: var(--blue-light); background: var(--blue-pale2); }
+  .mode-card.selected { border-color: var(--blue); background: var(--blue-pale); }
+  .mode-card input[type="radio"] { display: none; }
+  .mode-icon { font-size: 28px; margin-bottom: 8px; }
+  .mode-label { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .mode-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+  .mode-badge {
+    position: absolute;
+    top: -8px; right: -8px;
+    background: var(--accent);
+    color: white;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+    display: none;
+  }
+  .mode-card.selected .mode-badge { display: block; }
+
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+  }
+  .form-group .hint { font-size: 12px; color: var(--text-secondary); font-weight: 400; margin-left: 4px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(26,95,168,0.1);
+  }
+  .form-group textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(13,43,78,0.25); }
+  .submit-btn:disabled { background: #a0b0c4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .submit-btn .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* RESULTS */
+  .results-section { display: none; }
+  .results-section.active { display: block; }
+
+  .ai-response-box {
+    background: var(--blue-pale2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--blue);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .ai-response-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .ai-badge {
+    background: var(--blue);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .mode-tag {
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--border);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .ai-response-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-wrap;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 600px) { .reflection-grid { grid-template-columns: 1fr; } }
+
+  .reflection-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .reflection-q {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .reflection-item textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    resize: none;
+    height: 80px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .reflection-item textarea:focus { border-color: var(--blue); }
+
+  .submit-reflection-btn {
+    width: 100%;
+    background: var(--success);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 24px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .submit-reflection-btn:hover { background: #156040; transform: translateY(-1px); }
+
+  .success-banner {
+    background: var(--success-bg);
+    border: 1px solid #a3d4b8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    display: none;
+  }
+  .success-banner.show { display: flex; }
+  .success-icon { font-size: 32px; }
+  .success-text h3 { font-size: 15px; font-weight: 600; color: var(--success); }
+  .success-text p { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
+
+  .token-info {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-family: 'DM Mono', monospace;
+    text-align: right;
+    margin-top: 8px;
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ERROR */
+  .error-box {
+    background: #fff0f0;
+    border: 1px solid #f5c0c0;
+    border-left: 4px solid #d9534f;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #8b0000;
+    margin-top: 16px;
+    display: none;
+  }
+  .error-box.show { display: block; }
+
+  /* NAV BUTTONS */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .back-btn {
+    flex: 0 0 auto;
+    background: white;
+    color: var(--navy);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 20px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .back-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+  .info-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .pill {
+    background: var(--blue-pale);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--blue);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* FOOTER */
+  .page-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-icon">🌉</div>
+      <div>
+        <div class="header-title">Bridge Inspection Learning Platform</div>
+        <div class="header-subtitle">AI-Augmented Scenario-Based Learning · SIUE Engineering</div>
+      </div>
+    </div>
+    <div class="header-badge">ASEE 2026</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-step active" id="step1">
+      <div class="step-num">1</div>
+      <span class="step-label">Scenario</span>
+    </div>
+    <div class="progress-step" id="step2">
+      <div class="step-num">2</div>
+      <span class="step-label">Your Assessment</span>
+    </div>
+    <div class="progress-step" id="step3">
+      <div class="step-num">3</div>
+      <span class="step-label">AI Feedback</span>
+    </div>
+    <div class="progress-step" id="step4">
+      <div class="step-num">4</div>
+      <span class="step-label">Reflection</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: SCENARIO -->
+  <div id="section-scenario">
+
+    <div class="card" style="animation-delay:0.05s">
+      <div class="card-header">
+        <div class="card-header-icon">📋</div>
+        <div>
+          <h2>Scenario Overview</h2>
+          <p>Read the scenario carefully before submitting your inspection assessment</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="scenario-grid">
+          <div class="scenario-info">
+            <h3>🌉 Structure</h3>
+            <p>Interstate Highway Steel Truss Bridge, built 1978. Spans 240 ft over a river in a humid temperate climate. Annual traffic volume: 45,000 AADT.</p>
+          </div>
+          <div class="scenario-info">
+            <h3>📄 Inspection Context</h3>
+            <p>Routine biennial inspection per FHWA guidelines. Last inspection: 2 years ago, rated structurally sound. Current: visual inspection with close-up documentation.</p>
+          </div>
+        </div>
+
+        <div class="anomaly-box">
+          <div class="icon">⚠️</div>
+          <div>
+            <h4>Observed Anomaly</h4>
+            <p>Visible corrosion on the main load-bearing beam at mid-span. Rust staining extends approximately 18 inches. Cross-section loss estimated at 15–30% based on visual inspection. No delamination observed.</p>
+          </div>
+        </div>
+
+        <div class="info-pills" style="margin-top:16px">
+          <span class="pill">🏗️ Steel Truss Bridge</span>
+          <span class="pill">📍 Mid-span corrosion</span>
+          <span class="pill">📊 ~15–30% section loss</span>
+          <span class="pill">🌡️ Humid climate exposure</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="animation-delay:0.1s">
+      <div class="card-header">
+        <div class="card-header-icon">🎬</div>
+        <div>
+          <h2>Inspection Video</h2>
+          <p>Watch the field inspection footage before making your assessment</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="video-container">
+          <div class="video-placeholder">
+            <div class="play-btn" onclick="handleVideoPlay()">▶</div>
+            <p>Bridge Inspection Scenario — Field Video</p>
+            <p style="margin-top:6px;font-size:11px;opacity:0.5">Replace src with your actual video URL</p>
+          </div>
+          <!-- Uncomment and replace with actual video:
+          <video width="100%" height="100%" controls style="object-fit:cover">
+            <source src="YOUR_VIDEO_URL_HERE" type="video/mp4">
+          </video>
+          -->
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="goToStep2()" style="max-width:320px;margin:0 auto">
+      Proceed to Assessment →
+    </button>
+
+  </div>
+
+  <!-- STEP 2: ASSESSMENT FORM -->
+  <div id="section-form" style="display:none">
+
+    <div class="card" style="animation-delay:0.05s">
+      <div class="card-header">
+        <div class="card-header-icon">🤝</div>
+        <div>
+          <h2>Select Collaboration Mode</h2>
+          <p>Choose how you'd like to work with AI for this inspection task</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="mode-selector">
+          <label class="mode-card" onclick="selectMode('A')">
+            <input type="radio" name="mode" value="A">
+            <div class="mode-badge">Selected</div>
+            <div class="mode-icon">👤</div>
+            <div class="mode-label">Mode A</div>
+            <div class="mode-desc">Human Only — Make your decision independently without AI assistance</div>
+          </label>
+          <label class="mode-card" onclick="selectMode('B')">
+            <input type="radio" name="mode" value="B">
+            <div class="mode-badge">Selected</div>
+            <div class="mode-icon">🤝</div>
+            <div class="mode-label">Mode B</div>
+            <div class="mode-desc">AI-Assisted — Receive AI suggestions while you retain full decision authority</div>
+          </label>
+          <label class="mode-card" onclick="selectMode('C')">
+            <input type="radio" name="mode" value="C">
+            <div class="mode-badge">Selected</div>
+            <div class="mode-icon">🤖</div>
+            <div class="mode-label">Mode C</div>
+            <div class="mode-desc">AI-Guided — AI provides a complete assessment for you to review and critique</div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="animation-delay:0.1s">
+      <div class="card-header">
+        <div class="card-header-icon">📝</div>
+        <div>
+          <h2>Your Inspection Assessment</h2>
+          <p>Complete all fields based on the scenario and video you reviewed</p>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Student ID <span class="hint">(required)</span></label>
+            <input type="text" id="studentId" placeholder="e.g. S2026001" />
+          </div>
+          <div class="form-group">
+            <label>Course Level</label>
+            <select id="courseLevel">
+              <option value="100-level">100-Level — Computer Applications</option>
+              <option value="200-level">200-Level — Construction Methods</option>
+              <option value="400-level" selected>400-Level — Senior Capstone</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your Inspection Decision & Recommendation <span class="hint">(be specific)</span></label>
+          <textarea id="studentAnswer" placeholder="Describe your assessment and recommended action. For example: Based on the visible corrosion and estimated 15-30% cross-section loss, I recommend..."></textarea>
+        </div>
+
+        <div class="error-box" id="errorBox">
+          ⚠️ Please fill in all required fields and select a collaboration mode before submitting.
+        </div>
+
+        <div class="nav-row">
+          <button class="back-btn" onclick="goToStep1()">← Back</button>
+          <button class="submit-btn" id="submitBtn" onclick="submitAssessment()">
+            <div class="spinner" id="spinner"></div>
+            <span id="submitText">Submit Assessment</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STEP 3: AI FEEDBACK -->
+  <div id="section-results" style="display:none">
+
+    <div class="card" style="animation-delay:0.05s">
+      <div class="card-header">
+        <div class="card-header-icon">🤖</div>
+        <div>
+          <h2>AI Feedback</h2>
+          <p id="feedbackSubtitle">Based on your selected collaboration mode</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="ai-response-box">
+          <div class="ai-response-header">
+            <span class="ai-badge">GPT-4o Response</span>
+            <span class="mode-tag" id="modeTag">Mode B – AI Assisted</span>
+          </div>
+          <div class="ai-response-text" id="aiResponseText">Loading AI response...</div>
+          <div class="token-info" id="tokenInfo"></div>
+        </div>
+
+        <div class="nav-row">
+          <button class="back-btn" onclick="goToStep2()">← Edit Assessment</button>
+          <button class="submit-btn" onclick="goToStep4()" style="max-width:280px">
+            Continue to Reflection →
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STEP 4: REFLECTION -->
+  <div id="section-reflection" style="display:none">
+
+    <div class="card" style="animation-delay:0.05s">
+      <div class="card-header">
+        <div class="card-header-icon">💭</div>
+        <div>
+          <h2>Reflection Questions</h2>
+          <p>Answer these questions thoughtfully based on your experience in this session</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="reflection-grid" id="reflectionGrid">
+          <!-- Populated dynamically -->
+        </div>
+
+        <button class="submit-reflection-btn" onclick="submitReflection()">
+          ✓ Submit Reflection & Complete Session
+        </button>
+
+        <div class="success-banner" id="successBanner">
+          <div class="success-icon">🎓</div>
+          <div class="success-text">
+            <h3>Session Complete!</h3>
+            <p>Your assessment and reflection have been recorded. Thank you for participating in this study.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="page-footer">
+  AI-Augmented Scenario-Based Learning Platform · SIUE Department of Construction & Civil Engineering · ASEE 2026
+</div>
+
+<script>
+  // CONFIG — update this URL if your n8n webhook changes
+  const WEBHOOK_URL = 'https://chenxiyuan.app.n8n.cloud/webhook/inspection-submit';
+  const SCENARIO_ID = 'bridge-scenario-01';
+  const BRIDGE_TYPE = 'Steel Truss Bridge';
+  const ANOMALY = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
+
+  let selectedMode = null;
+  let apiResponse = null;
+
+  function selectMode(mode) {
+    selectedMode = mode;
+    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.mode-card')[['A','B','C'].indexOf(mode)].classList.add('selected');
+  }
+
+  function setStep(n) {
+    for (let i = 1; i <= 4; i++) {
+      const el = document.getElementById('step' + i);
+      el.classList.remove('active', 'done');
+      if (i < n) el.classList.add('done');
+      if (i === n) el.classList.add('active');
+      // update step-num for done steps
+      el.querySelector('.step-num').textContent = i < n ? '✓' : i;
+    }
+  }
+
+  function goToStep1() {
+    document.getElementById('section-scenario').style.display = 'block';
+    document.getElementById('section-form').style.display = 'none';
+    document.getElementById('section-results').style.display = 'none';
+    document.getElementById('section-reflection').style.display = 'none';
+    setStep(1);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function goToStep2() {
+    document.getElementById('section-scenario').style.display = 'none';
+    document.getElementById('section-form').style.display = 'block';
+    document.getElementById('section-results').style.display = 'none';
+    document.getElementById('section-reflection').style.display = 'none';
+    setStep(2);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function goToStep4() {
+    document.getElementById('section-results').style.display = 'none';
+    document.getElementById('section-reflection').style.display = 'block';
+    setStep(4);
+    window.scrollTo({top:0, behavior:'smooth'});
+
+    if (apiResponse && apiResponse.reflectionQuestions) {
+      const grid = document.getElementById('reflectionGrid');
+      grid.innerHTML = '';
+      apiResponse.reflectionQuestions.forEach((q, i) => {
+        grid.innerHTML += `
+          <div class="reflection-item">
+            <div class="reflection-q">Q${i+1}. ${q}</div>
+            <textarea placeholder="Your response..." id="reflection${i}"></textarea>
+          </div>`;
+      });
+    }
+  }
+
+  async function submitAssessment() {
+    const studentId = document.getElementById('studentId').value.trim();
+    const studentAnswer = document.getElementById('studentAnswer').value.trim();
+    const courseLevel = document.getElementById('courseLevel').value;
+    const errorBox = document.getElementById('errorBox');
+
+    if (!studentId || !studentAnswer || !selectedMode) {
+      errorBox.classList.add('show');
+      return;
+    }
+    errorBox.classList.remove('show');
+
+    // Loading state
+    const btn = document.getElementById('submitBtn');
+    const spinner = document.getElementById('spinner');
+    const submitText = document.getElementById('submitText');
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    submitText.textContent = 'Submitting...';
+
+    const payload = {
+      studentId,
+      mode: selectedMode,
+      scenarioId: SCENARIO_ID,
+      bridgeType: BRIDGE_TYPE,
+      anomalyDescription: ANOMALY,
+      studentAnswer,
+      courseLevel
+    };
+
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      apiResponse = await res.json();
+
+      // Show results
+      document.getElementById('section-form').style.display = 'none';
+      document.getElementById('section-results').style.display = 'block';
+      setStep(3);
+      window.scrollTo({top:0, behavior:'smooth'});
+
+      // Populate AI response
+      document.getElementById('modeTag').textContent = apiResponse.mode || ('Mode ' + selectedMode);
+      document.getElementById('aiResponseText').textContent =
+        apiResponse.aiResponse || 'No AI response for this mode.';
+      if (apiResponse.tokensUsed > 0) {
+        document.getElementById('tokenInfo').textContent =
+          `Tokens used: ${apiResponse.tokensUsed}`;
+      }
+
+      const modeNames = { A: 'Human Only — no AI assistance was provided.', B: 'AI-Assisted — review the suggestions below and finalize your decision.', C: 'AI-Guided — review the AI\'s complete recommendation and decide whether to approve or critique it.' };
+      document.getElementById('feedbackSubtitle').textContent = modeNames[selectedMode] || '';
+
+    } catch (err) {
+      errorBox.textContent = '⚠️ Connection error. Please check your network and try again. (' + err.message + ')';
+      errorBox.classList.add('show');
+    } finally {
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      submitText.textContent = 'Submit Assessment';
+    }
+  }
+
+  function submitReflection() {
+    document.getElementById('successBanner').classList.add('show');
+    document.querySelector('.submit-reflection-btn').style.display = 'none';
+    setStep(4);
+    window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
+  }
+
+  function handleVideoPlay() {
+    alert('Video playback: Replace the video placeholder in the HTML with your actual inspection video URL.');
+  }
+</script>
+
+</body>
+</html>
