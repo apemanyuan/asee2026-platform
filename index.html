@@ -920,8 +920,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
 
   const CHATBOT_URL = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
-  const BRIDGE_TYPE = 'Steel Truss Bridge';
-  const ANOMALY_DESC = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
 
   // conversation history per mode
   const chatHistory = { b: [], c: [] };
@@ -995,7 +993,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
           history: JSON.stringify(chatHistory[mid].slice(0, -1)),
           studentId,
           bridgeType: BRIDGE_TYPE,
-          anomalyDescription: ANOMALY_DESC
+          anomalyDescription: ANOMALY
         })
       });
 
@@ -1037,7 +1035,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
           history: '[]',
           studentId,
           bridgeType: BRIDGE_TYPE,
-          anomalyDescription: ANOMALY_DESC,
+          anomalyDescription: ANOMALY,
           isFirstMessage: true
         })
       });
