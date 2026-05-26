@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bridge Inspection Learning Platform</title>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,600;0,8..60,700;1,8..60,300&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,600;0,8..60,700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #0d2b4e;
@@ -13,7 +13,6 @@
     --blue-pale: #e8f1fb;
     --blue-pale2: #f0f6ff;
     --accent: #c8a84b;
-    --accent-light: #f5edcc;
     --text: #1a2433;
     --text-secondary: #4a6080;
     --border: #d0dded;
@@ -22,553 +21,272 @@
     --success-bg: #e8f5ee;
     --radius: 10px;
     --shadow: 0 2px 16px rgba(13,43,78,0.08);
-    --shadow-lg: 0 8px 40px rgba(13,43,78,0.14);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--blue-pale2);
-    color: var(--text);
-    min-height: 100vh;
-  }
+  body { font-family: 'Outfit', sans-serif; background: var(--blue-pale2); color: var(--text); min-height: 100vh; }
 
   /* HEADER */
-  header {
-    background: var(--navy);
-    color: white;
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
-  }
-  .header-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 16px 32px;
+  header { background: var(--navy); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.25); }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { display: flex; align-items: center; gap: 14px; }
+  .header-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .header-title { font-family: 'Source Serif 4', serif; font-size: 17px; font-weight: 600; }
+  .header-subtitle { font-size: 11px; opacity: 0.6; font-weight: 300; letter-spacing: 0.4px; text-transform: uppercase; margin-top: 2px; }
+  .header-badge { background: rgba(200,168,75,0.2); border: 1px solid rgba(200,168,75,0.4); color: var(--accent); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; }
+
+  /* PROGRESS */
+  .progress-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 32px 0; }
+  .progress-bar { display: flex; background: white; border-radius: 50px; padding: 5px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 24px; }
+  .prog-step { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 12px; border-radius: 40px; font-size: 12px; font-weight: 500; color: var(--text-secondary); transition: all 0.3s; }
+  .prog-step.active { background: var(--navy); color: white; }
+  .prog-step.done { color: var(--success); }
+  .prog-num { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+  .prog-step.active .prog-num { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.5); }
+  .prog-step.done .prog-num { background: var(--success); border-color: var(--success); color: white; }
+  .prog-label { display: none; }
+  @media(min-width:560px){ .prog-label { display: inline; } }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+
+  /* SESSION TABS */
+  .session-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .session-tab { padding: 8px 18px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
+  .session-tab:hover { border-color: var(--blue-light); color: var(--blue); }
+  .session-tab.active { background: var(--navy); color: white; border-color: var(--navy); }
+  .session-tab .tab-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+  .session-tab.done { border-color: var(--success); color: var(--success); }
+  .session-tab.done .tab-dot { background: var(--success); opacity: 1; }
+
+  /* CARD */
+  .card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; animation: fadeUp 0.35s ease both; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+  .card-header { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 11px; }
+  .card-hicon { width: 32px; height: 32px; border-radius: 7px; background: var(--blue-pale); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .card-header h2 { font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; color: var(--navy); }
+  .card-header p { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
+  .card-body { padding: 22px; }
+
+
+  /* VIDEO BUTTON */
+  .video-btn-wrap { display: flex; flex-direction: column; gap: 12px; }
+  .video-thumb-placeholder {
+    background: linear-gradient(135deg, #0d2b4e 0%, #1a3a6e 100%);
+    border-radius: 10px;
+    padding: 32px 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 20px;
+    min-height: 120px;
   }
-  .header-brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .header-icon {
-    width: 38px; height: 38px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
-  .header-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.2px;
-    line-height: 1.2;
-  }
-  .header-subtitle { font-size: 11px; opacity: 0.65; font-weight: 300; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
-  .header-badge {
-    background: rgba(200,168,75,0.2);
-    border: 1px solid rgba(200,168,75,0.4);
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-  }
-
-  /* MAIN LAYOUT */
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 32px 32px 80px;
-  }
-
-  /* PROGRESS BAR */
-  .progress-bar {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 32px;
-    background: white;
-    border-radius: 50px;
-    padding: 6px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-  }
-  .progress-step {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border-radius: 40px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    transition: all 0.3s;
-    cursor: default;
-  }
-  .progress-step.active {
-    background: var(--navy);
-    color: white;
-  }
-  .progress-step.done {
-    color: var(--success);
-  }
-  .step-num {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    border: 1.5px solid currentColor;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-  .progress-step.active .step-num {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.6);
-  }
-  .progress-step.done .step-num {
-    background: var(--success);
-    border-color: var(--success);
-    color: white;
-  }
-  .step-label { display: none; }
-  @media (min-width: 600px) { .step-label { display: inline; } }
-
-  /* CARDS */
-  .card {
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    margin-bottom: 24px;
-    animation: fadeUp 0.4s ease both;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .card-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .card-header-icon {
-    width: 34px; height: 34px;
-    border-radius: 8px;
-    background: var(--blue-pale);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-  .card-header h2 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--navy);
-  }
-  .card-header p {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-top: 1px;
-  }
-  .card-body { padding: 24px; }
-
-  /* SCENARIO SECTION */
-  .scenario-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  @media (max-width: 700px) { .scenario-grid { grid-template-columns: 1fr; } }
-
-  .scenario-info {
-    background: var(--blue-pale2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px;
-  }
-  .scenario-info h3 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--navy);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .scenario-info p {
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.6;
-  }
-
-  .anomaly-box {
-    background: #fff8e8;
-    border: 1px solid #e8d49a;
-    border-left: 4px solid var(--accent);
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 16px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .anomaly-box .icon { font-size: 20px; flex-shrink: 0; }
-  .anomaly-box h4 { font-size: 13px; font-weight: 600; color: #7a5a00; margin-bottom: 4px; }
-  .anomaly-box p { font-size: 14px; color: var(--text); line-height: 1.5; }
-
-  /* VIDEO */
-  .video-container {
-    background: #0a1628;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    aspect-ratio: 16/9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .video-placeholder {
-    text-align: center;
-    color: rgba(255,255,255,0.7);
-  }
-  .video-placeholder .play-btn {
-    width: 64px; height: 64px;
+  .vthumb-icon {
+    width: 56px; height: 56px;
     border-radius: 50%;
     background: rgba(255,255,255,0.15);
-    border: 2px solid rgba(255,255,255,0.4);
+    border: 2px solid rgba(255,255,255,0.3);
     display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    margin: 0 auto 12px;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-size: 22px;
+    color: white;
+    flex-shrink: 0;
   }
-  .video-placeholder .play-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
-  .video-placeholder p { font-size: 13px; opacity: 0.7; }
+  .vthumb-info { flex: 1; }
+  .vthumb-title { font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 600; color: white; margin-bottom: 5px; }
+  .vthumb-desc { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+  .yt-open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ff0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    width: fit-content;
+  }
+  .yt-open-btn:hover { background: #cc0000; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,0,0,0.3); }
+
+
+  /* PDF */
+  .pdf-wrap { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); height: 500px; }
+  .pdf-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  /* SURVEY LINK */
+  .survey-link-box { background: var(--blue-pale2); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .survey-link-box .info h3 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+  .survey-link-box .info p { font-size: 12px; color: var(--text-secondary); }
+  .survey-btn { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s; white-space: nowrap; }
+  .survey-btn:hover { background: var(--navy); transform: translateY(-1px); }
+
+  /* CHATGPT LINK */
+  .chatgpt-box { background: #f0faf5; border: 1px solid #a8d8bc; border-left: 4px solid #1a7a4a; border-radius: 8px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .chatgpt-box .info h3 { font-size: 14px; font-weight: 600; color: #0f4d2a; margin-bottom: 3px; }
+  .chatgpt-box .info p { font-size: 12px; color: #2d6b47; }
+  .chatgpt-btn { background: #1a7a4a; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s; white-space: nowrap; }
+  .chatgpt-btn:hover { background: #0f4d2a; transform: translateY(-1px); }
+
+  /* ANOMALY BOX */
+  .anomaly-box { background: #fff8e8; border: 1px solid #e8d49a; border-left: 4px solid var(--accent); border-radius: 8px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; }
+  .anomaly-box h4 { font-size: 13px; font-weight: 600; color: #7a5a00; margin-bottom: 3px; }
+  .anomaly-box p { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+  /* INFO GRID */
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  @media(max-width:600px){ .info-grid { grid-template-columns: 1fr; } }
+  .info-tile { background: var(--blue-pale2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .info-tile h3 { font-size: 12px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .info-tile p { font-size: 13px; color: var(--text); line-height: 1.55; }
 
   /* FORM */
-  .form-section { display: none; }
-  .form-section.active { display: block; }
+  .mode-badge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .mode-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: white; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 5px; }
+  .form-group .hint { font-size: 11px; color: var(--text-secondary); font-weight: 400; margin-left: 4px; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--text); background: white; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,95,168,0.1); }
+  .form-group textarea { min-height: 110px; resize: vertical; line-height: 1.6; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:580px){ .form-row { grid-template-columns: 1fr; } }
 
-  .mode-selector {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  @media (max-width: 600px) { .mode-selector { grid-template-columns: 1fr; } }
+  /* BUTTONS */
+  .primary-btn { background: var(--navy); color: white; border: none; border-radius: 10px; padding: 13px 22px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 9px; }
+  .primary-btn:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 18px rgba(13,43,78,0.22); }
+  .primary-btn:disabled { background: #a0b0c4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .primary-btn.full { width: 100%; justify-content: center; }
+  .secondary-btn { background: white; color: var(--navy); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 18px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 7px; }
+  .secondary-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .success-btn { background: var(--success); color: white; border: none; border-radius: 10px; padding: 13px 22px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 9px; width: 100%; justify-content: center; }
+  .success-btn:hover { background: #156040; transform: translateY(-1px); }
+  .btn-row { display: flex; gap: 12px; margin-top: 6px; }
 
-  .mode-card {
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    position: relative;
-    background: white;
-  }
-  .mode-card:hover { border-color: var(--blue-light); background: var(--blue-pale2); }
-  .mode-card.selected { border-color: var(--blue); background: var(--blue-pale); }
-  .mode-card input[type="radio"] { display: none; }
-  .mode-icon { font-size: 28px; margin-bottom: 8px; }
-  .mode-label { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
-  .mode-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
-  .mode-badge {
-    position: absolute;
-    top: -8px; right: -8px;
-    background: var(--accent);
-    color: white;
-    font-size: 9px;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 10px;
-    display: none;
-  }
-  .mode-card.selected .mode-badge { display: block; }
-
-  .form-group { margin-bottom: 20px; }
-  .form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 6px;
-    letter-spacing: 0.2px;
-  }
-  .form-group .hint { font-size: 12px; color: var(--text-secondary); font-weight: 400; margin-left: 4px; }
-  .form-group input, .form-group textarea, .form-group select {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: white;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(26,95,168,0.1);
-  }
-  .form-group textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-
-  .submit-btn {
-    width: 100%;
-    background: var(--navy);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 14px 24px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 8px;
-  }
-  .submit-btn:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(13,43,78,0.25); }
-  .submit-btn:disabled { background: #a0b0c4; cursor: not-allowed; transform: none; box-shadow: none; }
-  .submit-btn .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    display: none;
-  }
+  .spinner { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* RESULTS */
-  .results-section { display: none; }
-  .results-section.active { display: block; }
+  /* AI RESPONSE */
+  .ai-box { background: var(--blue-pale2); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 8px; padding: 18px 20px; margin-bottom: 18px; }
+  .ai-box-header { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+  .ai-badge { background: var(--blue); color: white; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .mode-tag { font-size: 11px; color: var(--text-secondary); background: var(--border); padding: 3px 10px; border-radius: 20px; }
+  .ai-text { font-size: 14px; line-height: 1.75; color: var(--text); white-space: pre-wrap; }
+  .token-info { font-size: 11px; color: var(--text-secondary); font-family: 'DM Mono', monospace; text-align: right; margin-top: 8px; }
 
-  .ai-response-box {
-    background: var(--blue-pale2);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--blue);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  .ai-response-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .ai-badge {
-    background: var(--blue);
-    color: white;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-  }
-  .mode-tag {
-    font-size: 12px;
-    color: var(--text-secondary);
-    background: var(--border);
-    padding: 3px 10px;
-    border-radius: 20px;
-  }
-  .ai-response-text {
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--text);
-    white-space: pre-wrap;
-    font-family: 'Outfit', sans-serif;
-  }
+  /* REFLECTION */
+  .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:600px){ .reflection-grid { grid-template-columns: 1fr; } }
+  .refl-item { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .refl-q { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.4; }
+  .refl-item textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 6px; padding: 8px 10px; font-family: 'Outfit', sans-serif; font-size: 13px; resize: none; height: 80px; outline: none; transition: border-color 0.2s; }
+  .refl-item textarea:focus { border-color: var(--blue); }
 
-  .reflection-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  @media (max-width: 600px) { .reflection-grid { grid-template-columns: 1fr; } }
+  /* FINAL SURVEY */
+  .final-survey-box { background: linear-gradient(135deg, #0d2b4e 0%, #1a5fa8 100%); border-radius: 12px; padding: 28px; text-align: center; color: white; margin-top: 8px; }
+  .final-survey-box h3 { font-family: 'Source Serif 4', serif; font-size: 20px; margin-bottom: 8px; }
+  .final-survey-box p { font-size: 13px; opacity: 0.8; margin-bottom: 20px; line-height: 1.6; }
+  .final-survey-link { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: var(--navy); font-weight: 700; font-size: 14px; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: all 0.2s; }
+  .final-survey-link:hover { background: #e0be60; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
 
-  .reflection-item {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px;
-  }
-  .reflection-q {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 10px;
-    line-height: 1.4;
-  }
-  .reflection-item textarea {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    color: var(--text);
-    resize: none;
-    height: 80px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .reflection-item textarea:focus { border-color: var(--blue); }
-
-  .submit-reflection-btn {
-    width: 100%;
-    background: var(--success);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 13px 24px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .submit-reflection-btn:hover { background: #156040; transform: translateY(-1px); }
-
-  .success-banner {
-    background: var(--success-bg);
-    border: 1px solid #a3d4b8;
-    border-radius: 10px;
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 20px;
-    display: none;
-  }
+  /* SUCCESS BANNER */
+  .success-banner { background: var(--success-bg); border: 1px solid #a3d4b8; border-radius: 10px; padding: 18px 22px; display: none; align-items: center; gap: 14px; margin-top: 16px; }
   .success-banner.show { display: flex; }
-  .success-icon { font-size: 32px; }
-  .success-text h3 { font-size: 15px; font-weight: 600; color: var(--success); }
-  .success-text p { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
-
-  .token-info {
-    font-size: 11px;
-    color: var(--text-secondary);
-    font-family: 'DM Mono', monospace;
-    text-align: right;
-    margin-top: 8px;
-  }
-
-  /* DIVIDER */
-  .section-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 28px 0;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-  }
-  .section-divider::before, .section-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
 
   /* ERROR */
-  .error-box {
-    background: #fff0f0;
-    border: 1px solid #f5c0c0;
-    border-left: 4px solid #d9534f;
-    border-radius: 8px;
-    padding: 14px 16px;
-    font-size: 13px;
-    color: #8b0000;
-    margin-top: 16px;
-    display: none;
-  }
+  .error-box { background: #fff0f0; border: 1px solid #f5c0c0; border-left: 4px solid #d9534f; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #8b0000; margin-top: 14px; display: none; }
   .error-box.show { display: block; }
 
-  /* NAV BUTTONS */
-  .nav-row {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-  }
-  .back-btn {
-    flex: 0 0 auto;
-    background: white;
-    color: var(--navy);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 13px 20px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .back-btn:hover { border-color: var(--blue); color: var(--blue); }
+  /* STEP INDICATOR inside session */
+  .step-indicator { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+  .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+  .step-dot.active { background: var(--blue); }
+  .step-dot.done { background: var(--success); }
 
-  .info-pills {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-  }
-  .pill {
-    background: var(--blue-pale);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 12px;
-    color: var(--blue);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; color: var(--text-secondary); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* FOOTER */
-  .page-footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 11px;
-    color: var(--text-secondary);
-    border-top: 1px solid var(--border);
-    margin-top: 40px;
-  }
+  .pill { background: var(--blue-pale); border: 1px solid var(--border); border-radius: 20px; padding: 3px 11px; font-size: 11px; color: var(--blue); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+  .pills { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
+
+
+
+  /* CHATBOT */
+  .chatbot-wrap { display: flex; flex-direction: column; height: 480px; border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: white; }
+  .chatbot-header { background: var(--navy); color: white; padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .chatbot-header .bot-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .chatbot-header .bot-info .bot-name { font-size: 13px; font-weight: 600; }
+  .chatbot-header .bot-info .bot-status { font-size: 11px; opacity: 0.7; display: flex; align-items: center; gap: 4px; }
+  .chatbot-header .bot-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4ade80; display: inline-block; }
+  .chatbot-header .copy-btn { margin-left: auto; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 6px; padding: 5px 12px; font-size: 11px; font-weight: 500; cursor: pointer; font-family: 'Outfit', sans-serif; transition: all 0.2s; }
+  .chatbot-header .copy-btn:hover { background: rgba(255,255,255,0.25); }
+  .chatbot-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+  .chatbot-messages::-webkit-scrollbar { width: 4px; }
+  .chatbot-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .msg { display: flex; gap: 8px; align-items: flex-end; max-width: 85%; }
+  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+  .msg.bot { align-self: flex-start; }
+  .msg-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .msg.bot .msg-avatar { background: var(--blue-pale); }
+  .msg.user .msg-avatar { background: var(--navy); color: white; font-size: 11px; font-weight: 600; }
+  .msg-bubble { padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
+  .msg.bot .msg-bubble { background: var(--blue-pale2); border: 1px solid var(--border); border-bottom-left-radius: 4px; color: var(--text); }
+  .msg.user .msg-bubble { background: var(--navy); color: white; border-bottom-right-radius: 4px; }
+  .msg-time { font-size: 10px; color: var(--text-secondary); margin-top: 3px; text-align: right; }
+  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: var(--blue-pale2); border: 1px solid var(--border); border-radius: 14px; border-bottom-left-radius: 4px; width: fit-content; }
+  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-secondary); animation: typingBounce 1.2s infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+  .chatbot-input-wrap { border-top: 1px solid var(--border); padding: 12px; display: flex; gap: 8px; flex-shrink: 0; background: white; }
+  .chatbot-input { flex: 1; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 13px; font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--text); outline: none; resize: none; height: 42px; max-height: 100px; overflow-y: auto; transition: border-color 0.2s; line-height: 1.5; }
+  .chatbot-input:focus { border-color: var(--blue); }
+  .chatbot-send { background: var(--navy); color: white; border: none; border-radius: 8px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0; font-size: 16px; }
+  .chatbot-send:hover { background: var(--blue); }
+  .chatbot-send:disabled { background: var(--border); cursor: not-allowed; }
+  .chat-hint { font-size: 11px; color: var(--text-secondary); text-align: center; padding: 6px; background: #fffbf0; border-top: 1px solid #f0e8c8; }
+  .mode-c-trigger { background: var(--navy); color: white; border: none; border-radius: 8px; padding: 11px 20px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .mode-c-trigger:hover { background: var(--blue); }
+  .mode-c-trigger:disabled { background: var(--border); cursor: not-allowed; }
+
+
+  /* LOCK STATE */
+  .session-tab.locked { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+  .session-tab.locked .tab-dot { background: #aaa; }
+  .lock-notice { display: flex; align-items: center; gap: 10px; background: #fff8e8; border: 1px solid #e8d49a; border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #7a5a00; margin-bottom: 16px; }
+  .lock-notice .lock-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* SURVEY EMBEDDED */
+  .survey-section { margin-top: 20px; }
+  .survey-title { font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .survey-subtitle { font-size: 12px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
+  .consent-box { background: var(--blue-pale2); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-bottom: 20px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; max-height: 160px; overflow-y: auto; }
+  .consent-box strong { color: var(--navy); }
+  .consent-check { display: flex; align-items: flex-start; gap: 10px; background: #fff8e8; border: 1px solid #e8d49a; border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; cursor: pointer; }
+  .consent-check input[type="checkbox"] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; accent-color: var(--navy); }
+  .consent-check label { font-size: 13px; color: var(--text); line-height: 1.5; cursor: pointer; }
+  .q-block { margin-bottom: 22px; }
+  .q-label { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.4; }
+  .q-label span { font-weight: 400; color: var(--text-secondary); margin-right: 4px; }
+  .q-open textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 13px; font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--text); resize: vertical; min-height: 90px; outline: none; transition: border-color 0.2s; line-height: 1.6; }
+  .q-open textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,95,168,0.1); }
+  .likert-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .likert-scale { display: flex; align-items: center; gap: 0; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .likert-endpoints { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); padding: 0 2px; margin-top: 4px; }
+  .likert-scale label { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 10px 4px; cursor: pointer; transition: background 0.15s; border-right: 1px solid var(--border); font-size: 13px; font-weight: 500; color: var(--text-secondary); gap: 4px; }
+  .likert-scale label:last-child { border-right: none; }
+  .likert-scale label:hover { background: var(--blue-pale2); color: var(--blue); }
+  .likert-scale input[type="radio"] { display: none; }
+  .likert-scale input[type="radio"]:checked + span { color: white; }
+  .likert-scale label:has(input:checked) { background: var(--navy); color: white; }
+  .survey-section-title { font-size: 13px; font-weight: 600; color: var(--navy); background: var(--blue-pale); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; margin: 20px 0 16px; display: flex; align-items: center; gap: 8px; }
+  .survey-submit-btn { width: 100%; background: var(--success); color: white; border: none; border-radius: 10px; padding: 13px 22px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 9px; margin-top: 8px; }
+  .survey-submit-btn:hover { background: #156040; transform: translateY(-1px); }
+  .survey-submit-btn:disabled { background: #a0b0c4; cursor: not-allowed; transform: none; }
+  .survey-success { background: var(--success-bg); border: 1px solid #a3d4b8; border-radius: 10px; padding: 18px 22px; display: none; align-items: center; gap: 14px; margin-top: 16px; }
+  .survey-success.show { display: flex; }
+
+  footer { text-align: center; padding: 18px; font-size: 11px; color: var(--text-secondary); border-top: 1px solid var(--border); margin-top: 40px; }
 </style>
 </head>
 <body>
@@ -586,394 +304,972 @@
   </div>
 </header>
 
+<div class="progress-wrap">
+  <!-- SESSION TABS -->
+  <div class="session-tabs">
+    <div class="session-tab active" id="tab-a" onclick="switchSession('A')">
+      <span class="tab-dot"></span> Mode A — Human Only
+    </div>
+    <div class="session-tab" id="tab-b" onclick="switchSession('B')">
+      <span class="tab-dot"></span> Mode B — AI Assisted
+    </div>
+    <div class="session-tab" id="tab-c" onclick="switchSession('C')">
+      <span class="tab-dot"></span> Mode C — AI Guided
+    </div>
+    <div class="session-tab" id="tab-final" onclick="switchSession('final')">
+      <span class="tab-dot"></span> Final Survey
+    </div>
+  </div>
+</div>
+
 <main>
 
-  <!-- PROGRESS -->
-  <div class="progress-bar">
-    <div class="progress-step active" id="step1">
-      <div class="step-num">1</div>
-      <span class="step-label">Scenario</span>
+<!-- ═══════════════════ MODE A ═══════════════════ -->
+<div id="session-A">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">👤</div>
+      <div><h2>Mode A — Human Only</h2><p>Complete all steps below before moving to Mode B</p></div>
     </div>
-    <div class="progress-step" id="step2">
-      <div class="step-num">2</div>
-      <span class="step-label">Your Assessment</span>
-    </div>
-    <div class="progress-step" id="step3">
-      <div class="step-num">3</div>
-      <span class="step-label">AI Feedback</span>
-    </div>
-    <div class="progress-step" id="step4">
-      <div class="step-num">4</div>
-      <span class="step-label">Reflection</span>
+    <div class="card-body">
+      <div class="step-indicator">
+        <span class="step-dot active" id="a-dot-1"></span>
+        <span>Step 1: Watch Video</span>
+        <span style="margin:0 4px">→</span>
+        <span class="step-dot" id="a-dot-2"></span>
+        <span>Step 2: Review Report</span>
+        <span style="margin:0 4px">→</span>
+        <span class="step-dot" id="a-dot-3"></span>
+        <span>Step 3: Survey</span>
+
+      </div>
     </div>
   </div>
 
-  <!-- STEP 1: SCENARIO -->
-  <div id="section-scenario">
-
-    <div class="card" style="animation-delay:0.05s">
-      <div class="card-header">
-        <div class="card-header-icon">📋</div>
-        <div>
-          <h2>Scenario Overview</h2>
-          <p>Read the scenario carefully before submitting your inspection assessment</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="scenario-grid">
-          <div class="scenario-info">
-            <h3>🌉 Structure</h3>
-            <p>Interstate Highway Steel Truss Bridge, built 1978. Spans 240 ft over a river in a humid temperate climate. Annual traffic volume: 45,000 AADT.</p>
-          </div>
-          <div class="scenario-info">
-            <h3>📄 Inspection Context</h3>
-            <p>Routine biennial inspection per FHWA guidelines. Last inspection: 2 years ago, rated structurally sound. Current: visual inspection with close-up documentation.</p>
+  <!-- A: VIDEO -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">🎬</div>
+      <div><h2>Step 1 — Bridge Inspection Background Video</h2><p>Watch this video to understand standard bridge inspection procedures</p></div>
+    </div>
+    <div class="card-body">
+<div class="video-btn-wrap">
+        <div class="video-thumb-placeholder">
+          <div class="vthumb-icon">▶</div>
+          <div class="vthumb-info">
+            <div class="vthumb-title">Bridge Inspection Background</div>
+            <div class="vthumb-desc">Standard bridge inspection procedures and methodology — watch before completing your Mode A assessment</div>
           </div>
         </div>
-
-        <div class="anomaly-box">
-          <div class="icon">⚠️</div>
-          <div>
-            <h4>Observed Anomaly</h4>
-            <p>Visible corrosion on the main load-bearing beam at mid-span. Rust staining extends approximately 18 inches. Cross-section loss estimated at 15–30% based on visual inspection. No delamination observed.</p>
-          </div>
-        </div>
-
-        <div class="info-pills" style="margin-top:16px">
-          <span class="pill">🏗️ Steel Truss Bridge</span>
-          <span class="pill">📍 Mid-span corrosion</span>
-          <span class="pill">📊 ~15–30% section loss</span>
-          <span class="pill">🌡️ Humid climate exposure</span>
-        </div>
+        <a href="https://youtu.be/94lok_Er87E" target="_blank" class="yt-open-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          Watch on YouTube
+        </a>
       </div>
     </div>
-
-    <div class="card" style="animation-delay:0.1s">
-      <div class="card-header">
-        <div class="card-header-icon">🎬</div>
-        <div>
-          <h2>Inspection Video</h2>
-          <p>Watch the field inspection footage before making your assessment</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="video-container">
-          <div class="video-placeholder">
-            <div class="play-btn" onclick="handleVideoPlay()">▶</div>
-            <p>Bridge Inspection Scenario — Field Video</p>
-            <p style="margin-top:6px;font-size:11px;opacity:0.5">Replace src with your actual video URL</p>
-          </div>
-          <!-- Uncomment and replace with actual video:
-          <video width="100%" height="100%" controls style="object-fit:cover">
-            <source src="YOUR_VIDEO_URL_HERE" type="video/mp4">
-          </video>
-          -->
-        </div>
-      </div>
-    </div>
-
-    <button class="submit-btn" onclick="goToStep2()" style="max-width:320px;margin:0 auto">
-      Proceed to Assessment →
-    </button>
-
   </div>
 
-  <!-- STEP 2: ASSESSMENT FORM -->
-  <div id="section-form" style="display:none">
-
-    <div class="card" style="animation-delay:0.05s">
-      <div class="card-header">
-        <div class="card-header-icon">🤝</div>
-        <div>
-          <h2>Select Collaboration Mode</h2>
-          <p>Choose how you'd like to work with AI for this inspection task</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="mode-selector">
-          <label class="mode-card" onclick="selectMode('A')">
-            <input type="radio" name="mode" value="A">
-            <div class="mode-badge">Selected</div>
-            <div class="mode-icon">👤</div>
-            <div class="mode-label">Mode A</div>
-            <div class="mode-desc">Human Only — Make your decision independently without AI assistance</div>
-          </label>
-          <label class="mode-card" onclick="selectMode('B')">
-            <input type="radio" name="mode" value="B">
-            <div class="mode-badge">Selected</div>
-            <div class="mode-icon">🤝</div>
-            <div class="mode-label">Mode B</div>
-            <div class="mode-desc">AI-Assisted — Receive AI suggestions while you retain full decision authority</div>
-          </label>
-          <label class="mode-card" onclick="selectMode('C')">
-            <input type="radio" name="mode" value="C">
-            <div class="mode-badge">Selected</div>
-            <div class="mode-icon">🤖</div>
-            <div class="mode-label">Mode C</div>
-            <div class="mode-desc">AI-Guided — AI provides a complete assessment for you to review and critique</div>
-          </label>
-        </div>
-      </div>
+  <!-- A: SCENARIO + PDF -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">📄</div>
+      <div><h2>Step 2 — Bridge Inspection Report</h2><p>Review the inspection report carefully before submitting your assessment</p></div>
     </div>
+    <div class="card-body">
 
-    <div class="card" style="animation-delay:0.1s">
-      <div class="card-header">
-        <div class="card-header-icon">📝</div>
-        <div>
-          <h2>Your Inspection Assessment</h2>
-          <p>Complete all fields based on the scenario and video you reviewed</p>
-        </div>
+
+      <div class="pdf-wrap">
+        <iframe src="https://drive.google.com/file/d/1teGKjdS8ahCyuHET5-rEN4ssDmDTWNcv/preview" title="Bridge 9 Inspection Report" allow="autoplay"></iframe>
       </div>
-      <div class="card-body">
 
-        <div class="form-row">
-          <div class="form-group">
-            <label>Student ID <span class="hint">(required)</span></label>
-            <input type="text" id="studentId" placeholder="e.g. S2026001" />
-          </div>
-          <div class="form-group">
-            <label>Course Level</label>
-            <select id="courseLevel">
-              <option value="100-level">100-Level — Computer Applications</option>
-              <option value="200-level">200-Level — Construction Methods</option>
-              <option value="400-level" selected>400-Level — Senior Capstone</option>
-            </select>
-          </div>
-        </div>
+    </div>
+  </div>
 
-        <div class="form-group">
-          <label>Your Inspection Decision & Recommendation <span class="hint">(be specific)</span></label>
-          <textarea id="studentAnswer" placeholder="Describe your assessment and recommended action. For example: Based on the visible corrosion and estimated 15-30% cross-section loss, I recommend..."></textarea>
-        </div>
 
-        <div class="error-box" id="errorBox">
-          ⚠️ Please fill in all required fields and select a collaboration mode before submitting.
-        </div>
-
-        <div class="nav-row">
-          <button class="back-btn" onclick="goToStep1()">← Back</button>
-          <button class="submit-btn" id="submitBtn" onclick="submitAssessment()">
-            <div class="spinner" id="spinner"></div>
-            <span id="submitText">Submit Assessment</span>
+  <!-- SURVEY: sva -->
+  <div class="card" id="survey-sva-card">
+    <div class="card-header">
+      <div class="card-hicon">📊</div>
+      <div><h2>Pre-Survey Questionnaire — Mode A</h2><p>Answer these questions based on the Bridge 9 inspection report you reviewed</p></div>
+    </div>
+    <div class="card-body">
+      <div class="survey-section">
+        <div class="consent-box">
+        <strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>
+        Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>
+        This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>
+        By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.
+      </div>
+      <label class="consent-check" id="sva-consent-label">
+        <input type="checkbox" id="sva-consent" onchange="checkConsent('sva')">
+        <label for="sva-consent">I have read the research information above and voluntarily agree to participate in this study.</label>
+      </label>
+        <div id="sva-form" style="display:none">
+          
+      <div class="q-block">
+        <div class="q-label"><span>Q1.</span>Where is Bridge 09 located?</div>
+        <div class="q-open"><textarea id="sva-q1" placeholder="Your answer..."></textarea></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q2.</span>Based on the load rating summary, what key details are included for Bridge 09?</div>
+        <div class="q-open"><textarea id="sva-q2" placeholder="Your answer..."></textarea></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q3.</span>Summarize the information provided in the load rating report for Bridge 09.</div>
+        <div class="q-open"><textarea id="sva-q3" placeholder="Your answer..."></textarea></div>
+      </div>
+          <div class="error-box" id="sva-error">⚠️ Please answer all questions before submitting.</div>
+          <button class="survey-submit-btn" id="sva-btn" onclick="submitSurvey('sva', 3, 'open')">
+            <div class="spinner" id="sva-spinner"></div>
+            <span id="sva-btntext">Submit Survey</span>
           </button>
         </div>
+        <div class="survey-success" id="sva-success">
+          <div style="font-size:28px">✅</div>
+          <div><strong style="color:var(--success);font-size:14px">Survey Submitted!</strong><p style="font-size:13px;color:var(--text-secondary);margin-top:3px">Your response has been recorded. You may proceed to the next step.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A: RESULTS -->
+  <div class="card" id="a-results" style="display:none">
+    <div class="card-header">
+      <div class="card-hicon">✅</div>
+      <div><h2>Mode A — Submitted</h2><p>Your human-only assessment has been recorded</p></div>
+    </div>
+    <div class="card-body">
+      <div class="ai-box">
+        <div class="ai-box-header">
+          <span class="ai-badge">Response</span>
+          <span class="mode-tag">Mode A – Human Only</span>
+        </div>
+        <div class="ai-text" id="a-aiText"></div>
+      </div>
+      <button class="primary-btn full" onclick="goToModeB()" style="margin-top:4px">
+        Continue to Mode B →
+      </button>
+    </div>
+  </div>
+
+</div><!-- end session-A -->
+
+
+<!-- ═══════════════════ MODE B ═══════════════════ -->
+<div id="session-B" style="display:none">
+  <!-- LOCK NOTICE B -->
+  <div class="lock-notice" id="lock-notice-b">
+    <span class="lock-icon">🔒</span>
+    <span>Please complete <strong>Mode A</strong> first before accessing Mode B.</span>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">🤝</div>
+      <div><h2>Mode B — Human-Led, AI-Assisted</h2><p>Complete all steps below before moving to Mode C</p></div>
+    </div>
+    <div class="card-body">
+      <div class="step-indicator">
+        <span class="step-dot active"></span><span>Step 1: Watch Video</span>
+        <span style="margin:0 4px">→</span>
+        <span class="step-dot"></span><span>Step 2: Use ChatGPT</span>
+        <span style="margin:0 4px">→</span>
+        <span class="step-dot"></span><span>Step 3: Survey</span>
 
       </div>
     </div>
-
   </div>
 
-  <!-- STEP 3: AI FEEDBACK -->
-  <div id="section-results" style="display:none">
+  <!-- B: VIDEO -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">🎬</div>
+      <div><h2>Step 1 — Human-Led AI-Assisted Inspection Video</h2><p>Watch how human inspectors collaborate with AI tools</p></div>
+    </div>
+    <div class="card-body">
+<div class="video-btn-wrap">
+        <div class="video-thumb-placeholder">
+          <div class="vthumb-icon">▶</div>
+          <div class="vthumb-info">
+            <div class="vthumb-title">Human-Led AI-Assisted Inspection</div>
+            <div class="vthumb-desc">How human inspectors collaborate with AI tools while retaining decision authority — Mode B methodology</div>
+          </div>
+        </div>
+        <a href="https://youtu.be/gdFzBheoYxQ" target="_blank" class="yt-open-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          Watch on YouTube
+        </a>
+      </div>
+    </div>
+  </div>
 
-    <div class="card" style="animation-delay:0.05s">
-      <div class="card-header">
-        <div class="card-header-icon">🤖</div>
-        <div>
-          <h2>AI Feedback</h2>
-          <p id="feedbackSubtitle">Based on your selected collaboration mode</p>
+
+  <!-- CHATBOT: Mode B -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">🤖</div>
+      <div><h2>Step 2 — AI Inspection Assistant — Mode B</h2><p>Chat with the AI assistant, then copy your conversation results to the survey</p></div>
+    </div>
+    <div class="card-body">
+      
+      <div class="chatbot-wrap" id="chatbot-b">
+        <div class="chatbot-header">
+          <div class="bot-avatar">🌉</div>
+          <div class="bot-info">
+            <div class="bot-name">AI Inspection Assistant — Mode B</div>
+            <div class="bot-status">Online</div>
+          </div>
+          <button class="copy-btn" onclick="copyChat('b')">📋 Copy Chat</button>
+        </div>
+        <div class="chatbot-messages" id="messages-b">
+          <div class="msg bot">
+            <div class="msg-avatar">🤖</div>
+            <div>
+              <div class="msg-bubble">Hello! I'm your AI inspection assistant for Mode B. I'm here to support your decision-making — you remain in charge.
+
+Feel free to ask me about the Bridge 9 inspection report, request suggestions on the corrosion findings, or discuss your inspection approach. What would you like to explore?</div>
+            </div>
+          </div>
+        </div>
+        <div class="chatbot-input-wrap">
+          <textarea class="chatbot-input" id="input-b" placeholder="Ask about the bridge inspection, request suggestions, or discuss your findings..." onkeydown="handleKey(event, 'b')"></textarea>
+          <button class="chatbot-send" id="send-b" onclick="sendMessage('b')">➤</button>
         </div>
       </div>
-      <div class="card-body">
-        <div class="ai-response-box">
-          <div class="ai-response-header">
-            <span class="ai-badge">GPT-4o Response</span>
-            <span class="mode-tag" id="modeTag">Mode B – AI Assisted</span>
-          </div>
-          <div class="ai-response-text" id="aiResponseText">Loading AI response...</div>
-          <div class="token-info" id="tokenInfo"></div>
-        </div>
+      <div class="chat-hint">💡 After your conversation, click "Copy Chat" and paste the results into the survey questions below.</div>
+    </div>
+  </div>
 
-        <div class="nav-row">
-          <button class="back-btn" onclick="goToStep2()">← Edit Assessment</button>
-          <button class="submit-btn" onclick="goToStep4()" style="max-width:280px">
-            Continue to Reflection →
+
+  <!-- SURVEY: svb -->
+  <div class="card" id="survey-svb-card">
+    <div class="card-header">
+      <div class="card-hicon">📊</div>
+      <div><h2>Pre-Survey Questionnaire — Mode B</h2><p>Answer these questions based on the Bridge 9 inspection report and your AI-assisted review</p></div>
+    </div>
+    <div class="card-body">
+      <div class="survey-section">
+        <div class="consent-box">
+        <strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>
+        Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>
+        This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>
+        By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.
+      </div>
+      <label class="consent-check" id="svb-consent-label">
+        <input type="checkbox" id="svb-consent" onchange="checkConsent('svb')">
+        <label for="svb-consent">I have read the research information above and voluntarily agree to participate in this study.</label>
+      </label>
+        <div id="svb-form" style="display:none">
+          
+      <div class="q-block">
+        <div class="q-label"><span>Q1.</span>Where is Bridge 09 located?</div>
+        <div class="q-open"><textarea id="svb-q1" placeholder="Your answer..."></textarea></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q2.</span>What key details are included for Bridge 09?</div>
+        <div class="q-open"><textarea id="svb-q2" placeholder="Your answer..."></textarea></div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q3.</span>Summarize the information provided in the load rating report for Bridge 09.</div>
+        <div class="q-open"><textarea id="svb-q3" placeholder="Your answer..."></textarea></div>
+      </div>
+          <div class="error-box" id="svb-error">⚠️ Please answer all questions before submitting.</div>
+          <button class="survey-submit-btn" id="svb-btn" onclick="submitSurvey('svb', 3, 'open')">
+            <div class="spinner" id="svb-spinner"></div>
+            <span id="svb-btntext">Submit Survey</span>
           </button>
         </div>
+        <div class="survey-success" id="svb-success">
+          <div style="font-size:28px">✅</div>
+          <div><strong style="color:var(--success);font-size:14px">Survey Submitted!</strong><p style="font-size:13px;color:var(--text-secondary);margin-top:3px">Your response has been recorded. You may proceed to the next step.</p></div>
+        </div>
       </div>
     </div>
-
   </div>
 
-  <!-- STEP 4: REFLECTION -->
-  <div id="section-reflection" style="display:none">
-
-    <div class="card" style="animation-delay:0.05s">
-      <div class="card-header">
-        <div class="card-header-icon">💭</div>
-        <div>
-          <h2>Reflection Questions</h2>
-          <p>Answer these questions thoughtfully based on your experience in this session</p>
+  <!-- B: RESULTS -->
+  <div class="card" id="b-results" style="display:none">
+    <div class="card-header">
+      <div class="card-hicon">✅</div>
+      <div><h2>Mode B — Submitted</h2><p>Your AI-assisted assessment has been recorded</p></div>
+    </div>
+    <div class="card-body">
+      <div class="ai-box">
+        <div class="ai-box-header">
+          <span class="ai-badge">GPT-4o Response</span>
+          <span class="mode-tag">Mode B – AI Assisted (Collaborative)</span>
         </div>
+        <div class="ai-text" id="b-aiText"></div>
+        <div class="token-info" id="b-tokenInfo"></div>
       </div>
-      <div class="card-body">
-        <div class="reflection-grid" id="reflectionGrid">
-          <!-- Populated dynamically -->
-        </div>
+      <button class="primary-btn full" onclick="goToModeC()" style="margin-top:4px">
+        Continue to Mode C →
+      </button>
+    </div>
+  </div>
 
-        <button class="submit-reflection-btn" onclick="submitReflection()">
-          ✓ Submit Reflection & Complete Session
-        </button>
+</div><!-- end session-B -->
 
-        <div class="success-banner" id="successBanner">
-          <div class="success-icon">🎓</div>
-          <div class="success-text">
-            <h3>Session Complete!</h3>
-            <p>Your assessment and reflection have been recorded. Thank you for participating in this study.</p>
+
+<!-- ═══════════════════ MODE C ═══════════════════ -->
+<div id="session-C" style="display:none">
+  <!-- LOCK NOTICE C -->
+  <div class="lock-notice" id="lock-notice-c">
+    <span class="lock-icon">🔒</span>
+    <span>Please complete <strong>Mode A and Mode B</strong> first before accessing Mode C.</span>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">🤖</div>
+      <div><h2>Mode C — AI-Guided, Human Confirms</h2><p>Complete all steps below before the Final Survey</p></div>
+    </div>
+    <div class="card-body">
+      <div class="step-indicator">
+        <span class="step-dot active"></span><span>Step 1: Watch Video</span>
+        <span style="margin:0 4px">→</span>
+        <span class="step-dot"></span><span>Step 2: Use ChatGPT</span>
+        <span style="margin:0 4px">→</span>
+        <span class="step-dot"></span><span>Step 3: Submit</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- C: VIDEO -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">🎬</div>
+      <div><h2>Step 1 — AI-Led Inspection Video</h2><p>Watch how AI leads the inspection process with human confirmation</p></div>
+    </div>
+    <div class="card-body">
+<div class="video-btn-wrap">
+        <div class="video-thumb-placeholder">
+          <div class="vthumb-icon">▶</div>
+          <div class="vthumb-info">
+            <div class="vthumb-title">AI-Led Human-Confirmed Inspection</div>
+            <div class="vthumb-desc">How AI leads the inspection process and humans review and confirm recommendations — Mode C methodology</div>
           </div>
         </div>
-
+        <a href="https://youtu.be/Ge1ejGn52gc" target="_blank" class="yt-open-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          Watch on YouTube
+        </a>
       </div>
     </div>
-
   </div>
+
+
+  <!-- CHATBOT: Mode C -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-hicon">🤖</div>
+      <div><h2>Step 2 — AI Inspection Expert — Mode C</h2><p>Chat with the AI assistant, then copy your conversation results to the survey</p></div>
+    </div>
+    <div class="card-body">
+      <button class="mode-c-trigger" id="c-trigger-btn" onclick="triggerModeC()">🤖 Get AI Assessment First</button>
+      <div class="chatbot-wrap" id="chatbot-c">
+        <div class="chatbot-header">
+          <div class="bot-avatar">🌉</div>
+          <div class="bot-info">
+            <div class="bot-name">AI Inspection Expert — Mode C</div>
+            <div class="bot-status">Online</div>
+          </div>
+          <button class="copy-btn" onclick="copyChat('c')">📋 Copy Chat</button>
+        </div>
+        <div class="chatbot-messages" id="messages-c">
+          <div class="msg bot">
+            <div class="msg-avatar">🤖</div>
+            <div>
+              <div class="msg-bubble">Hello! I'm your AI inspection expert for Mode C. Click "Get AI Assessment First" above to receive my complete professional evaluation of the Bridge 9 scenario, then you can approve, critique, or discuss my recommendation.</div>
+            </div>
+          </div>
+        </div>
+        <div class="chatbot-input-wrap">
+          <textarea class="chatbot-input" id="input-c" placeholder="Respond to the AI assessment — approve, critique, or ask follow-up questions..." onkeydown="handleKey(event, 'c')"></textarea>
+          <button class="chatbot-send" id="send-c" onclick="sendMessage('c')">➤</button>
+        </div>
+      </div>
+      <div class="chat-hint">💡 After reviewing the AI assessment and discussing it, click "Copy Chat" and paste the results into the survey questions below.</div>
+    </div>
+  </div>
+
+  <!-- C: RESULTS -->
+  <div class="card" id="c-results" style="display:none">
+    <div class="card-header">
+      <div class="card-hicon">✅</div>
+      <div><h2>Mode C — Submitted</h2><p>Your assessment has been recorded</p></div>
+    </div>
+    <div class="card-body">
+      <div class="ai-box">
+        <div class="ai-box-header">
+          <span class="ai-badge">GPT-4o Response</span>
+          <span class="mode-tag">Mode C – AI Guided (Human Confirms)</span>
+        </div>
+        <div class="ai-text" id="c-aiText"></div>
+        <div class="token-info" id="c-tokenInfo"></div>
+      </div>
+      <button class="primary-btn full" onclick="goToFinal()" style="margin-top:4px">
+        Proceed to Final Survey →
+      </button>
+    </div>
+  </div>
+
+</div><!-- end session-C -->
+
+
+<!-- ═══════════════════ FINAL SURVEY ═══════════════════ -->
+<div id="session-final" style="display:none">
+  <!-- LOCK NOTICE FINAL -->
+  <div class="lock-notice" id="lock-notice-final">
+    <span class="lock-icon">🔒</span>
+    <span>Please complete <strong>Mode A, B, and C</strong> first before accessing the Final Survey.</span>
+  </div>
+
+
+  <!-- SURVEY: FINAL -->
+  <div class="card" id="survey-final-card">
+    <div class="card-header">
+      <div class="card-hicon">🎓</div>
+      <div><h2>Final Evaluation & Cognitive Load Survey</h2><p>Please complete this form after performing all three bridge inspection models · 1 = Strongly Disagree · 7 = Strongly Agree</p></div>
+    </div>
+    <div class="card-body">
+      <div class="survey-section">
+        <div class="consent-box">
+        <strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>
+        Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>
+        This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>
+        By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.
+      </div>
+      <label class="consent-check" id="final-consent-label">
+        <input type="checkbox" id="final-consent" onchange="checkConsent('final')">
+        <label for="final-consent">I have read the research information above and voluntarily agree to participate in this study.</label>
+      </label>
+        <div id="final-form" style="display:none">
+          <div class="survey-section-title">🤝 Part 1 — Model B: Human-Led, AI-Assisted</div>
+          
+      <div class="q-block">
+        <div class="q-label"><span>Q1.</span>The AI assistance reduced my overall mental workload.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-b-q1" value="1"><span>1</span></label><label><input type="radio" name="final-b-q1" value="2"><span>2</span></label><label><input type="radio" name="final-b-q1" value="3"><span>3</span></label><label><input type="radio" name="final-b-q1" value="4"><span>4</span></label><label><input type="radio" name="final-b-q1" value="5"><span>5</span></label><label><input type="radio" name="final-b-q1" value="6"><span>6</span></label><label><input type="radio" name="final-b-q1" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q2.</span>I still needed to invest significant mental effort to guide and verify the AI's outputs.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-b-q2" value="1"><span>1</span></label><label><input type="radio" name="final-b-q2" value="2"><span>2</span></label><label><input type="radio" name="final-b-q2" value="3"><span>3</span></label><label><input type="radio" name="final-b-q2" value="4"><span>4</span></label><label><input type="radio" name="final-b-q2" value="5"><span>5</span></label><label><input type="radio" name="final-b-q2" value="6"><span>6</span></label><label><input type="radio" name="final-b-q2" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q3.</span>Collaborating with the AI improved my understanding of inspection priorities and reasoning.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-b-q3" value="1"><span>1</span></label><label><input type="radio" name="final-b-q3" value="2"><span>2</span></label><label><input type="radio" name="final-b-q3" value="3"><span>3</span></label><label><input type="radio" name="final-b-q3" value="4"><span>4</span></label><label><input type="radio" name="final-b-q3" value="5"><span>5</span></label><label><input type="radio" name="final-b-q3" value="6"><span>6</span></label><label><input type="radio" name="final-b-q3" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q4.</span>The AI responses were easy to interpret and did not overload me with extra information.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-b-q4" value="1"><span>1</span></label><label><input type="radio" name="final-b-q4" value="2"><span>2</span></label><label><input type="radio" name="final-b-q4" value="3"><span>3</span></label><label><input type="radio" name="final-b-q4" value="4"><span>4</span></label><label><input type="radio" name="final-b-q4" value="5"><span>5</span></label><label><input type="radio" name="final-b-q4" value="6"><span>6</span></label><label><input type="radio" name="final-b-q4" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+          <div class="survey-section-title">🤖 Part 2 — Model C: AI-Led, Human-Confirmed</div>
+          
+      <div class="q-block">
+        <div class="q-label"><span>Q5.</span>Letting the AI lead the workflow reduced my mental workload.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-c-q1" value="1"><span>1</span></label><label><input type="radio" name="final-c-q1" value="2"><span>2</span></label><label><input type="radio" name="final-c-q1" value="3"><span>3</span></label><label><input type="radio" name="final-c-q1" value="4"><span>4</span></label><label><input type="radio" name="final-c-q1" value="5"><span>5</span></label><label><input type="radio" name="final-c-q1" value="6"><span>6</span></label><label><input type="radio" name="final-c-q1" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q6.</span>It was mentally demanding to keep up with the AI's pace or decisions.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-c-q2" value="1"><span>1</span></label><label><input type="radio" name="final-c-q2" value="2"><span>2</span></label><label><input type="radio" name="final-c-q2" value="3"><span>3</span></label><label><input type="radio" name="final-c-q2" value="4"><span>4</span></label><label><input type="radio" name="final-c-q2" value="5"><span>5</span></label><label><input type="radio" name="final-c-q2" value="6"><span>6</span></label><label><input type="radio" name="final-c-q2" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q7.</span>Working under AI direction improved my understanding of automated inspection logic.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-c-q3" value="1"><span>1</span></label><label><input type="radio" name="final-c-q3" value="2"><span>2</span></label><label><input type="radio" name="final-c-q3" value="3"><span>3</span></label><label><input type="radio" name="final-c-q3" value="4"><span>4</span></label><label><input type="radio" name="final-c-q3" value="5"><span>5</span></label><label><input type="radio" name="final-c-q3" value="6"><span>6</span></label><label><input type="radio" name="final-c-q3" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q8.</span>I felt mentally overloaded by the amount of information the AI produced.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-c-q4" value="1"><span>1</span></label><label><input type="radio" name="final-c-q4" value="2"><span>2</span></label><label><input type="radio" name="final-c-q4" value="3"><span>3</span></label><label><input type="radio" name="final-c-q4" value="4"><span>4</span></label><label><input type="radio" name="final-c-q4" value="5"><span>5</span></label><label><input type="radio" name="final-c-q4" value="6"><span>6</span></label><label><input type="radio" name="final-c-q4" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-label"><span>Q9.</span>The AI instructions were clear and easy to follow.</div>
+        <div class="likert-wrap">
+          <div class="likert-scale"><label><input type="radio" name="final-c-q5" value="1"><span>1</span></label><label><input type="radio" name="final-c-q5" value="2"><span>2</span></label><label><input type="radio" name="final-c-q5" value="3"><span>3</span></label><label><input type="radio" name="final-c-q5" value="4"><span>4</span></label><label><input type="radio" name="final-c-q5" value="5"><span>5</span></label><label><input type="radio" name="final-c-q5" value="6"><span>6</span></label><label><input type="radio" name="final-c-q5" value="7"><span>7</span></label></div>
+          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+        </div>
+      </div>
+          <div class="error-box" id="final-error">⚠️ Please answer all questions before submitting.</div>
+          <button class="survey-submit-btn" id="final-btn" onclick="submitSurvey('final', 9, 'likert')">
+            <div class="spinner" id="final-spinner"></div>
+            <span id="final-btntext">Submit Final Survey</span>
+          </button>
+        </div>
+        <div class="survey-success" id="final-success">
+          <div style="font-size:28px">🎉</div>
+          <div><strong style="color:var(--success);font-size:14px">All Done! Thank you for participating.</strong><p style="font-size:13px;color:var(--text-secondary);margin-top:3px">Your responses have been recorded. This concludes the study.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end session-final -->
 
 </main>
 
-<div class="page-footer">
-  AI-Augmented Scenario-Based Learning Platform · SIUE Department of Construction & Civil Engineering · ASEE 2026
-</div>
+<footer>
+  AI-Augmented Scenario-Based Learning Platform · SIUE Department of Construction &amp; Civil Engineering · ASEE 2026 Annual Conference
+</footer>
 
 <script>
-  // CONFIG — update this URL if your n8n webhook changes
-  const WEBHOOK_URL = 'https://chenxiyuan.app.n8n.cloud/webhook/inspection-submit';
+
+  function checkConsent(sid) {
+    const cb = document.getElementById(sid + '-consent');
+    const form = document.getElementById(sid + '-form');
+    if (cb && cb.checked) {
+      form.style.display = 'block';
+      form.style.animation = 'fadeUp 0.3s ease';
+    } else if (form) {
+      form.style.display = 'none';
+    }
+  }
+
+  async function submitSurvey(sid, numQs, type) {
+    const studentId = document.getElementById(
+      sid === 'sva' ? 'a-studentId' :
+      sid === 'svb' ? 'b-studentId' : 'c-studentId'
+    )?.value?.trim() || document.getElementById('a-studentId')?.value?.trim() || 'unknown';
+
+    let answers = {};
+    let allFilled = true;
+
+    if (type === 'open') {
+      for (let i = 1; i <= numQs; i++) {
+        const val = document.getElementById(sid + '-q' + i)?.value?.trim();
+        if (!val) { allFilled = false; break; }
+        answers['q' + i] = val;
+      }
+    } else {
+      // likert
+      const bNames = ['final-b-q1','final-b-q2','final-b-q3','final-b-q4'];
+      const cNames = ['final-c-q1','final-c-q2','final-c-q3','final-c-q4','final-c-q5'];
+      [...bNames, ...cNames].forEach((name, idx) => {
+        const sel = document.querySelector('input[name="' + name + '"]:checked');
+        if (!sel) allFilled = false;
+        else answers['q' + (idx + 1)] = parseInt(sel.value);
+      });
+    }
+
+    const errEl = document.getElementById(sid + '-error');
+    if (!allFilled) { errEl.classList.add('show'); return; }
+    errEl.classList.remove('show');
+
+    const btn = document.getElementById(sid + '-btn');
+    const spinner = document.getElementById(sid + '-spinner');
+    const btntext = document.getElementById(sid + '-btntext');
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    btntext.textContent = 'Submitting...';
+
+    try {
+      await fetch(WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'survey',
+          studentId,
+          mode: sid === 'sva' ? 'A' : sid === 'svb' ? 'B' : 'FINAL',
+          scenarioId: SCENARIO_ID,
+          bridgeType: BRIDGE_TYPE,
+          anomalyDescription: ANOMALY,
+          surveyType: type,
+          surveyId: sid,
+          answers,
+          submittedAt: new Date().toISOString()
+        })
+      });
+      document.getElementById(sid + '-success').classList.add('show');
+      document.getElementById(sid + '-form').style.display = 'none';
+      // Mark session as done when survey submitted
+      if (sid === 'sva') markSessionDone('A');
+      else if (sid === 'svb') markSessionDone('B');
+      else if (sid === 'final') markSessionDone('final');
+    } catch(err) {
+      errEl.textContent = '⚠️ Connection error: ' + err.message;
+      errEl.classList.add('show');
+    } finally {
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      btntext.textContent = 'Submit Survey';
+    }
+  }
+
+
+  const CHATBOT_URL = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
+  const BRIDGE_TYPE = 'Steel Truss Bridge';
+  const ANOMALY_DESC = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
+
+  // conversation history per mode
+  const chatHistory = { b: [], c: [] };
+
+  function getTime() {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function appendMsg(mid, role, text) {
+    const container = document.getElementById('messages-' + mid);
+    const div = document.createElement('div');
+    div.className = 'msg ' + role;
+    const initials = role === 'user' ? '👤' : '🤖';
+    const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    div.innerHTML = role === 'user'
+      ? '<div class="msg-avatar">' + initials + '</div><div><div class="msg-bubble">' + safeText + '</div><div class="msg-time">' + getTime() + '</div></div>'
+      : '<div class="msg-avatar">' + initials + '</div><div><div class="msg-bubble">' + safeText + '</div><div class="msg-time">' + getTime() + '</div></div>';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+    return div;
+  }
+
+  function showTyping(mid) {
+    const container = document.getElementById('messages-' + mid);
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    div.id = 'typing-' + mid;
+    div.innerHTML = '<div class="msg-avatar">🤖</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function removeTyping(mid) {
+    const el = document.getElementById('typing-' + mid);
+    if (el) el.remove();
+  }
+
+  function handleKey(e, mid) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(mid);
+    }
+  }
+
+  async function sendMessage(mid) {
+    const input = document.getElementById('input-' + mid);
+    const sendBtn = document.getElementById('send-' + mid);
+    const text = input.value.trim();
+    if (!text) return;
+
+    const mode = mid.toUpperCase();
+    const studentId = document.getElementById('a-studentId')?.value || document.getElementById('b-studentId')?.value || 'student';
+
+    input.value = '';
+    input.style.height = '42px';
+    sendBtn.disabled = true;
+
+    appendMsg(mid, 'user', text);
+    chatHistory[mid].push({ role: 'user', content: text });
+
+    showTyping(mid);
+
+    try {
+      const res = await fetch(CHATBOT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'chat',
+          mode,
+          message: text,
+          history: JSON.stringify(chatHistory[mid].slice(0, -1)),
+          studentId,
+          bridgeType: BRIDGE_TYPE,
+          anomalyDescription: ANOMALY_DESC
+        })
+      });
+
+      const data = await res.json();
+      const reply = data.reply || 'Sorry, I could not generate a response. Please try again.';
+
+      removeTyping(mid);
+      appendMsg(mid, 'bot', reply);
+      chatHistory[mid].push({ role: 'assistant', content: reply });
+
+    } catch(err) {
+      removeTyping(mid);
+      appendMsg(mid, 'bot', '⚠️ Connection error: ' + err.message + '. Please check your network and try again.');
+    } finally {
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  async function triggerModeC() {
+    const btn = document.getElementById('c-trigger-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Getting AI Assessment...';
+
+    const studentId = document.getElementById('a-studentId')?.value || 'student';
+
+    const firstMsg = 'Please provide your complete professional bridge inspection assessment for the Bridge 9 scenario.';
+    chatHistory['c'].push({ role: 'user', content: firstMsg });
+    showTyping('c');
+
+    try {
+      const res = await fetch(CHATBOT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'chat',
+          mode: 'C',
+          message: firstMsg,
+          history: '[]',
+          studentId,
+          bridgeType: BRIDGE_TYPE,
+          anomalyDescription: ANOMALY_DESC,
+          isFirstMessage: true
+        })
+      });
+
+      const data = await res.json();
+      const reply = data.reply || 'Unable to generate assessment. Please try again.';
+
+      removeTyping('c');
+      appendMsg('c', 'bot', reply);
+      chatHistory['c'].push({ role: 'assistant', content: reply });
+
+      btn.textContent = '✅ Assessment Received — Now Respond Below';
+      btn.style.background = 'var(--success)';
+      markSessionDone('C');
+
+      document.getElementById('input-c').placeholder = 'Do you approve this recommendation? Or do you have critiques or questions?';
+      document.getElementById('input-c').focus();
+
+    } catch(err) {
+      removeTyping('c');
+      appendMsg('c', 'bot', '⚠️ Error: ' + err.message);
+      btn.disabled = false;
+      btn.textContent = '🤖 Get AI Assessment First';
+    }
+  }
+
+  function copyChat(mid) {
+    const container = document.getElementById('messages-' + mid);
+    const msgs = container.querySelectorAll('.msg');
+    let text = 'Bridge Inspection Chat — Mode ' + mid.toUpperCase() + '\n';
+    text += '=' .repeat(50) + '\n\n';
+    msgs.forEach(msg => {
+      const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
+      const bubble = msg.querySelector('.msg-bubble');
+      if (bubble) text += role + ':\n' + bubble.innerText + '\n\n';
+    });
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('#chatbot-' + mid + ' .copy-btn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => btn.textContent = '📋 Copy Chat', 2000);
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const btn = document.querySelector('#chatbot-' + mid + ' .copy-btn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => btn.textContent = '📋 Copy Chat', 2000);
+    });
+  }
+
+  const WEBHOOK = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
   const SCENARIO_ID = 'bridge-scenario-01';
   const BRIDGE_TYPE = 'Steel Truss Bridge';
   const ANOMALY = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
 
-  let selectedMode = null;
-  let apiResponse = null;
+  let completedModes = { A: false, B: false, C: false };
 
-  function selectMode(mode) {
-    selectedMode = mode;
-    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
-    document.querySelectorAll('.mode-card')[['A','B','C'].indexOf(mode)].classList.add('selected');
-  }
+  function goToModeB() { markSessionDone('A'); switchSession('B'); }
+  function goToModeC() { markSessionDone('B'); switchSession('C'); }
+  function goToFinal() { markSessionDone('C'); switchSession('final'); }
 
-  function setStep(n) {
-    for (let i = 1; i <= 4; i++) {
-      const el = document.getElementById('step' + i);
-      el.classList.remove('active', 'done');
-      if (i < n) el.classList.add('done');
-      if (i === n) el.classList.add('active');
-      // update step-num for done steps
-      el.querySelector('.step-num').textContent = i < n ? '✓' : i;
+  // Track completed modes
+  const completedSessions = { A: false, B: false, C: false };
+
+  // Map mode to required prerequisites
+  const prerequisites = { A: [], B: ['A'], C: ['A','B'], final: ['A','B','C'] };
+
+  function markSessionDone(mode) {
+    completedSessions[mode] = true;
+    // Update tab to done style
+    const tab = document.getElementById('tab-' + mode);
+    if (tab) {
+      tab.classList.add('done');
+      tab.classList.remove('locked');
+    }
+    // Unlock next tab
+    const next = { A: 'B', B: 'C', C: 'final' };
+    const nextMode = next[mode];
+    if (nextMode) {
+      const nextTab = document.getElementById('tab-' + nextMode);
+      if (nextTab) {
+        nextTab.classList.remove('locked');
+        nextTab.style.pointerEvents = '';
+        nextTab.style.opacity = '';
+        nextTab.title = '';
+      }
     }
   }
 
-  function goToStep1() {
-    document.getElementById('section-scenario').style.display = 'block';
-    document.getElementById('section-form').style.display = 'none';
-    document.getElementById('section-results').style.display = 'none';
-    document.getElementById('section-reflection').style.display = 'none';
-    setStep(1);
-    window.scrollTo({top:0, behavior:'smooth'});
+  function canAccessSession(mode) {
+    const reqs = prerequisites[mode] || [];
+    return reqs.every(r => completedSessions[r]);
   }
 
-  function goToStep2() {
-    document.getElementById('section-scenario').style.display = 'none';
-    document.getElementById('section-form').style.display = 'block';
-    document.getElementById('section-results').style.display = 'none';
-    document.getElementById('section-reflection').style.display = 'none';
-    setStep(2);
-    window.scrollTo({top:0, behavior:'smooth'});
-  }
-
-  function goToStep4() {
-    document.getElementById('section-results').style.display = 'none';
-    document.getElementById('section-reflection').style.display = 'block';
-    setStep(4);
-    window.scrollTo({top:0, behavior:'smooth'});
-
-    if (apiResponse && apiResponse.reflectionQuestions) {
-      const grid = document.getElementById('reflectionGrid');
-      grid.innerHTML = '';
-      apiResponse.reflectionQuestions.forEach((q, i) => {
-        grid.innerHTML += `
-          <div class="reflection-item">
-            <div class="reflection-q">Q${i+1}. ${q}</div>
-            <textarea placeholder="Your response..." id="reflection${i}"></textarea>
-          </div>`;
-      });
+  function switchSession(mode) {
+    // Check prerequisites
+    if (!canAccessSession(mode)) {
+      const reqs = prerequisites[mode];
+      const missing = reqs.filter(r => !completedSessions[r]);
+      const names = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
+      alert('Please complete ' + missing.map(m => names[m]).join(' and ') + ' first.');
+      return;
     }
+
+    ['A','B','C','final'].forEach(m => {
+      const el = document.getElementById('session-' + m);
+      if (el) el.style.display = 'none';
+      const tab = document.getElementById('tab-' + m);
+      if (tab) tab.classList.remove('active');
+    });
+
+    const target = document.getElementById('session-' + mode);
+    if (target) target.style.display = 'block';
+    const activeTab = document.getElementById('tab-' + mode);
+    if (activeTab) activeTab.classList.add('active');
+
+    // Show/hide lock notices
+    ['b','c','final'].forEach(m => {
+      const notice = document.getElementById('lock-notice-' + m);
+      if (notice) notice.style.display = 'none';
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  async function submitAssessment() {
-    const studentId = document.getElementById('studentId').value.trim();
-    const studentAnswer = document.getElementById('studentAnswer').value.trim();
-    const courseLevel = document.getElementById('courseLevel').value;
-    const errorBox = document.getElementById('errorBox');
+  // Initialize locked tabs on page load
+  function initLocks() {
+    ['B','C','final'].forEach(mode => {
+      const tab = document.getElementById('tab-' + mode);
+      if (tab) {
+        tab.classList.add('locked');
+        tab.style.pointerEvents = 'none';
+        tab.style.opacity = '0.4';
+        const names = { B: 'Complete Mode A first', C: 'Complete Mode A & B first', final: 'Complete all three modes first' };
+        tab.title = names[mode];
+        // Override onclick to show alert instead
+        tab.onclick = function() {
+          if (!canAccessSession(mode)) {
+            const reqs = prerequisites[mode];
+            const missing = reqs.filter(r => !completedSessions[r]);
+            const modeNames = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
+            alert('🔒 Please complete ' + missing.map(m => modeNames[m]).join(' and ') + ' before accessing this section.');
+          }
+        };
+        // Remove locked class when unlocked
+        tab.style.pointerEvents = '';
+      }
+    });
+  }
 
-    if (!studentId || !studentAnswer || !selectedMode) {
+  // Call initLocks after DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    initLocks();
+    // Re-lock tabs with proper click handlers
+    ['B','C','final'].forEach(mode => {
+      const tab = document.getElementById('tab-' + mode);
+      if (tab && !completedSessions[prerequisites[mode][0]]) {
+        tab.classList.add('locked');
+      }
+    });
+  });
+
+  async function submitMode(mode) {
+    const m = mode.toLowerCase();
+    const studentId = document.getElementById(m + '-studentId').value.trim();
+    const answer = document.getElementById(m + '-answer').value.trim();
+    const courseLevel = document.getElementById(m + '-courseLevel').value;
+    const errorBox = document.getElementById(m + '-error');
+
+    if (!studentId || !answer) {
       errorBox.classList.add('show');
       return;
     }
     errorBox.classList.remove('show');
 
-    // Loading state
-    const btn = document.getElementById('submitBtn');
-    const spinner = document.getElementById('spinner');
-    const submitText = document.getElementById('submitText');
+    const btn = document.getElementById(m + '-submitBtn');
+    const spinner = document.getElementById(m + '-spinner');
+    const submitText = document.getElementById(m + '-submitText');
     btn.disabled = true;
     spinner.style.display = 'block';
     submitText.textContent = 'Submitting...';
 
-    const payload = {
-      studentId,
-      mode: selectedMode,
-      scenarioId: SCENARIO_ID,
-      bridgeType: BRIDGE_TYPE,
-      anomalyDescription: ANOMALY,
-      studentAnswer,
-      courseLevel
-    };
-
     try {
-      const res = await fetch(WEBHOOK_URL, {
+      const res = await fetch(WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          action: 'submit',
+          studentId, mode,
+          scenarioId: SCENARIO_ID,
+          bridgeType: BRIDGE_TYPE,
+          anomalyDescription: ANOMALY,
+          studentAnswer: answer,
+          courseLevel
+        })
       });
 
-      apiResponse = await res.json();
+      const data = await res.json();
+      completedModes[mode] = true;
+
+      // Mark tab as done
+      const tab = document.getElementById('tab-' + mode);
+      if (tab) tab.classList.add('done');
 
       // Show results
-      document.getElementById('section-form').style.display = 'none';
-      document.getElementById('section-results').style.display = 'block';
-      setStep(3);
-      window.scrollTo({top:0, behavior:'smooth'});
-
-      // Populate AI response
-      document.getElementById('modeTag').textContent = apiResponse.mode || ('Mode ' + selectedMode);
-      document.getElementById('aiResponseText').textContent =
-        apiResponse.aiResponse || 'No AI response for this mode.';
-      if (apiResponse.tokensUsed > 0) {
-        document.getElementById('tokenInfo').textContent =
-          `Tokens used: ${apiResponse.tokensUsed}`;
+      const resultsEl = document.getElementById(m + '-results');
+      if (resultsEl) {
+        resultsEl.style.display = 'block';
+        document.getElementById(m + '-aiText').textContent =
+          data.aiResponse || 'Assessment recorded. No AI assistance in this mode.';
+        const tokenEl = document.getElementById(m + '-tokenInfo');
+        if (tokenEl && data.tokensUsed > 0)
+          tokenEl.textContent = 'Tokens used: ' + data.tokensUsed;
       }
 
-      const modeNames = { A: 'Human Only — no AI assistance was provided.', B: 'AI-Assisted — review the suggestions below and finalize your decision.', C: 'AI-Guided — review the AI\'s complete recommendation and decide whether to approve or critique it.' };
-      document.getElementById('feedbackSubtitle').textContent = modeNames[selectedMode] || '';
+      // Scroll to results
+      setTimeout(() => {
+        resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
 
     } catch (err) {
-      errorBox.textContent = '⚠️ Connection error. Please check your network and try again. (' + err.message + ')';
+      errorBox.textContent = '⚠️ Connection error: ' + err.message + '. Please try again.';
       errorBox.classList.add('show');
     } finally {
       btn.disabled = false;
       spinner.style.display = 'none';
-      submitText.textContent = 'Submit Assessment';
+      submitText.textContent = 'Submit Mode ' + mode + ' Assessment';
     }
-  }
-
-  function submitReflection() {
-    document.getElementById('successBanner').classList.add('show');
-    document.querySelector('.submit-reflection-btn').style.display = 'none';
-    setStep(4);
-    window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
-  }
-
-  function handleVideoPlay() {
-    alert('Video playback: Replace the video placeholder in the HTML with your actual inspection video URL.');
   }
 </script>
 
