@@ -1122,9 +1122,9 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       const nextTab = document.getElementById('tab-' + nextMode);
       if (nextTab) {
         nextTab.classList.remove('locked');
-        nextTab.style.pointerEvents = '';
         nextTab.style.opacity = '';
         nextTab.title = '';
+        nextTab.onclick = function() { switchSession(nextMode); };
       }
     }
   }
@@ -1171,21 +1171,19 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       const tab = document.getElementById('tab-' + mode);
       if (tab) {
         tab.classList.add('locked');
-        tab.style.pointerEvents = 'none';
         tab.style.opacity = '0.4';
         const names = { B: 'Complete Mode A first', C: 'Complete Mode A & B first', final: 'Complete all three modes first' };
         tab.title = names[mode];
-        // Override onclick to show alert instead
         tab.onclick = function() {
           if (!canAccessSession(mode)) {
             const reqs = prerequisites[mode];
             const missing = reqs.filter(r => !completedSessions[r]);
             const modeNames = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
             alert('🔒 Please complete ' + missing.map(m => modeNames[m]).join(' and ') + ' before accessing this section.');
+          } else {
+            switchSession(mode);
           }
         };
-        // Remove locked class when unlocked
-        tab.style.pointerEvents = '';
       }
     });
   }
@@ -1193,7 +1191,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   // Call initLocks after DOM ready
   document.addEventListener('DOMContentLoaded', function() {
     initLocks();
-    // Re-lock tabs with proper click handlers
     ['B','C','final'].forEach(mode => {
       const tab = document.getElementById('tab-' + mode);
       if (tab && !completedSessions[prerequisites[mode][0]]) {
