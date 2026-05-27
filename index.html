@@ -1087,7 +1087,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     const container = document.getElementById('messages-' + mid);
     const msgs = container.querySelectorAll('.msg');
     let text = 'Bridge Inspection Chat — Mode ' + mid.toUpperCase() + '\n';
-    text += '=' .repeat(50) + '\n\n';
+    text += '='.repeat(50) + '\n\n';
     msgs.forEach(msg => {
       const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
       const bubble = msg.querySelector('.msg-bubble');
@@ -1098,16 +1098,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       btn.textContent = '✅ Copied!';
       setTimeout(() => btn.textContent = '📋 Copy Chat', 2000);
     }).catch(() => {
-      // Fallback
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      const btn = document.querySelector('#chatbot-' + mid + ' .copy-btn');
-      btn.textContent = '✅ Copied!';
-      setTimeout(() => btn.textContent = '📋 Copy Chat', 2000);
+      alert('Copy failed. Please copy manually.');
     });
   }
 
@@ -1119,7 +1110,36 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   let completedModes = { A: false, B: false, C: false };
 
   function goToModeB() { markSessionDone('A'); switchSession('B'); }
-  function goToModeC() { markSessionDone('B'); switchSession('C'); }
+  function goToModeC() {
+    // Auto-submit Mode B chat history to Submissions
+    const studentId = document.getElementById('a-studentId')?.value || 'student';
+    const container = document.getElementById('messages-b');
+    if (container) {
+      const msgs = container.querySelectorAll('.msg');
+      let chatText = 'Bridge Inspection Chat — Mode B\n' + '='.repeat(50) + '\n\n';
+      msgs.forEach(msg => {
+        const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
+        const bubble = msg.querySelector('.msg-bubble');
+        if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+      });
+      fetch(WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'submit',
+          mode: 'B',
+          studentId,
+          scenarioId: SCENARIO_ID,
+          bridgeType: BRIDGE_TYPE,
+          anomalyDescription: ANOMALY,
+          studentAnswer: chatText,
+          courseLevel: document.getElementById('b-courseLevel')?.value || 'N/A'
+        })
+      }).catch(err => console.log('Mode B chat submit failed:', err));
+    }
+    markSessionDone('B');
+    switchSession('C');
+  }
   function goToFinal() { markSessionDone('C'); switchSession('final'); }
 
   // Track completed modes
