@@ -53,7 +53,8 @@
   .session-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
   .session-tab { padding: 8px 18px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
   .session-tab:hover { border-color: var(--blue-light); color: var(--blue); }
-  .session-tab.active { background: var(--navy); color: white; border-color: var(--navy); }
+  .session-tab.active { background: white; color: var(--text-secondary); border-color: var(--border); opacity: 1; pointer-events: auto; }
+  .session-tab.locked:not(.active) { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
   .session-tab .tab-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.6; }
   .session-tab.done { border-color: var(--success); color: var(--success); }
   .session-tab.done .tab-dot { background: var(--success); opacity: 1; }
@@ -251,7 +252,7 @@
 
 
   /* LOCK STATE */
-  .session-tab.locked { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+  .session-tab.locked:not(.active) { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
   .session-tab.locked .tab-dot { background: #aaa; }
   .lock-notice { display: flex; align-items: center; gap: 10px; background: #fff8e8; border: 1px solid #e8d49a; border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #7a5a00; margin-bottom: 16px; }
   .lock-notice .lock-icon { font-size: 18px; flex-shrink: 0; }
@@ -459,7 +460,7 @@
 <!-- ═══════════════════ MODE B ═══════════════════ -->
 <div id="session-B" style="display:none">
   <!-- LOCK NOTICE B -->
-  <div class="lock-notice" id="lock-notice-b">
+  <div class="lock-notice" id="lock-notice-b" style="display:none">
     <span class="lock-icon">🔒</span>
     <span>Please complete <strong>Mode A</strong> first before accessing Mode B.</span>
   </div>
@@ -615,7 +616,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 <!-- ═══════════════════ MODE C ═══════════════════ -->
 <div id="session-C" style="display:none">
   <!-- LOCK NOTICE C -->
-  <div class="lock-notice" id="lock-notice-c">
+  <div class="lock-notice" id="lock-notice-c" style="display:none">
     <span class="lock-icon">🔒</span>
     <span>Please complete <strong>Mode A and Mode B</strong> first before accessing Mode C.</span>
   </div>
@@ -721,7 +722,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 <!-- ═══════════════════ FINAL SURVEY ═══════════════════ -->
 <div id="session-final" style="display:none">
   <!-- LOCK NOTICE FINAL -->
-  <div class="lock-notice" id="lock-notice-final">
+  <div class="lock-notice" id="lock-notice-final" style="display:none">
     <span class="lock-icon">🔒</span>
     <span>Please complete <strong>Mode A, B, and C</strong> first before accessing the Final Survey.</span>
   </div>
@@ -983,9 +984,13 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     showTyping(mid);
 
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 60000);
+
       const res = await fetch(CHATBOT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           action: 'chat',
           mode,
@@ -997,8 +1002,10 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         })
       });
 
+      clearTimeout(timeout);
+
       const data = await res.json();
-      const reply = data.reply || 'Sorry, I could not generate a response. Please try again.';
+      const reply = data.reply || data.message || data.content || 'Sorry, I could not generate a response. Please try again.';
 
       removeTyping(mid);
       appendMsg(mid, 'bot', reply);
@@ -1006,7 +1013,11 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
     } catch(err) {
       removeTyping(mid);
-      appendMsg(mid, 'bot', '⚠️ Connection error: ' + err.message + '. Please check your network and try again.');
+      if (err.name === 'AbortError') {
+        appendMsg('c', 'bot', '⏱️ Request timed out. Please try again.');
+      } else {
+        appendMsg(mid, 'bot', '⚠️ Connection error: ' + err.message + '. Please check your network and try again.');
+      }
     } finally {
       sendBtn.disabled = false;
       input.focus();
@@ -1016,7 +1027,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   async function triggerModeC() {
     const btn = document.getElementById('c-trigger-btn');
     btn.disabled = true;
-    btn.textContent = '⏳ Getting AI Assessment...';
+    btn.textContent = '⏳ Getting AI Assessment... (this may take 15-30 seconds)';
 
     const studentId = document.getElementById('a-studentId')?.value || 'student';
 
@@ -1025,9 +1036,13 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     showTyping('c');
 
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
       const res = await fetch(CHATBOT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           action: 'chat',
           mode: 'C',
@@ -1040,8 +1055,10 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         })
       });
 
+      clearTimeout(timeout);
+
       const data = await res.json();
-      const reply = data.reply || 'Unable to generate assessment. Please try again.';
+      const reply = data.reply || data.message || data.content || 'Unable to generate assessment. Please try again.';
 
       removeTyping('c');
       appendMsg('c', 'bot', reply);
@@ -1056,7 +1073,11 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
     } catch(err) {
       removeTyping('c');
-      appendMsg('c', 'bot', '⚠️ Error: ' + err.message);
+      if (err.name === 'AbortError') {
+        appendMsg('c', 'bot', '⏱️ Request timed out. Please click "Get AI Assessment First" again.');
+      } else {
+        appendMsg('c', 'bot', '⚠️ Error: ' + err.message + '. Please try again.');
+      }
       btn.disabled = false;
       btn.textContent = '🤖 Get AI Assessment First';
     }
@@ -1109,10 +1130,10 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
   function markSessionDone(mode) {
     completedSessions[mode] = true;
-    // Update tab to done style
     const tab = document.getElementById('tab-' + mode);
     if (tab) {
       tab.classList.add('done');
+      tab.classList.remove('active');
       tab.classList.remove('locked');
     }
     // Unlock next tab
@@ -1122,7 +1143,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       const nextTab = document.getElementById('tab-' + nextMode);
       if (nextTab) {
         nextTab.classList.remove('locked');
-        nextTab.style.opacity = '';
         nextTab.title = '';
         nextTab.onclick = function() { switchSession(nextMode); };
       }
@@ -1135,55 +1155,54 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   }
 
   function switchSession(mode) {
-    // Check prerequisites
     if (!canAccessSession(mode)) {
       const reqs = prerequisites[mode];
       const missing = reqs.filter(r => !completedSessions[r]);
-      const names = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
-      alert('Please complete ' + missing.map(m => names[m]).join(' and ') + ' first.');
+      const modeNames = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
+      alert('🔒 Please complete ' + missing.map(m => modeNames[m]).join(' and ') + ' before accessing this section.');
       return;
     }
 
+    // Remove active + inline styles from all tabs
     ['A','B','C','final'].forEach(m => {
       const el = document.getElementById('session-' + m);
       if (el) el.style.display = 'none';
       const tab = document.getElementById('tab-' + m);
-      if (tab) tab.classList.remove('active');
+      if (tab) {
+        tab.classList.remove('active');
+        tab.style.background = '';
+        tab.style.color = '';
+        tab.style.borderColor = '';
+        tab.style.opacity = '';
+        tab.style.pointerEvents = '';
+      }
     });
 
+    // Show target session
     const target = document.getElementById('session-' + mode);
     if (target) target.style.display = 'block';
-    const activeTab = document.getElementById('tab-' + mode);
-    if (activeTab) activeTab.classList.add('active');
 
-    // Show/hide lock notices
-    ['b','c','final'].forEach(m => {
-      const notice = document.getElementById('lock-notice-' + m);
-      if (notice) notice.style.display = 'none';
-    });
+    // Set active tab
+    const activeTab = document.getElementById('tab-' + mode);
+    if (activeTab) {
+      activeTab.classList.remove('locked');
+      activeTab.classList.add('active');
+      activeTab.style.background = '';
+      activeTab.style.color = '';
+      activeTab.style.borderColor = '';
+      activeTab.style.opacity = '1';
+      activeTab.style.pointerEvents = 'auto';
+    }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Initialize locked tabs on page load
+  // Initialize locked tabs on page load - visual only
   function initLocks() {
     ['B','C','final'].forEach(mode => {
       const tab = document.getElementById('tab-' + mode);
       if (tab) {
         tab.classList.add('locked');
-        tab.style.opacity = '0.4';
-        const names = { B: 'Complete Mode A first', C: 'Complete Mode A & B first', final: 'Complete all three modes first' };
-        tab.title = names[mode];
-        tab.onclick = function() {
-          if (!canAccessSession(mode)) {
-            const reqs = prerequisites[mode];
-            const missing = reqs.filter(r => !completedSessions[r]);
-            const modeNames = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
-            alert('🔒 Please complete ' + missing.map(m => modeNames[m]).join(' and ') + ' before accessing this section.');
-          } else {
-            switchSession(mode);
-          }
-        };
       }
     });
   }
@@ -1191,12 +1210,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   // Call initLocks after DOM ready
   document.addEventListener('DOMContentLoaded', function() {
     initLocks();
-    ['B','C','final'].forEach(mode => {
-      const tab = document.getElementById('tab-' + mode);
-      if (tab && !completedSessions[prerequisites[mode][0]]) {
-        tab.classList.add('locked');
-      }
-    });
   });
 
   async function submitMode(mode) {
