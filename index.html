@@ -484,53 +484,54 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 <footer>AI-Augmented Scenario-Based Learning Platform · SIUE Department of Construction &amp; Civil Engineering · ASEE 2026 Annual Conference</footer>
 
 <script>
+
   function checkConsent(sid) {
-    const cb = document.getElementById(sid + '-consent');
-    const form = document.getElementById(sid + '-form');
-    if (cb && cb.checked) {
-      form.style.display = 'block';
-      form.style.animation = 'fadeUp 0.3s ease';
-    } else if (form) {
-      form.style.display = 'none';
-    }
+    setTimeout(function() {
+      const cb = document.getElementById(sid + '-consent');
+      const form = document.getElementById(sid + '-form');
+      const label = document.getElementById(sid + '-consent-label');
+      if (cb && cb.checked) {
+        form.style.display = 'block';
+        form.style.animation = 'fadeUp 0.3s ease';
+        if (label) label.style.background = '#e8f5ee';
+      } else if (form) {
+        form.style.display = 'none';
+        if (label) label.style.background = '';
+      }
+    }, 0);
   }
 
   async function submitSurvey(sid, numQs, type) {
     let answers = {};
     let allFilled = true;
-
     if (type === 'open') {
       for (let i = 1; i <= numQs; i++) {
-        const val = document.getElementById(sid + '-q' + i)?.value?.trim();
+        const val = document.getElementById(sid + '-q' + i) && document.getElementById(sid + '-q' + i).value.trim();
         if (!val) { allFilled = false; break; }
         answers['q' + i] = val;
       }
     } else {
       const bNames = ['final-b-q1','final-b-q2','final-b-q3','final-b-q4'];
       const cNames = ['final-c-q1','final-c-q2','final-c-q3','final-c-q4','final-c-q5'];
-      [...bNames, ...cNames].forEach((name, idx) => {
+      bNames.concat(cNames).forEach(function(name, idx) {
         const sel = document.querySelector('input[name="' + name + '"]:checked');
         if (!sel) allFilled = false;
         else answers['q' + (idx + 1)] = parseInt(sel.value);
       });
     }
-
     const errEl = document.getElementById(sid + '-error');
     if (!allFilled) { errEl.classList.add('show'); return; }
     errEl.classList.remove('show');
-
     const btn = document.getElementById(sid + '-btn');
     const spinner = document.getElementById(sid + '-spinner');
     const btntext = document.getElementById(sid + '-btntext');
     btn.disabled = true;
     spinner.style.display = 'block';
     btntext.textContent = 'Submitting...';
-
     try {
-      // FIX: sva / svb — save to sessionStorage with correct key (sid + '_answers')
       if (sid === 'sva' || sid === 'svb') {
         sessionStorage.setItem(sid + '_answers', JSON.stringify(answers));
-        console.log('[submitSurvey] Saved', sid + '_answers', '→', answers);
+        console.log('[submitSurvey] Saved', sid + '_answers', answers);
         document.getElementById(sid + '-success').classList.add('show');
         document.getElementById(sid + '-form').style.display = 'none';
         if (sid === 'sva') markSessionDone('A');
@@ -541,7 +542,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         markSessionDone('final');
       }
     } catch(err) {
-      errEl.textContent = '⚠️ Connection error: ' + err.message;
+      errEl.textContent = 'Connection error: ' + err.message;
       errEl.classList.add('show');
     } finally {
       btn.disabled = false;
@@ -549,7 +550,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       btntext.textContent = 'Submit Survey';
     }
   }
-
 
   const CHATBOT_URL = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
   const chatHistory = { b: [], c: [] };
@@ -562,12 +562,9 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     const container = document.getElementById('messages-' + mid);
     const div = document.createElement('div');
     div.className = 'msg ' + role;
-    const initials = role === 'user' ? '👤' : '🤖';
-    const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/
-/g,'<br>');
-    div.innerHTML = role === 'user'
-      ? '<div class="msg-avatar">' + initials + '</div><div><div class="msg-bubble">' + safeText + '</div><div class="msg-time">' + getTime() + '</div></div>'
-      : '<div class="msg-avatar">' + initials + '</div><div><div class="msg-bubble">' + safeText + '</div><div class="msg-time">' + getTime() + '</div></div>';
+    const initials = role === 'user' ? '\u{1F464}' : '\u{1F916}';
+    const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    div.innerHTML = '<div class="msg-avatar">' + initials + '</div><div><div class="msg-bubble">' + safeText + '</div><div class="msg-time">' + getTime() + '</div></div>';
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
     return div;
@@ -578,7 +575,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     const div = document.createElement('div');
     div.className = 'msg bot';
     div.id = 'typing-' + mid;
-    div.innerHTML = '<div class="msg-avatar">🤖</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    div.innerHTML = '<div class="msg-avatar">\u{1F916}</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
   }
@@ -589,10 +586,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   }
 
   function handleKey(e, mid) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(mid);
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(mid); }
   }
 
   async function sendMessage(mid) {
@@ -600,52 +594,35 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     const sendBtn = document.getElementById('send-' + mid);
     const text = input.value.trim();
     if (!text) return;
-
     const mode = mid.toUpperCase();
-    const studentId = document.getElementById('a-studentId')?.value || document.getElementById('b-studentId')?.value || 'student';
-
     input.value = '';
     input.style.height = '42px';
     sendBtn.disabled = true;
-
     appendMsg(mid, 'user', text);
     chatHistory[mid].push({ role: 'user', content: text });
     showTyping(mid);
-
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 60000);
-
+      const timeout = setTimeout(function() { controller.abort(); }, 60000);
       const res = await fetch(CHATBOT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal: controller.signal,
         body: JSON.stringify({
-          action: 'chat',
-          mode,
-          message: text,
+          action: 'chat', mode: mode, message: text,
           history: JSON.stringify(chatHistory[mid].slice(0, -1)),
-          studentId,
-          bridgeType: BRIDGE_TYPE,
-          anomalyDescription: ANOMALY
+          bridgeType: BRIDGE_TYPE, anomalyDescription: ANOMALY
         })
       });
-
       clearTimeout(timeout);
       const data = await res.json();
-      const reply = data.reply || data.message || data.content || 'Sorry, I could not generate a response. Please try again.';
-
+      const reply = data.reply || data.message || data.content || 'Sorry, could not generate a response.';
       removeTyping(mid);
       appendMsg(mid, 'bot', reply);
       chatHistory[mid].push({ role: 'assistant', content: reply });
-
     } catch(err) {
       removeTyping(mid);
-      if (err.name === 'AbortError') {
-        appendMsg(mid, 'bot', '⏱️ Request timed out. Please try again.');
-      } else {
-        appendMsg(mid, 'bot', '⚠️ Connection error: ' + err.message + '. Please check your network and try again.');
-      }
+      appendMsg(mid, 'bot', err.name === 'AbortError' ? 'Request timed out. Please try again.' : 'Connection error: ' + err.message);
     } finally {
       sendBtn.disabled = false;
       input.focus();
@@ -655,170 +632,99 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   async function triggerModeC() {
     const btn = document.getElementById('c-trigger-btn');
     btn.disabled = true;
-    btn.textContent = '⏳ Getting AI Assessment... (this may take 15-30 seconds)';
-
-    const studentId = document.getElementById('a-studentId')?.value || 'student';
+    btn.textContent = 'Getting AI Assessment... (this may take 15-30 seconds)';
     const firstMsg = 'Please provide your complete professional bridge inspection assessment for the Bridge 9 scenario.';
     chatHistory['c'].push({ role: 'user', content: firstMsg });
     showTyping('c');
-
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 60000);
-
+      const timeout = setTimeout(function() { controller.abort(); }, 60000);
       const res = await fetch(CHATBOT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal: controller.signal,
         body: JSON.stringify({
-          action: 'chat',
-          mode: 'C',
-          message: firstMsg,
-          history: '[]',
-          studentId,
-          bridgeType: BRIDGE_TYPE,
-          anomalyDescription: ANOMALY,
-          isFirstMessage: true
+          action: 'chat', mode: 'C', message: firstMsg, history: '[]',
+          bridgeType: BRIDGE_TYPE, anomalyDescription: ANOMALY, isFirstMessage: true
         })
       });
-
       clearTimeout(timeout);
       const data = await res.json();
-      const reply = data.reply || data.message || data.content || 'Unable to generate assessment. Please try again.';
-
+      const reply = data.reply || data.message || data.content || 'Unable to generate assessment.';
       removeTyping('c');
       appendMsg('c', 'bot', reply);
       chatHistory['c'].push({ role: 'assistant', content: reply });
-
-      btn.textContent = '✅ Assessment Received — Now Respond Below';
+      btn.textContent = 'Assessment Received - Now Respond Below';
       btn.style.background = 'var(--success)';
       markSessionDone('C');
-
-      // FIX: Immediately save Mode C initial response to sessionStorage
-      // so it's available even if user navigates directly to Final tab
-      const initChatText = 'Bridge Inspection Chat — Mode C
-' + '='.repeat(50) + '
-
-AI Assistant:
-' + reply + '
-
-';
-      sessionStorage.setItem('modeC_chat', initChatText);
-      console.log('[triggerModeC] Initial Mode C chat saved to sessionStorage');
-
+      sessionStorage.setItem('modeC_chat', 'Bridge Inspection Chat - Mode C\n' + '='.repeat(50) + '\nAI Assistant:\n' + reply + '\n');
+      console.log('[triggerModeC] modeC_chat saved to sessionStorage');
       document.getElementById('input-c').placeholder = 'Do you approve this recommendation? Or do you have critiques or questions?';
       document.getElementById('input-c').focus();
-
     } catch(err) {
       removeTyping('c');
-      if (err.name === 'AbortError') {
-        appendMsg('c', 'bot', '⏱️ Request timed out. Please click "Get AI Assessment First" again.');
-      } else {
-        appendMsg('c', 'bot', '⚠️ Error: ' + err.message + '. Please try again.');
-      }
+      appendMsg('c', 'bot', err.name === 'AbortError' ? 'Request timed out. Please try again.' : 'Error: ' + err.message);
       btn.disabled = false;
-      btn.textContent = '🤖 Get AI Assessment First';
+      btn.textContent = 'Get AI Assessment First';
     }
   }
 
   function copyChat(mid) {
     const container = document.getElementById('messages-' + mid);
     const msgs = container.querySelectorAll('.msg');
-    let text = 'Bridge Inspection Chat — Mode ' + mid.toUpperCase() + '
-';
-    text += '='.repeat(50) + '
-
-';
-    msgs.forEach(msg => {
+    let text = 'Bridge Inspection Chat - Mode ' + mid.toUpperCase() + '\n' + '='.repeat(50) + '\n\n';
+    msgs.forEach(function(msg) {
       const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
       const bubble = msg.querySelector('.msg-bubble');
-      if (bubble) text += role + ':
-' + bubble.innerText + '
-
-';
+      if (bubble) text += role + ':\n' + bubble.innerText + '\n\n';
     });
-    navigator.clipboard.writeText(text).then(() => {
+    navigator.clipboard.writeText(text).then(function() {
       const btn = document.querySelector('#chatbot-' + mid + ' .copy-btn');
-      btn.textContent = '✅ Copied!';
-      setTimeout(() => btn.textContent = '📋 Copy Chat', 2000);
-    }).catch(() => {
-      alert('Copy failed. Please copy manually.');
-    });
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy Chat'; }, 2000);
+    }).catch(function() { alert('Copy failed. Please copy manually.'); });
   }
 
-  // FIX: Completely rewritten submitFinalSurvey
-  // - Sends q1~q9 as flat fields (n8n reads $json.body.q1 etc.)
-  // - Sends Part 5 as flat fields (role, year, experience, ...)
-  // - No more nested 'answers' object mismatch
   async function submitFinalSurvey() {
     const btn = document.getElementById('final-btn');
     const spinner = document.getElementById('final-spinner');
     const btnText = document.getElementById('final-btntext');
     const errorBox = document.getElementById('final-error');
-
-    // Collect Likert answers as flat q1~q9
     const bNames = ['final-b-q1','final-b-q2','final-b-q3','final-b-q4'];
     const cNames = ['final-c-q1','final-c-q2','final-c-q3','final-c-q4','final-c-q5'];
     const flatAnswers = {};
     let allAnswered = true;
-    [...bNames, ...cNames].forEach((name, idx) => {
-      const sel = document.querySelector(`input[name="${name}"]:checked`);
+    bNames.concat(cNames).forEach(function(name, idx) {
+      const sel = document.querySelector('input[name="' + name + '"]:checked');
       if (!sel) allAnswered = false;
-      flatAnswers[`q${idx + 1}`] = sel ? sel.value : '';
+      flatAnswers['q' + (idx + 1)] = sel ? sel.value : '';
     });
-
     if (!allAnswered) {
-      errorBox.textContent = '⚠️ Please answer all questions before submitting.';
+      errorBox.textContent = 'Please answer all questions before submitting.';
       errorBox.style.display = 'block';
       return;
     }
-
-    // Collect Part 5 as flat fields
-    const p5 = {
-      role:       document.querySelector('input[name="p5-role"]:checked')?.value  || '',
-      year:       document.querySelector('input[name="p5-year"]:checked')?.value  || '',
-      experience: document.querySelector('input[name="p5-exp"]:checked')?.value   || '',
-      aiExposure: document.querySelector('input[name="p5-ai"]:checked')?.value    || '',
-      p5q5:  document.querySelector('input[name="p5-q5"]:checked')?.value  || '',
-      p5q6:  document.querySelector('input[name="p5-q6"]:checked')?.value  || '',
-      p5q7:  document.querySelector('input[name="p5-q7"]:checked')?.value  || '',
-      p5q8:  document.querySelector('input[name="p5-q8"]:checked')?.value  || '',
-      p5q9:  document.querySelector('input[name="p5-q9"]:checked')?.value  || '',
-      p5q10: document.querySelector('input[name="p5-q10"]:checked')?.value || '',
-      p5q11: document.querySelector('input[name="p5-q11"]:checked')?.value || '',
-      p5q12: document.querySelector('input[name="p5-q12"]:checked')?.value || '',
-      p5q13: document.querySelector('input[name="p5-q13"]:checked')?.value || '',
-    };
-
-    // FIX: Flat payload — q1~q9 at top level, matching n8n's $json.body.q1
-    const payload = {
-      action: 'survey',
-      surveyId: 'final',
-      mode: 'FINAL',
-      ...flatAnswers,
-      ...p5,
-      submittedAt: new Date().toISOString()
-    };
-
+    const p5fields = ['role','year','experience','aiExposure','p5q5','p5q6','p5q7','p5q8','p5q9','p5q10','p5q11','p5q12','p5q13'];
+    const p5names  = ['p5-role','p5-year','p5-exp','p5-ai','p5-q5','p5-q6','p5-q7','p5-q8','p5-q9','p5-q10','p5-q11','p5-q12','p5-q13'];
+    const p5 = {};
+    p5fields.forEach(function(field, i) {
+      const sel = document.querySelector('input[name="' + p5names[i] + '"]:checked');
+      p5[field] = sel ? sel.value : '';
+    });
+    const payload = Object.assign({ action: 'survey', surveyId: 'final', mode: 'FINAL', submittedAt: new Date().toISOString() }, flatAnswers, p5);
     console.log('[submitFinalSurvey] payload:', payload);
-
     btn.disabled = true;
     spinner.style.display = 'inline-block';
     btnText.textContent = 'Submitting...';
     errorBox.style.display = 'none';
-
     try {
-      const res = await fetch(WEBHOOK, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      console.log('[submitFinalSurvey] response status:', res.status);
+      const res = await fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      console.log('[submitFinalSurvey] status:', res.status);
       document.getElementById('final-form').style.display = 'none';
       document.getElementById('final-success').style.display = 'flex';
     } catch(err) {
       console.error('[submitFinalSurvey] error:', err);
-      errorBox.textContent = '⚠️ Submission failed. Please try again.';
+      errorBox.textContent = 'Submission failed. Please try again.';
       errorBox.style.display = 'block';
       btn.disabled = false;
       spinner.style.display = 'none';
@@ -830,118 +736,81 @@ AI Assistant:
   const BRIDGE_TYPE = 'Steel Truss Bridge';
   const ANOMALY = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
   const WEBHOOK = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
-
   let completedModes = { A: false, B: false, C: false };
-
   function goToModeB() { markSessionDone('A'); switchSession('B'); }
   function goToModeC() { markSessionDone('B'); switchSession('C'); }
   function goToFinal() { markSessionDone('C'); switchSession('final'); }
-
   const completedSessions = { A: false, B: false, C: false };
   const prerequisites = { A: [], B: ['A'], C: ['A','B'], final: ['A','B','C'] };
 
   function markSessionDone(mode) {
     completedSessions[mode] = true;
     const tab = document.getElementById('tab-' + mode);
-    if (tab) {
-      tab.classList.add('done');
-      tab.classList.remove('active');
-      tab.classList.remove('locked');
-    }
+    if (tab) { tab.classList.add('done'); tab.classList.remove('active','locked'); }
     const next = { A: 'B', B: 'C', C: 'final' };
     const nextMode = next[mode];
     if (nextMode) {
       const nextTab = document.getElementById('tab-' + nextMode);
-      if (nextTab) {
-        nextTab.classList.remove('locked');
-        nextTab.title = '';
-        nextTab.onclick = function() { switchSession(nextMode); };
-      }
+      if (nextTab) { nextTab.classList.remove('locked'); nextTab.title = ''; nextTab.onclick = function() { switchSession(nextMode); }; }
     }
   }
 
   function canAccessSession(mode) {
-    const reqs = prerequisites[mode] || [];
-    return reqs.every(r => completedSessions[r]);
+    return (prerequisites[mode] || []).every(function(r) { return completedSessions[r]; });
   }
 
   function switchSession(mode) {
     if (!canAccessSession(mode)) {
-      const reqs = prerequisites[mode];
-      const missing = reqs.filter(r => !completedSessions[r]);
-      const modeNames = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
-      alert('🔒 Please complete ' + missing.map(m => modeNames[m]).join(' and ') + ' before accessing this section.');
+      const missing = (prerequisites[mode] || []).filter(function(r) { return !completedSessions[r]; });
+      const names = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
+      alert('Please complete ' + missing.map(function(m) { return names[m]; }).join(' and ') + ' before accessing this section.');
       return;
     }
 
-    // When switching to Mode C, save Mode B chat to sessionStorage
     if (mode === 'C') {
       const container = document.getElementById('messages-b');
       if (container) {
         const msgs = container.querySelectorAll('.msg');
-        let chatText = 'Bridge Inspection Chat — Mode B
-' + '='.repeat(50) + '
-
-';
-        msgs.forEach(msg => {
-          const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
-          const bubble = msg.querySelector('.msg-bubble');
-          if (bubble) chatText += role + ':
-' + bubble.innerText + '
-
-';
-        });
         if (msgs.length > 0) {
+          let chatText = 'Bridge Inspection Chat - Mode B\n' + '='.repeat(50) + '\n\n';
+          msgs.forEach(function(msg) {
+            const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
+            const bubble = msg.querySelector('.msg-bubble');
+            if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+          });
           sessionStorage.setItem('modeB_chat', chatText);
           const tokenEl = document.getElementById('b-tokenInfo');
-          const tokensText = tokenEl?.textContent || '';
-          const tokensMatch = tokensText.match(/\d+/);
+          const tokensMatch = (tokenEl ? tokenEl.textContent : '').match(/\d+/);
           sessionStorage.setItem('modeB_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
           console.log('[switchSession C] modeB_chat saved, length:', chatText.length);
         }
       }
     }
 
-    // FIX: When switching to Final — use correct sessionStorage keys and build modeA_answer properly
     if (mode === 'final') {
-      // Capture latest Mode C chat from DOM (in case user added more messages after initial save)
       const containerC = document.getElementById('messages-c');
       if (containerC) {
         const msgs = containerC.querySelectorAll('.msg');
-        if (msgs.length > 1) { // more than just the initial bot message
-          let chatText = 'Bridge Inspection Chat — Mode C
-' + '='.repeat(50) + '
-
-';
-          msgs.forEach(msg => {
+        if (msgs.length > 1) {
+          let chatText = 'Bridge Inspection Chat - Mode C\n' + '='.repeat(50) + '\n\n';
+          msgs.forEach(function(msg) {
             const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
             const bubble = msg.querySelector('.msg-bubble');
-            if (bubble) chatText += role + ':
-' + bubble.innerText + '
-
-';
+            if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
           });
           sessionStorage.setItem('modeC_chat', chatText);
           const tokenEl = document.getElementById('c-tokenInfo');
-          const tokensText = tokenEl?.textContent || '';
-          const tokensMatch = tokensText.match(/\d+/);
+          const tokensMatch = (tokenEl ? tokenEl.textContent : '').match(/\d+/);
           sessionStorage.setItem('modeC_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
         }
       }
-
-      // FIX: Read sva_answers (correct key set by submitSurvey)
       const svaData = JSON.parse(sessionStorage.getItem('sva_answers') || '{}');
       const modeA_answer = [svaData.q1, svaData.q2, svaData.q3].filter(Boolean).join(' | ') || '';
-
-      console.log('[switchSession final] svaData:', svaData);
-      console.log('[switchSession final] modeA_answer:', modeA_answer.substring(0, 80));
+      console.log('[switchSession final] svaData:', svaData, 'modeA_answer:', modeA_answer.substring(0,80));
       console.log('[switchSession final] modeB_chat length:', (sessionStorage.getItem('modeB_chat') || '').length);
       console.log('[switchSession final] modeC_chat length:', (sessionStorage.getItem('modeC_chat') || '').length);
-
-      // Submit merged Submissions data to Submissions sheet
       const payload = {
-        action: 'submit',
-        mode: 'MERGED',
+        action: 'submit', mode: 'MERGED',
         modeA_answer: modeA_answer,
         modeB_chat: sessionStorage.getItem('modeB_chat') || '',
         modeB_tokensUsed: sessionStorage.getItem('modeB_tokensUsed') || '0',
@@ -949,143 +818,32 @@ AI Assistant:
         modeC_tokensUsed: sessionStorage.getItem('modeC_tokensUsed') || '0',
         submittedAt: new Date().toISOString()
       };
-
-      fetch(WEBHOOK, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(r => console.log('[switchSession final] MERGED submit status:', r.status))
-        .catch(err => console.error('[switchSession final] MERGED submit failed:', err));
-
-      // FIX: Clear using correct keys
-      ['sva_answers', 'svb_answers', 'modeB_chat', 'modeB_tokensUsed', 'modeC_chat', 'modeC_tokensUsed']
-        .forEach(k => sessionStorage.removeItem(k));
+      fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function(r) { console.log('[switchSession final] MERGED status:', r.status); })
+        .catch(function(err) { console.error('[switchSession final] MERGED failed:', err); });
+      ['sva_answers','svb_answers','modeB_chat','modeB_tokensUsed','modeC_chat','modeC_tokensUsed'].forEach(function(k) { sessionStorage.removeItem(k); });
     }
 
-    // Switch UI
-    ['A','B','C','final'].forEach(m => {
+    ['A','B','C','final'].forEach(function(m) {
       const el = document.getElementById('session-' + m);
       if (el) el.style.display = 'none';
       const tab = document.getElementById('tab-' + m);
-      if (tab) {
-        tab.classList.remove('active');
-        tab.style.background = '';
-        tab.style.color = '';
-        tab.style.borderColor = '';
-        tab.style.opacity = '';
-        tab.style.pointerEvents = '';
-      }
+      if (tab) { tab.classList.remove('active'); tab.style.cssText = ''; }
     });
-
     const target = document.getElementById('session-' + mode);
     if (target) target.style.display = 'block';
-
     const activeTab = document.getElementById('tab-' + mode);
-    if (activeTab) {
-      activeTab.classList.remove('locked');
-      activeTab.classList.add('active');
-      activeTab.style.background = '';
-      activeTab.style.color = '';
-      activeTab.style.borderColor = '';
-      activeTab.style.opacity = '1';
-      activeTab.style.pointerEvents = 'auto';
-    }
-
+    if (activeTab) { activeTab.classList.remove('locked'); activeTab.classList.add('active'); activeTab.style.opacity = '1'; activeTab.style.pointerEvents = 'auto'; }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function initLocks() {
-    ['B','C','final'].forEach(mode => {
+    ['B','C','final'].forEach(function(mode) {
       const tab = document.getElementById('tab-' + mode);
       if (tab) tab.classList.add('locked');
     });
   }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    initLocks();
-  });
-
-  async function submitMode(mode) {
-    const m = mode.toLowerCase();
-    const studentId = document.getElementById(m + '-studentId').value.trim();
-    const answer = document.getElementById(m + '-answer').value.trim();
-    const courseLevel = document.getElementById(m + '-courseLevel').value;
-    const errorBox = document.getElementById(m + '-error');
-
-    if (!studentId || !answer) {
-      errorBox.classList.add('show');
-      return;
-    }
-    errorBox.classList.remove('show');
-
-    const btn = document.getElementById(m + '-submitBtn');
-    const spinner = document.getElementById(m + '-spinner');
-    const submitText = document.getElementById(m + '-submitText');
-    btn.disabled = true;
-    spinner.style.display = 'block';
-    submitText.textContent = 'Submitting...';
-
-    try {
-      if (mode === 'A') {
-        sessionStorage.setItem('modeA_answer', answer);
-        completedModes[mode] = true;
-        const tab = document.getElementById('tab-' + mode);
-        if (tab) tab.classList.add('done');
-        const resultsEl = document.getElementById(m + '-results');
-        if (resultsEl) {
-          resultsEl.style.display = 'block';
-          document.getElementById(m + '-aiText').textContent = 'Assessment recorded. No AI assistance in this mode.';
-        }
-        setTimeout(() => {
-          resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
-        return;
-      }
-
-      const res = await fetch(WEBHOOK, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'submit',
-          studentId, mode,
-          scenarioId: SCENARIO_ID,
-          bridgeType: BRIDGE_TYPE,
-          anomalyDescription: ANOMALY,
-          studentAnswer: answer,
-          courseLevel
-        })
-      });
-
-      const data = await res.json();
-      completedModes[mode] = true;
-
-      const tab = document.getElementById('tab-' + mode);
-      if (tab) tab.classList.add('done');
-
-      const resultsEl = document.getElementById(m + '-results');
-      if (resultsEl) {
-        resultsEl.style.display = 'block';
-        document.getElementById(m + '-aiText').textContent =
-          data.aiResponse || 'Assessment recorded. No AI assistance in this mode.';
-        const tokenEl = document.getElementById(m + '-tokenInfo');
-        if (tokenEl && data.tokensUsed > 0)
-          tokenEl.textContent = 'Tokens used: ' + data.tokensUsed;
-      }
-
-      setTimeout(() => {
-        resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 300);
-
-    } catch (err) {
-      errorBox.textContent = '⚠️ Connection error: ' + err.message + '. Please try again.';
-      errorBox.classList.add('show');
-    } finally {
-      btn.disabled = false;
-      spinner.style.display = 'none';
-      submitText.textContent = 'Submit Mode ' + mode + ' Assessment';
-    }
-  }
+  document.addEventListener('DOMContentLoaded', function() { initLocks(); });
 
 </script>
 
