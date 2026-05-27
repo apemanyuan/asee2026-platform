@@ -1344,49 +1344,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
   function goToModeB() { markSessionDone('A'); switchSession('B'); }
   function goToModeC() { markSessionDone('B'); switchSession('C'); }
-  function goToFinal() {
-    // Collect Mode C full chat
-    const containerC = document.getElementById('messages-c');
-    if (containerC) {
-      const msgs = containerC.querySelectorAll('.msg');
-      let chatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\n';
-      msgs.forEach(msg => {
-        const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
-        const bubble = msg.querySelector('.msg-bubble');
-        if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
-      });
-      sessionStorage.setItem('modeC_chat', chatText);
-      // Store Mode C tokensUsed
-      const tokenEl = document.getElementById('c-tokenInfo');
-      const tokensText = tokenEl?.textContent || '';
-      const tokensMatch = tokensText.match(/\d+/);
-      sessionStorage.setItem('modeC_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
-    }
-
-    // Submit all merged data to n8n
-    const payload = {
-      action: 'submit',
-      mode: 'MERGED',
-      modeA_answer: sessionStorage.getItem('modeA_answer') || '',
-      modeB_chat: sessionStorage.getItem('modeB_chat') || '',
-      modeB_tokensUsed: sessionStorage.getItem('modeB_tokensUsed') || '0',
-      modeC_chat: sessionStorage.getItem('modeC_chat') || '',
-      modeC_tokensUsed: sessionStorage.getItem('modeC_tokensUsed') || '0',
-      submittedAt: new Date().toISOString()
-    };
-
-    fetch(WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).catch(err => console.log('Merged submission failed:', err));
-
-    // Clear sessionStorage
-    ['modeA_answer','modeB_chat','modeB_tokensUsed','modeC_chat','modeC_tokensUsed'].forEach(k => sessionStorage.removeItem(k));
-
-    markSessionDone('C');
-    switchSession('final');
-  }
+  function goToFinal() { markSessionDone('C'); switchSession('final'); }
 
   // Track completed modes
   const completedSessions = { A: false, B: false, C: false };
@@ -1429,9 +1387,8 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       return;
     }
 
-    // When switching to Mode C, auto-submit Mode B chat history
+    // When switching to Mode C, save Mode B chat to sessionStorage
     if (mode === 'C') {
-      const studentId = document.getElementById('a-studentId')?.value || 'student';
       const container = document.getElementById('messages-b');
       if (container) {
         const msgs = container.querySelectorAll('.msg');
@@ -1443,13 +1400,51 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         });
         if (msgs.length > 0) {
           sessionStorage.setItem('modeB_chat', chatText);
-          // Store tokensUsed from the token info element
           const tokenEl = document.getElementById('b-tokenInfo');
           const tokensText = tokenEl?.textContent || '';
           const tokensMatch = tokensText.match(/\d+/);
           sessionStorage.setItem('modeB_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
         }
       }
+    }
+
+    // When switching to Final, collect Mode C data and submit everything
+    if (mode === 'final') {
+      const containerC = document.getElementById('messages-c');
+      if (containerC) {
+        const msgs = containerC.querySelectorAll('.msg');
+        let chatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\n';
+        msgs.forEach(msg => {
+          const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
+          const bubble = msg.querySelector('.msg-bubble');
+          if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+        });
+        sessionStorage.setItem('modeC_chat', chatText);
+        const tokenEl = document.getElementById('c-tokenInfo');
+        const tokensText = tokenEl?.textContent || '';
+        const tokensMatch = tokensText.match(/\d+/);
+        sessionStorage.setItem('modeC_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
+      }
+
+      // Submit merged Submissions data
+      const payload = {
+        action: 'submit',
+        mode: 'MERGED',
+        modeA_answer: sessionStorage.getItem('modeA_answer') || '',
+        modeB_chat: sessionStorage.getItem('modeB_chat') || '',
+        modeB_tokensUsed: sessionStorage.getItem('modeB_tokensUsed') || '0',
+        modeC_chat: sessionStorage.getItem('modeC_chat') || '',
+        modeC_tokensUsed: sessionStorage.getItem('modeC_tokensUsed') || '0',
+        submittedAt: new Date().toISOString()
+      };
+
+      fetch(WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(err => console.log('Merged submission failed:', err));
+
+      ['modeA_answer','modeB_chat','modeB_tokensUsed','modeC_chat','modeC_tokensUsed'].forEach(k => sessionStorage.removeItem(k));
     }
 
     // Remove active + inline styles from all tabs
