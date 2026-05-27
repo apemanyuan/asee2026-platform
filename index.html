@@ -24,8 +24,6 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Outfit', sans-serif; background: var(--blue-pale2); color: var(--text); min-height: 100vh; }
-
-  /* HEADER */
   header { background: var(--navy); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.25); }
   .header-inner { max-width: 1100px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
   .header-brand { display: flex; align-items: center; gap: 14px; }
@@ -33,8 +31,6 @@
   .header-title { font-family: 'Source Serif 4', serif; font-size: 17px; font-weight: 600; }
   .header-subtitle { font-size: 11px; opacity: 0.6; font-weight: 300; letter-spacing: 0.4px; text-transform: uppercase; margin-top: 2px; }
   .header-badge { background: rgba(200,168,75,0.2); border: 1px solid rgba(200,168,75,0.4); color: var(--accent); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; }
-
-  /* PROGRESS */
   .progress-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 32px 0; }
   .progress-bar { display: flex; background: white; border-radius: 50px; padding: 5px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 24px; }
   .prog-step { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 12px; border-radius: 40px; font-size: 12px; font-weight: 500; color: var(--text-secondary); transition: all 0.3s; }
@@ -45,11 +41,7 @@
   .prog-step.done .prog-num { background: var(--success); border-color: var(--success); color: white; }
   .prog-label { display: none; }
   @media(min-width:560px){ .prog-label { display: inline; } }
-
-  /* MAIN */
   main { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
-
-  /* SESSION TABS */
   .session-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
   .session-tab { padding: 8px 18px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
   .session-tab:hover { border-color: var(--blue-light); color: var(--blue); }
@@ -58,8 +50,6 @@
   .session-tab .tab-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.6; }
   .session-tab.done { border-color: var(--success); color: var(--success); }
   .session-tab.done .tab-dot { background: var(--success); opacity: 1; }
-
-  /* CARD */
   .card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; animation: fadeUp 0.35s ease both; }
   @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
   .card-header { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 11px; }
@@ -67,81 +57,34 @@
   .card-header h2 { font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; color: var(--navy); }
   .card-header p { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
   .card-body { padding: 22px; }
-
-
-  /* VIDEO BUTTON */
   .video-btn-wrap { display: flex; flex-direction: column; gap: 12px; }
-  .video-thumb-placeholder {
-    background: linear-gradient(135deg, #0d2b4e 0%, #1a3a6e 100%);
-    border-radius: 10px;
-    padding: 32px 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    min-height: 120px;
-  }
-  .vthumb-icon {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    border: 2px solid rgba(255,255,255,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    color: white;
-    flex-shrink: 0;
-  }
+  .video-thumb-placeholder { background: linear-gradient(135deg, #0d2b4e 0%, #1a3a6e 100%); border-radius: 10px; padding: 32px 24px; display: flex; align-items: center; gap: 20px; min-height: 120px; }
+  .vthumb-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; flex-shrink: 0; }
   .vthumb-info { flex: 1; }
   .vthumb-title { font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 600; color: white; margin-bottom: 5px; }
   .vthumb-desc { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; }
-  .yt-open-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: #ff0000;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    padding: 12px 22px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.2s;
-    width: fit-content;
-  }
+  .yt-open-btn { display: inline-flex; align-items: center; gap: 10px; background: #ff0000; color: white; text-decoration: none; border-radius: 8px; padding: 12px 22px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; transition: all 0.2s; width: fit-content; }
   .yt-open-btn:hover { background: #cc0000; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,0,0,0.3); }
-
-
-  /* PDF */
   .pdf-wrap { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); height: 500px; }
   .pdf-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
-
-  /* SURVEY LINK */
   .survey-link-box { background: var(--blue-pale2); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .survey-link-box .info h3 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
   .survey-link-box .info p { font-size: 12px; color: var(--text-secondary); }
   .survey-btn { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s; white-space: nowrap; }
   .survey-btn:hover { background: var(--navy); transform: translateY(-1px); }
-
-  /* CHATGPT LINK */
   .chatgpt-box { background: #f0faf5; border: 1px solid #a8d8bc; border-left: 4px solid #1a7a4a; border-radius: 8px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .chatgpt-box .info h3 { font-size: 14px; font-weight: 600; color: #0f4d2a; margin-bottom: 3px; }
   .chatgpt-box .info p { font-size: 12px; color: #2d6b47; }
   .chatgpt-btn { background: #1a7a4a; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s; white-space: nowrap; }
   .chatgpt-btn:hover { background: #0f4d2a; transform: translateY(-1px); }
-
-  /* ANOMALY BOX */
   .anomaly-box { background: #fff8e8; border: 1px solid #e8d49a; border-left: 4px solid var(--accent); border-radius: 8px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; }
   .anomaly-box h4 { font-size: 13px; font-weight: 600; color: #7a5a00; margin-bottom: 3px; }
   .anomaly-box p { font-size: 13px; color: var(--text); line-height: 1.5; }
-
-  /* INFO GRID */
   .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
   @media(max-width:600px){ .info-grid { grid-template-columns: 1fr; } }
   .info-tile { background: var(--blue-pale2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
   .info-tile h3 { font-size: 12px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
   .info-tile p { font-size: 13px; color: var(--text); line-height: 1.55; }
-
-  /* FORM */
   .mode-badge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
   .mode-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: white; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; }
   .form-group { margin-bottom: 18px; }
@@ -152,8 +95,6 @@
   .form-group textarea { min-height: 110px; resize: vertical; line-height: 1.6; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media(max-width:580px){ .form-row { grid-template-columns: 1fr; } }
-
-  /* BUTTONS */
   .primary-btn { background: var(--navy); color: white; border: none; border-radius: 10px; padding: 13px 22px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 9px; }
   .primary-btn:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 18px rgba(13,43,78,0.22); }
   .primary-btn:disabled { background: #a0b0c4; cursor: not-allowed; transform: none; box-shadow: none; }
@@ -163,56 +104,37 @@
   .success-btn { background: var(--success); color: white; border: none; border-radius: 10px; padding: 13px 22px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 9px; width: 100%; justify-content: center; }
   .success-btn:hover { background: #156040; transform: translateY(-1px); }
   .btn-row { display: flex; gap: 12px; margin-top: 6px; }
-
   .spinner { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* AI RESPONSE */
   .ai-box { background: var(--blue-pale2); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 8px; padding: 18px 20px; margin-bottom: 18px; }
   .ai-box-header { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
   .ai-badge { background: var(--blue); color: white; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
   .mode-tag { font-size: 11px; color: var(--text-secondary); background: var(--border); padding: 3px 10px; border-radius: 20px; }
   .ai-text { font-size: 14px; line-height: 1.75; color: var(--text); white-space: pre-wrap; }
   .token-info { font-size: 11px; color: var(--text-secondary); font-family: 'DM Mono', monospace; text-align: right; margin-top: 8px; }
-
-  /* REFLECTION */
   .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media(max-width:600px){ .reflection-grid { grid-template-columns: 1fr; } }
   .refl-item { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
   .refl-q { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.4; }
   .refl-item textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 6px; padding: 8px 10px; font-family: 'Outfit', sans-serif; font-size: 13px; resize: none; height: 80px; outline: none; transition: border-color 0.2s; }
   .refl-item textarea:focus { border-color: var(--blue); }
-
-  /* FINAL SURVEY */
   .final-survey-box { background: linear-gradient(135deg, #0d2b4e 0%, #1a5fa8 100%); border-radius: 12px; padding: 28px; text-align: center; color: white; margin-top: 8px; }
   .final-survey-box h3 { font-family: 'Source Serif 4', serif; font-size: 20px; margin-bottom: 8px; }
   .final-survey-box p { font-size: 13px; opacity: 0.8; margin-bottom: 20px; line-height: 1.6; }
   .final-survey-link { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: var(--navy); font-weight: 700; font-size: 14px; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: all 0.2s; }
   .final-survey-link:hover { background: #e0be60; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-
-  /* SUCCESS BANNER */
   .success-banner { background: var(--success-bg); border: 1px solid #a3d4b8; border-radius: 10px; padding: 18px 22px; display: none; align-items: center; gap: 14px; margin-top: 16px; }
   .success-banner.show { display: flex; }
-
-  /* ERROR */
   .error-box { background: #fff0f0; border: 1px solid #f5c0c0; border-left: 4px solid #d9534f; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #8b0000; margin-top: 14px; display: none; }
   .error-box.show { display: block; }
-
-  /* STEP INDICATOR inside session */
   .step-indicator { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
   .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
   .step-dot.active { background: var(--blue); }
   .step-dot.done { background: var(--success); }
-
   .divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; color: var(--text-secondary); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; }
   .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
   .pill { background: var(--blue-pale); border: 1px solid var(--border); border-radius: 20px; padding: 3px 11px; font-size: 11px; color: var(--blue); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
   .pills { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
-
-
-
-  /* CHATBOT */
   .chatbot-wrap { display: flex; flex-direction: column; height: 480px; border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: white; }
   .chatbot-header { background: var(--navy); color: white; padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
   .chatbot-header .bot-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 16px; }
@@ -249,20 +171,14 @@
   .mode-c-trigger { background: var(--navy); color: white; border: none; border-radius: 8px; padding: 11px 20px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .mode-c-trigger:hover { background: var(--blue); }
   .mode-c-trigger:disabled { background: var(--border); cursor: not-allowed; }
-
-
-  /* LOCK STATE */
   .session-tab.locked:not(.active) { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
   .session-tab.locked .tab-dot { background: #aaa; }
   .lock-notice { display: flex; align-items: center; gap: 10px; background: #fff8e8; border: 1px solid #e8d49a; border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #7a5a00; margin-bottom: 16px; }
   .lock-notice .lock-icon { font-size: 18px; flex-shrink: 0; }
-
   .radio-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
   .radio-group label { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 6px; transition: all 0.2s; }
   .radio-group label:hover { border-color: var(--blue); color: var(--blue); }
   .radio-group input[type="radio"] { accent-color: var(--navy); }
-
-  /* SURVEY EMBEDDED */
   .survey-section { margin-top: 20px; }
   .survey-title { font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
   .survey-subtitle { font-size: 12px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
@@ -291,12 +207,10 @@
   .survey-submit-btn:disabled { background: #a0b0c4; cursor: not-allowed; transform: none; }
   .survey-success { background: var(--success-bg); border: 1px solid #a3d4b8; border-radius: 10px; padding: 18px 22px; display: none; align-items: center; gap: 14px; margin-top: 16px; }
   .survey-success.show { display: flex; }
-
   footer { text-align: center; padding: 18px; font-size: 11px; color: var(--text-secondary); border-top: 1px solid var(--border); margin-top: 40px; }
 </style>
 </head>
 <body>
-
 <header>
   <div class="header-inner">
     <div class="header-brand">
@@ -311,7 +225,6 @@
 </header>
 
 <div class="progress-wrap">
-  <!-- SESSION TABS -->
   <div class="session-tabs">
     <div class="session-tab active" id="tab-a" onclick="switchSession('A')">
       <span class="tab-dot"></span> Mode A — Human Only
@@ -330,37 +243,24 @@
 
 <main>
 
-<!-- ═══════════════════ MODE A ═══════════════════ -->
+<!-- MODE A -->
 <div id="session-A">
-
   <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">👤</div>
-      <div><h2>Mode A — Human Only</h2><p>Complete all steps below before moving to Mode B</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">👤</div><div><h2>Mode A — Human Only</h2><p>Complete all steps below before moving to Mode B</p></div></div>
     <div class="card-body">
       <div class="step-indicator">
-        <span class="step-dot active" id="a-dot-1"></span>
-        <span>Step 1: Watch Video</span>
+        <span class="step-dot active" id="a-dot-1"></span><span>Step 1: Watch Video</span>
         <span style="margin:0 4px">→</span>
-        <span class="step-dot" id="a-dot-2"></span>
-        <span>Step 2: Review Report</span>
+        <span class="step-dot" id="a-dot-2"></span><span>Step 2: Review Report</span>
         <span style="margin:0 4px">→</span>
-        <span class="step-dot" id="a-dot-3"></span>
-        <span>Step 3: Survey</span>
-
+        <span class="step-dot" id="a-dot-3"></span><span>Step 3: Survey</span>
       </div>
     </div>
   </div>
-
-  <!-- A: VIDEO -->
   <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">🎬</div>
-      <div><h2>Step 1 — Bridge Inspection Background Video</h2><p>Watch this video to understand standard bridge inspection procedures</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">🎬</div><div><h2>Step 1 — Bridge Inspection Background Video</h2><p>Watch this video to understand standard bridge inspection procedures</p></div></div>
     <div class="card-body">
-<div class="video-btn-wrap">
+      <div class="video-btn-wrap">
         <div class="video-thumb-placeholder">
           <div class="vthumb-icon">▶</div>
           <div class="vthumb-info">
@@ -375,56 +275,30 @@
       </div>
     </div>
   </div>
-
-  <!-- A: SCENARIO + PDF -->
   <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">📄</div>
-      <div><h2>Step 2 — Bridge Inspection Report</h2><p>Review the inspection report carefully before submitting your assessment</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">📄</div><div><h2>Step 2 — Bridge Inspection Report</h2><p>Review the inspection report carefully before submitting your assessment</p></div></div>
     <div class="card-body">
-
-
-      <div class="pdf-wrap">
-        <iframe src="https://drive.google.com/file/d/1teGKjdS8ahCyuHET5-rEN4ssDmDTWNcv/preview" title="Bridge 9 Inspection Report" allow="autoplay"></iframe>
-      </div>
-
+      <div class="pdf-wrap"><iframe src="https://drive.google.com/file/d/1teGKjdS8ahCyuHET5-rEN4ssDmDTWNcv/preview" title="Bridge 9 Inspection Report" allow="autoplay"></iframe></div>
     </div>
   </div>
-
-
-  <!-- SURVEY: sva -->
   <div class="card" id="survey-sva-card">
-    <div class="card-header">
-      <div class="card-hicon">📊</div>
-      <div><h2>Pre-Survey Questionnaire — Mode A</h2><p>Answer these questions based on the Bridge 9 inspection report you reviewed</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">📊</div><div><h2>Pre-Survey Questionnaire — Mode A</h2><p>Answer these questions based on the Bridge 9 inspection report you reviewed</p></div></div>
     <div class="card-body">
       <div class="survey-section">
         <div class="consent-box">
-        <strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>
-        Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>
-        This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>
-        By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.
-      </div>
-      <label class="consent-check" id="sva-consent-label">
-        <input type="checkbox" id="sva-consent" onchange="checkConsent('sva')">
-        <span>I have read the research information above and voluntarily agree to participate in this study.</span>
-      </label>
+          <strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>
+          Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>
+          This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>
+          By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.
+        </div>
+        <label class="consent-check" id="sva-consent-label">
+          <input type="checkbox" id="sva-consent" onchange="checkConsent('sva')">
+          <span>I have read the research information above and voluntarily agree to participate in this study.</span>
+        </label>
         <div id="sva-form" style="display:none">
-          
-      <div class="q-block">
-        <div class="q-label"><span>Q1.</span>Where is Bridge 09 located?</div>
-        <div class="q-open"><textarea id="sva-q1" placeholder="Your answer..."></textarea></div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q2.</span>Based on the load rating summary, what key details are included for Bridge 09?</div>
-        <div class="q-open"><textarea id="sva-q2" placeholder="Your answer..."></textarea></div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q3.</span>Summarize the information provided in the load rating report for Bridge 09.</div>
-        <div class="q-open"><textarea id="sva-q3" placeholder="Your answer..."></textarea></div>
-      </div>
+          <div class="q-block"><div class="q-label"><span>Q1.</span>Where is Bridge 09 located?</div><div class="q-open"><textarea id="sva-q1" placeholder="Your answer..."></textarea></div></div>
+          <div class="q-block"><div class="q-label"><span>Q2.</span>Based on the load rating summary, what key details are included for Bridge 09?</div><div class="q-open"><textarea id="sva-q2" placeholder="Your answer..."></textarea></div></div>
+          <div class="q-block"><div class="q-label"><span>Q3.</span>Summarize the information provided in the load rating report for Bridge 09.</div><div class="q-open"><textarea id="sva-q3" placeholder="Your answer..."></textarea></div></div>
           <div class="error-box" id="sva-error">⚠️ Please answer all questions before submitting.</div>
           <button class="survey-submit-btn" id="sva-btn" onclick="submitSurvey('sva', 3, 'open')">
             <div class="spinner" id="sva-spinner"></div>
@@ -439,165 +313,63 @@
       </div>
     </div>
   </div>
-
-  <!-- A: RESULTS -->
   <div class="card" id="a-results" style="display:none">
-    <div class="card-header">
-      <div class="card-hicon">✅</div>
-      <div><h2>Mode A — Submitted</h2><p>Your human-only assessment has been recorded</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">✅</div><div><h2>Mode A — Submitted</h2><p>Your human-only assessment has been recorded</p></div></div>
     <div class="card-body">
-      <div class="ai-box">
-        <div class="ai-box-header">
-          <span class="ai-badge">Response</span>
-          <span class="mode-tag">Mode A – Human Only</span>
-        </div>
-        <div class="ai-text" id="a-aiText"></div>
-      </div>
-      <button class="primary-btn full" onclick="goToModeB()" style="margin-top:4px">
-        Continue to Mode B →
-      </button>
+      <div class="ai-box"><div class="ai-box-header"><span class="ai-badge">Response</span><span class="mode-tag">Mode A – Human Only</span></div><div class="ai-text" id="a-aiText"></div></div>
+      <button class="primary-btn full" onclick="goToModeB()" style="margin-top:4px">Continue to Mode B →</button>
     </div>
   </div>
+</div>
 
-</div><!-- end session-A -->
-
-
-<!-- ═══════════════════ MODE B ═══════════════════ -->
+<!-- MODE B -->
 <div id="session-B" style="display:none">
-  <!-- LOCK NOTICE B -->
-  <div class="lock-notice" id="lock-notice-b" style="display:none">
-    <span class="lock-icon">🔒</span>
-    <span>Please complete <strong>Mode A</strong> first before accessing Mode B.</span>
+  <div class="lock-notice" id="lock-notice-b" style="display:none"><span class="lock-icon">🔒</span><span>Please complete <strong>Mode A</strong> first before accessing Mode B.</span></div>
+  <div class="card"><div class="card-header"><div class="card-hicon">🤝</div><div><h2>Mode B — Human-Led, AI-Assisted</h2><p>Complete all steps below before moving to Mode C</p></div></div>
+    <div class="card-body"><div class="step-indicator"><span class="step-dot active"></span><span>Step 1: Watch Video</span><span style="margin:0 4px">→</span><span class="step-dot"></span><span>Step 2: Use ChatGPT</span><span style="margin:0 4px">→</span><span class="step-dot"></span><span>Step 3: Survey</span></div></div>
   </div>
-
   <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">🤝</div>
-      <div><h2>Mode B — Human-Led, AI-Assisted</h2><p>Complete all steps below before moving to Mode C</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">🎬</div><div><h2>Step 1 — Human-Led AI-Assisted Inspection Video</h2><p>Watch how human inspectors collaborate with AI tools</p></div></div>
     <div class="card-body">
-      <div class="step-indicator">
-        <span class="step-dot active"></span><span>Step 1: Watch Video</span>
-        <span style="margin:0 4px">→</span>
-        <span class="step-dot"></span><span>Step 2: Use ChatGPT</span>
-        <span style="margin:0 4px">→</span>
-        <span class="step-dot"></span><span>Step 3: Survey</span>
-
+      <div class="video-btn-wrap">
+        <div class="video-thumb-placeholder"><div class="vthumb-icon">▶</div><div class="vthumb-info"><div class="vthumb-title">Human-Led AI-Assisted Inspection</div><div class="vthumb-desc">How human inspectors collaborate with AI tools while retaining decision authority — Mode B methodology</div></div></div>
+        <a href="https://youtu.be/gdFzBheoYxQ" target="_blank" class="yt-open-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>Watch on YouTube</a>
       </div>
     </div>
   </div>
-
-  <!-- B: VIDEO -->
   <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">🎬</div>
-      <div><h2>Step 1 — Human-Led AI-Assisted Inspection Video</h2><p>Watch how human inspectors collaborate with AI tools</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">🤖</div><div><h2>Step 2 — AI Inspection Assistant — Mode B</h2><p>Ask the AI for suggestions, then make your own inspection decision</p></div></div>
     <div class="card-body">
-<div class="video-btn-wrap">
-        <div class="video-thumb-placeholder">
-          <div class="vthumb-icon">▶</div>
-          <div class="vthumb-info">
-            <div class="vthumb-title">Human-Led AI-Assisted Inspection</div>
-            <div class="vthumb-desc">How human inspectors collaborate with AI tools while retaining decision authority — Mode B methodology</div>
-          </div>
-        </div>
-        <a href="https://youtu.be/gdFzBheoYxQ" target="_blank" class="yt-open-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-          Watch on YouTube
-        </a>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- CHATBOT: Mode B -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">🤖</div>
-      <div><h2>Step 2 — AI Inspection Assistant — Mode B</h2><p>Ask the AI for suggestions, then make your own inspection decision</p></div>
-    </div>
-    <div class="card-body">
-
-      <!-- Mode B Guidance Box -->
       <div style="background:#f0fff4;border:1.5px solid #b7eac7;border-left:4px solid var(--success);border-radius:8px;padding:16px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:var(--text);">
         <div style="font-weight:700;font-size:14px;color:#1a7a3c;margin-bottom:8px;">🤝 In Mode B, you lead — the AI assists.</div>
         <div style="margin-bottom:8px;">You are the inspector in charge. Use the AI as a collaborative tool to support your thinking:</div>
-        <ul style="margin:0 0 8px 18px;padding:0;">
-          <li><strong>Ask questions</strong> about the Bridge 9 inspection report</li>
-          <li><strong>Request suggestions</strong> on specific findings or anomalies</li>
-          <li><strong>Discuss your approach</strong> and get feedback</li>
-          <li><strong>Make the final call</strong> — the AI supports, not decides</li>
-        </ul>
+        <ul style="margin:0 0 8px 18px;padding:0;"><li><strong>Ask questions</strong> about the Bridge 9 inspection report</li><li><strong>Request suggestions</strong> on specific findings or anomalies</li><li><strong>Discuss your approach</strong> and get feedback</li><li><strong>Make the final call</strong> — the AI supports, not decides</li></ul>
         <div style="color:#555;">This is different from Mode C, where the AI takes the lead. Here, <em>you</em> drive the conversation.</div>
       </div>
       <div class="chatbot-wrap" id="chatbot-b">
-        <div class="chatbot-header">
-          <div class="bot-avatar">🌉</div>
-          <div class="bot-info">
-            <div class="bot-name">AI Inspection Assistant — Mode B</div>
-            <div class="bot-status">Online</div>
-          </div>
-          <button class="copy-btn" onclick="copyChat('b')">📋 Copy Chat</button>
-        </div>
+        <div class="chatbot-header"><div class="bot-avatar">🌉</div><div class="bot-info"><div class="bot-name">AI Inspection Assistant — Mode B</div><div class="bot-status">Online</div></div><button class="copy-btn" onclick="copyChat('b')">📋 Copy Chat</button></div>
         <div class="chatbot-messages" id="messages-b">
-          <div class="msg bot">
-            <div class="msg-avatar">🤖</div>
-            <div>
-              <div class="msg-bubble">Hello! I'm your AI inspection assistant for Mode B. I'm here to support your decision-making — you remain in charge.
+          <div class="msg bot"><div class="msg-avatar">🤖</div><div><div class="msg-bubble">Hello! I'm your AI inspection assistant for Mode B. I'm here to support your decision-making — you remain in charge.
 
-Feel free to ask me about the Bridge 9 inspection report, request suggestions on the corrosion findings, or discuss your inspection approach. What would you like to explore?</div>
-            </div>
-          </div>
+Feel free to ask me about the Bridge 9 inspection report, request suggestions on the corrosion findings, or discuss your inspection approach. What would you like to explore?</div></div></div>
         </div>
-        <div class="chatbot-input-wrap">
-          <textarea class="chatbot-input" id="input-b" placeholder="Ask about the bridge inspection, request suggestions, or discuss your findings..." onkeydown="handleKey(event, 'b')"></textarea>
-          <button class="chatbot-send" id="send-b" onclick="sendMessage('b')">➤</button>
-        </div>
+        <div class="chatbot-input-wrap"><textarea class="chatbot-input" id="input-b" placeholder="Ask about the bridge inspection, request suggestions, or discuss your findings..." onkeydown="handleKey(event, 'b')"></textarea><button class="chatbot-send" id="send-b" onclick="sendMessage('b')">➤</button></div>
       </div>
       <div class="chat-hint">💡 After your conversation, click "Copy Chat" and paste the results into the survey questions below.</div>
     </div>
   </div>
-
-
-  <!-- SURVEY: svb -->
   <div class="card" id="survey-svb-card">
-    <div class="card-header">
-      <div class="card-hicon">📊</div>
-      <div><h2>Pre-Survey Questionnaire — Mode B</h2><p>Answer these questions based on the Bridge 9 inspection report and your AI-assisted review</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">📊</div><div><h2>Pre-Survey Questionnaire — Mode B</h2><p>Answer these questions based on the Bridge 9 inspection report and your AI-assisted review</p></div></div>
     <div class="card-body">
       <div class="survey-section">
-        <div class="consent-box">
-        <strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>
-        Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>
-        This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>
-        By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.
-      </div>
-      <label class="consent-check" id="svb-consent-label">
-        <input type="checkbox" id="svb-consent" onchange="checkConsent('svb')">
-        <span>I have read the research information above and voluntarily agree to participate in this study.</span>
-      </label>
+        <div class="consent-box"><strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.</div>
+        <label class="consent-check" id="svb-consent-label"><input type="checkbox" id="svb-consent" onchange="checkConsent('svb')"><span>I have read the research information above and voluntarily agree to participate in this study.</span></label>
         <div id="svb-form" style="display:none">
-          
-      <div class="q-block">
-        <div class="q-label"><span>Q1.</span>Where is Bridge 09 located?</div>
-        <div class="q-open"><textarea id="svb-q1" placeholder="Your answer..."></textarea></div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q2.</span>What key details are included for Bridge 09?</div>
-        <div class="q-open"><textarea id="svb-q2" placeholder="Your answer..."></textarea></div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q3.</span>Summarize the information provided in the load rating report for Bridge 09.</div>
-        <div class="q-open"><textarea id="svb-q3" placeholder="Your answer..."></textarea></div>
-      </div>
+          <div class="q-block"><div class="q-label"><span>Q1.</span>Where is Bridge 09 located?</div><div class="q-open"><textarea id="svb-q1" placeholder="Your answer..."></textarea></div></div>
+          <div class="q-block"><div class="q-label"><span>Q2.</span>What key details are included for Bridge 09?</div><div class="q-open"><textarea id="svb-q2" placeholder="Your answer..."></textarea></div></div>
+          <div class="q-block"><div class="q-label"><span>Q3.</span>Summarize the information provided in the load rating report for Bridge 09.</div><div class="q-open"><textarea id="svb-q3" placeholder="Your answer..."></textarea></div></div>
           <div class="error-box" id="svb-error">⚠️ Please answer all questions before submitting.</div>
-          <button class="survey-submit-btn" id="svb-btn" onclick="submitSurvey('svb', 3, 'open')">
-            <div class="spinner" id="svb-spinner"></div>
-            <span id="svb-btntext">Submit Survey</span>
-          </button>
+          <button class="survey-submit-btn" id="svb-btn" onclick="submitSurvey('svb', 3, 'open')"><div class="spinner" id="svb-spinner"></div><span id="svb-btntext">Submit Survey</span></button>
         </div>
         <div class="survey-success" id="svb-success">
           <div style="font-size:28px">✅</div>
@@ -607,377 +379,96 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       </div>
     </div>
   </div>
-
-  <!-- B: RESULTS -->
   <div class="card" id="b-results" style="display:none">
-    <div class="card-header">
-      <div class="card-hicon">✅</div>
-      <div><h2>Mode B — Submitted</h2><p>Your AI-assisted assessment has been recorded</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">✅</div><div><h2>Mode B — Submitted</h2><p>Your AI-assisted assessment has been recorded</p></div></div>
     <div class="card-body">
-      <div class="ai-box">
-        <div class="ai-box-header">
-          <span class="ai-badge">GPT-4o Response</span>
-          <span class="mode-tag">Mode B – AI Assisted (Collaborative)</span>
-        </div>
-        <div class="ai-text" id="b-aiText"></div>
-        <div class="token-info" id="b-tokenInfo"></div>
-      </div>
-      <button class="primary-btn full" onclick="goToModeC()" style="margin-top:4px">
-        Continue to Mode C →
-      </button>
+      <div class="ai-box"><div class="ai-box-header"><span class="ai-badge">GPT-4o Response</span><span class="mode-tag">Mode B – AI Assisted (Collaborative)</span></div><div class="ai-text" id="b-aiText"></div><div class="token-info" id="b-tokenInfo"></div></div>
+      <button class="primary-btn full" onclick="goToModeC()" style="margin-top:4px">Continue to Mode C →</button>
     </div>
   </div>
+</div>
 
-</div><!-- end session-B -->
-
-
-<!-- ═══════════════════ MODE C ═══════════════════ -->
+<!-- MODE C -->
 <div id="session-C" style="display:none">
-  <!-- LOCK NOTICE C -->
-  <div class="lock-notice" id="lock-notice-c" style="display:none">
-    <span class="lock-icon">🔒</span>
-    <span>Please complete <strong>Mode A and Mode B</strong> first before accessing Mode C.</span>
+  <div class="lock-notice" id="lock-notice-c" style="display:none"><span class="lock-icon">🔒</span><span>Please complete <strong>Mode A and Mode B</strong> first before accessing Mode C.</span></div>
+  <div class="card"><div class="card-header"><div class="card-hicon">🤖</div><div><h2>Mode C — AI-Guided, Human Confirms</h2><p>Complete all steps below before the Final Survey</p></div></div>
+    <div class="card-body"><div class="step-indicator"><span class="step-dot active"></span><span>Step 1: Watch Video</span><span style="margin:0 4px">→</span><span class="step-dot"></span><span>Step 2: Use ChatGPT</span><span style="margin:0 4px">→</span><span class="step-dot"></span><span>Step 3: Submit</span></div></div>
   </div>
-
   <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">🤖</div>
-      <div><h2>Mode C — AI-Guided, Human Confirms</h2><p>Complete all steps below before the Final Survey</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">🎬</div><div><h2>Step 1 — AI-Led Inspection Video</h2><p>Watch how AI leads the inspection process with human confirmation</p></div></div>
     <div class="card-body">
-      <div class="step-indicator">
-        <span class="step-dot active"></span><span>Step 1: Watch Video</span>
-        <span style="margin:0 4px">→</span>
-        <span class="step-dot"></span><span>Step 2: Use ChatGPT</span>
-        <span style="margin:0 4px">→</span>
-        <span class="step-dot"></span><span>Step 3: Submit</span>
+      <div class="video-btn-wrap">
+        <div class="video-thumb-placeholder"><div class="vthumb-icon">▶</div><div class="vthumb-info"><div class="vthumb-title">AI-Led Human-Confirmed Inspection</div><div class="vthumb-desc">How AI leads the inspection process and humans review and confirm recommendations — Mode C methodology</div></div></div>
+        <a href="https://youtu.be/Ge1ejGn52gc" target="_blank" class="yt-open-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>Watch on YouTube</a>
       </div>
     </div>
   </div>
-
-  <!-- C: VIDEO -->
   <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">🎬</div>
-      <div><h2>Step 1 — AI-Led Inspection Video</h2><p>Watch how AI leads the inspection process with human confirmation</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">🤖</div><div><h2>Step 2 — AI Inspection Expert — Mode C</h2><p>Review the AI's assessment, then approve, critique, or ask follow-up questions</p></div></div>
     <div class="card-body">
-<div class="video-btn-wrap">
-        <div class="video-thumb-placeholder">
-          <div class="vthumb-icon">▶</div>
-          <div class="vthumb-info">
-            <div class="vthumb-title">AI-Led Human-Confirmed Inspection</div>
-            <div class="vthumb-desc">How AI leads the inspection process and humans review and confirm recommendations — Mode C methodology</div>
-          </div>
-        </div>
-        <a href="https://youtu.be/Ge1ejGn52gc" target="_blank" class="yt-open-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-          Watch on YouTube
-        </a>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- CHATBOT: Mode C -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-hicon">🤖</div>
-      <div><h2>Step 2 — AI Inspection Expert — Mode C</h2><p>Review the AI's assessment, then approve, critique, or ask follow-up questions</p></div>
-    </div>
-    <div class="card-body">
-
-      <!-- Mode C Guidance Box -->
       <div style="background:#f0f4ff;border:1.5px solid #c7d5f8;border-left:4px solid var(--navy);border-radius:8px;padding:16px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:var(--text);">
         <div style="font-weight:700;font-size:14px;color:var(--navy);margin-bottom:8px;">🤖 In Mode C, the AI leads — you evaluate.</div>
         <div style="margin-bottom:8px;">Unlike Mode B where <em>you</em> ask questions, here the AI provides a complete professional inspection assessment first. Your role is to:</div>
-        <ul style="margin:0 0 8px 18px;padding:0;">
-          <li><strong>Review</strong> the AI's findings carefully</li>
-          <li><strong>Approve</strong> if you agree with the recommendation</li>
-          <li><strong>Critique</strong> if you disagree or see gaps</li>
-          <li><strong>Ask follow-up questions</strong> to probe the AI's reasoning</li>
-        </ul>
+        <ul style="margin:0 0 8px 18px;padding:0;"><li><strong>Review</strong> the AI's findings carefully</li><li><strong>Approve</strong> if you agree with the recommendation</li><li><strong>Critique</strong> if you disagree or see gaps</li><li><strong>Ask follow-up questions</strong> to probe the AI's reasoning</li></ul>
         <div style="color:#555;">This simulates a real-world scenario where an AI system generates automated inspection reports and human inspectors must verify and validate them.</div>
       </div>
-
       <button class="mode-c-trigger" id="c-trigger-btn" onclick="triggerModeC()">🤖 Get AI Assessment First</button>
       <div class="chatbot-wrap" id="chatbot-c">
-        <div class="chatbot-header">
-          <div class="bot-avatar">🌉</div>
-          <div class="bot-info">
-            <div class="bot-name">AI Inspection Expert — Mode C</div>
-            <div class="bot-status">Online</div>
-          </div>
-          <button class="copy-btn" onclick="copyChat('c')">📋 Copy Chat</button>
-        </div>
+        <div class="chatbot-header"><div class="bot-avatar">🌉</div><div class="bot-info"><div class="bot-name">AI Inspection Expert — Mode C</div><div class="bot-status">Online</div></div><button class="copy-btn" onclick="copyChat('c')">📋 Copy Chat</button></div>
         <div class="chatbot-messages" id="messages-c">
-          <div class="msg bot">
-            <div class="msg-avatar">🤖</div>
-            <div>
-              <div class="msg-bubble">Hello! I'm your AI inspection expert for Mode C. Click "Get AI Assessment First" above to receive my complete professional evaluation of the Bridge 9 scenario, then you can approve, critique, or discuss my recommendation.</div>
-            </div>
-          </div>
+          <div class="msg bot"><div class="msg-avatar">🤖</div><div><div class="msg-bubble">Hello! I'm your AI inspection expert for Mode C. Click "Get AI Assessment First" above to receive my complete professional evaluation of the Bridge 9 scenario, then you can approve, critique, or discuss my recommendation.</div></div></div>
         </div>
-        <div class="chatbot-input-wrap">
-          <textarea class="chatbot-input" id="input-c" placeholder="Respond to the AI assessment — approve, critique, or ask follow-up questions..." onkeydown="handleKey(event, 'c')"></textarea>
-          <button class="chatbot-send" id="send-c" onclick="sendMessage('c')">➤</button>
-        </div>
+        <div class="chatbot-input-wrap"><textarea class="chatbot-input" id="input-c" placeholder="Respond to the AI assessment — approve, critique, or ask follow-up questions..." onkeydown="handleKey(event, 'c')"></textarea><button class="chatbot-send" id="send-c" onclick="sendMessage('c')">➤</button></div>
       </div>
-      <div style="background:#fffbea;border:1px solid #f0e08a;border-radius:6px;padding:10px 14px;margin-top:12px;font-size:12.5px;color:#7a6000;">
-        💡 <strong>Suggested responses:</strong> "I approve this assessment because..." &nbsp;|&nbsp; "I disagree with [finding] because..." &nbsp;|&nbsp; "Can you explain why you rated the deck as Fair?"
-      </div>
+      <div style="background:#fffbea;border:1px solid #f0e08a;border-radius:6px;padding:10px 14px;margin-top:12px;font-size:12.5px;color:#7a6000;">💡 <strong>Suggested responses:</strong> "I approve this assessment because..." &nbsp;|&nbsp; "I disagree with [finding] because..." &nbsp;|&nbsp; "Can you explain why you rated the deck as Fair?"</div>
     </div>
   </div>
-
-  <!-- C: RESULTS -->
   <div class="card" id="c-results" style="display:none">
-    <div class="card-header">
-      <div class="card-hicon">✅</div>
-      <div><h2>Mode C — Submitted</h2><p>Your assessment has been recorded</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">✅</div><div><h2>Mode C — Submitted</h2><p>Your assessment has been recorded</p></div></div>
     <div class="card-body">
-      <div class="ai-box">
-        <div class="ai-box-header">
-          <span class="ai-badge">GPT-4o Response</span>
-          <span class="mode-tag">Mode C – AI Guided (Human Confirms)</span>
-        </div>
-        <div class="ai-text" id="c-aiText"></div>
-        <div class="token-info" id="c-tokenInfo"></div>
-      </div>
-      <button class="primary-btn full" onclick="goToFinal()" style="margin-top:4px">
-        Proceed to Final Survey →
-      </button>
+      <div class="ai-box"><div class="ai-box-header"><span class="ai-badge">GPT-4o Response</span><span class="mode-tag">Mode C – AI Guided (Human Confirms)</span></div><div class="ai-text" id="c-aiText"></div><div class="token-info" id="c-tokenInfo"></div></div>
+      <button class="primary-btn full" onclick="goToFinal()" style="margin-top:4px">Proceed to Final Survey →</button>
     </div>
   </div>
+</div>
 
-</div><!-- end session-C -->
-
-
-<!-- ═══════════════════ FINAL SURVEY ═══════════════════ -->
+<!-- FINAL SURVEY -->
 <div id="session-final" style="display:none">
-  <!-- LOCK NOTICE FINAL -->
-  <div class="lock-notice" id="lock-notice-final" style="display:none">
-    <span class="lock-icon">🔒</span>
-    <span>Please complete <strong>Mode A, B, and C</strong> first before accessing the Final Survey.</span>
-  </div>
-
-
-  <!-- SURVEY: FINAL -->
+  <div class="lock-notice" id="lock-notice-final" style="display:none"><span class="lock-icon">🔒</span><span>Please complete <strong>Mode A, B, and C</strong> first before accessing the Final Survey.</span></div>
   <div class="card" id="survey-final-card">
-    <div class="card-header">
-      <div class="card-hicon">🎓</div>
-      <div><h2>Final Evaluation & Cognitive Load Survey</h2><p>Please complete this form after performing all three bridge inspection models · 1 = Strongly Disagree · 7 = Strongly Agree</p></div>
-    </div>
+    <div class="card-header"><div class="card-hicon">🎓</div><div><h2>Final Evaluation & Cognitive Load Survey</h2><p>Please complete this form after performing all three bridge inspection models · 1 = Strongly Disagree · 7 = Strongly Agree</p></div></div>
     <div class="card-body">
       <div class="survey-section">
-        <div class="consent-box">
-        <strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>
-        Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>
-        This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>
-        By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.
-      </div>
-      <label class="consent-check" id="final-consent-label">
-        <input type="checkbox" id="final-consent" onchange="checkConsent('final')">
-        <span>I have read the research information above and voluntarily agree to participate in this study.</span>
-      </label>
+        <div class="consent-box"><strong>Research Information Sheet — Human–AI Collaboration in Bridge Inspection Workflows</strong><br>Principal Investigator: Dr. Chenxi Yuan, Department of Construction, SIUE (cyuan@siue.edu)<br><br>This study evaluates how different bridge inspection support approaches affect perceived workload, decision-making, and experience. Participation is voluntary. Total time: ~15–20 minutes. Responses are anonymous and stored on secure university systems. No sensitive personal information is collected.<br><br>By checking the box below you indicate: (1) you are at least 18 years old, (2) you have read this information, and (3) you voluntarily agree to participate.</div>
+        <label class="consent-check" id="final-consent-label"><input type="checkbox" id="final-consent" onchange="checkConsent('final')"><span>I have read the research information above and voluntarily agree to participate in this study.</span></label>
         <div id="final-form" style="display:none">
           <div class="survey-section-title">🤝 Part 1 — Model B: Human-Led, AI-Assisted</div>
-          
-      <div class="q-block">
-        <div class="q-label"><span>Q1.</span>The AI assistance reduced my overall mental workload.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-b-q1" value="1"><span>1</span></label><label><input type="radio" name="final-b-q1" value="2"><span>2</span></label><label><input type="radio" name="final-b-q1" value="3"><span>3</span></label><label><input type="radio" name="final-b-q1" value="4"><span>4</span></label><label><input type="radio" name="final-b-q1" value="5"><span>5</span></label><label><input type="radio" name="final-b-q1" value="6"><span>6</span></label><label><input type="radio" name="final-b-q1" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q2.</span>I still needed to invest significant mental effort to guide and verify the AI's outputs.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-b-q2" value="1"><span>1</span></label><label><input type="radio" name="final-b-q2" value="2"><span>2</span></label><label><input type="radio" name="final-b-q2" value="3"><span>3</span></label><label><input type="radio" name="final-b-q2" value="4"><span>4</span></label><label><input type="radio" name="final-b-q2" value="5"><span>5</span></label><label><input type="radio" name="final-b-q2" value="6"><span>6</span></label><label><input type="radio" name="final-b-q2" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q3.</span>Collaborating with the AI improved my understanding of inspection priorities and reasoning.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-b-q3" value="1"><span>1</span></label><label><input type="radio" name="final-b-q3" value="2"><span>2</span></label><label><input type="radio" name="final-b-q3" value="3"><span>3</span></label><label><input type="radio" name="final-b-q3" value="4"><span>4</span></label><label><input type="radio" name="final-b-q3" value="5"><span>5</span></label><label><input type="radio" name="final-b-q3" value="6"><span>6</span></label><label><input type="radio" name="final-b-q3" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q4.</span>The AI responses were easy to interpret and did not overload me with extra information.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-b-q4" value="1"><span>1</span></label><label><input type="radio" name="final-b-q4" value="2"><span>2</span></label><label><input type="radio" name="final-b-q4" value="3"><span>3</span></label><label><input type="radio" name="final-b-q4" value="4"><span>4</span></label><label><input type="radio" name="final-b-q4" value="5"><span>5</span></label><label><input type="radio" name="final-b-q4" value="6"><span>6</span></label><label><input type="radio" name="final-b-q4" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
+          <div class="q-block"><div class="q-label"><span>Q1.</span>The AI assistance reduced my overall mental workload.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-b-q1" value="1"><span>1</span></label><label><input type="radio" name="final-b-q1" value="2"><span>2</span></label><label><input type="radio" name="final-b-q1" value="3"><span>3</span></label><label><input type="radio" name="final-b-q1" value="4"><span>4</span></label><label><input type="radio" name="final-b-q1" value="5"><span>5</span></label><label><input type="radio" name="final-b-q1" value="6"><span>6</span></label><label><input type="radio" name="final-b-q1" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
+          <div class="q-block"><div class="q-label"><span>Q2.</span>I still needed to invest significant mental effort to guide and verify the AI's outputs.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-b-q2" value="1"><span>1</span></label><label><input type="radio" name="final-b-q2" value="2"><span>2</span></label><label><input type="radio" name="final-b-q2" value="3"><span>3</span></label><label><input type="radio" name="final-b-q2" value="4"><span>4</span></label><label><input type="radio" name="final-b-q2" value="5"><span>5</span></label><label><input type="radio" name="final-b-q2" value="6"><span>6</span></label><label><input type="radio" name="final-b-q2" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
+          <div class="q-block"><div class="q-label"><span>Q3.</span>Collaborating with the AI improved my understanding of inspection priorities and reasoning.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-b-q3" value="1"><span>1</span></label><label><input type="radio" name="final-b-q3" value="2"><span>2</span></label><label><input type="radio" name="final-b-q3" value="3"><span>3</span></label><label><input type="radio" name="final-b-q3" value="4"><span>4</span></label><label><input type="radio" name="final-b-q3" value="5"><span>5</span></label><label><input type="radio" name="final-b-q3" value="6"><span>6</span></label><label><input type="radio" name="final-b-q3" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
+          <div class="q-block"><div class="q-label"><span>Q4.</span>The AI responses were easy to interpret and did not overload me with extra information.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-b-q4" value="1"><span>1</span></label><label><input type="radio" name="final-b-q4" value="2"><span>2</span></label><label><input type="radio" name="final-b-q4" value="3"><span>3</span></label><label><input type="radio" name="final-b-q4" value="4"><span>4</span></label><label><input type="radio" name="final-b-q4" value="5"><span>5</span></label><label><input type="radio" name="final-b-q4" value="6"><span>6</span></label><label><input type="radio" name="final-b-q4" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
           <div class="survey-section-title">🤖 Part 2 — Model C: AI-Led, Human-Confirmed</div>
-          
-      <div class="q-block">
-        <div class="q-label"><span>Q5.</span>Letting the AI lead the workflow reduced my mental workload.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-c-q1" value="1"><span>1</span></label><label><input type="radio" name="final-c-q1" value="2"><span>2</span></label><label><input type="radio" name="final-c-q1" value="3"><span>3</span></label><label><input type="radio" name="final-c-q1" value="4"><span>4</span></label><label><input type="radio" name="final-c-q1" value="5"><span>5</span></label><label><input type="radio" name="final-c-q1" value="6"><span>6</span></label><label><input type="radio" name="final-c-q1" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q6.</span>It was mentally demanding to keep up with the AI's pace or decisions.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-c-q2" value="1"><span>1</span></label><label><input type="radio" name="final-c-q2" value="2"><span>2</span></label><label><input type="radio" name="final-c-q2" value="3"><span>3</span></label><label><input type="radio" name="final-c-q2" value="4"><span>4</span></label><label><input type="radio" name="final-c-q2" value="5"><span>5</span></label><label><input type="radio" name="final-c-q2" value="6"><span>6</span></label><label><input type="radio" name="final-c-q2" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q7.</span>Working under AI direction improved my understanding of automated inspection logic.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-c-q3" value="1"><span>1</span></label><label><input type="radio" name="final-c-q3" value="2"><span>2</span></label><label><input type="radio" name="final-c-q3" value="3"><span>3</span></label><label><input type="radio" name="final-c-q3" value="4"><span>4</span></label><label><input type="radio" name="final-c-q3" value="5"><span>5</span></label><label><input type="radio" name="final-c-q3" value="6"><span>6</span></label><label><input type="radio" name="final-c-q3" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q8.</span>I felt mentally overloaded by the amount of information the AI produced.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-c-q4" value="1"><span>1</span></label><label><input type="radio" name="final-c-q4" value="2"><span>2</span></label><label><input type="radio" name="final-c-q4" value="3"><span>3</span></label><label><input type="radio" name="final-c-q4" value="4"><span>4</span></label><label><input type="radio" name="final-c-q4" value="5"><span>5</span></label><label><input type="radio" name="final-c-q4" value="6"><span>6</span></label><label><input type="radio" name="final-c-q4" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-      <div class="q-block">
-        <div class="q-label"><span>Q9.</span>The AI instructions were clear and easy to follow.</div>
-        <div class="likert-wrap">
-          <div class="likert-scale"><label><input type="radio" name="final-c-q5" value="1"><span>1</span></label><label><input type="radio" name="final-c-q5" value="2"><span>2</span></label><label><input type="radio" name="final-c-q5" value="3"><span>3</span></label><label><input type="radio" name="final-c-q5" value="4"><span>4</span></label><label><input type="radio" name="final-c-q5" value="5"><span>5</span></label><label><input type="radio" name="final-c-q5" value="6"><span>6</span></label><label><input type="radio" name="final-c-q5" value="7"><span>7</span></label></div>
-          <div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-        </div>
-      </div>
-
+          <div class="q-block"><div class="q-label"><span>Q5.</span>Letting the AI lead the workflow reduced my mental workload.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-c-q1" value="1"><span>1</span></label><label><input type="radio" name="final-c-q1" value="2"><span>2</span></label><label><input type="radio" name="final-c-q1" value="3"><span>3</span></label><label><input type="radio" name="final-c-q1" value="4"><span>4</span></label><label><input type="radio" name="final-c-q1" value="5"><span>5</span></label><label><input type="radio" name="final-c-q1" value="6"><span>6</span></label><label><input type="radio" name="final-c-q1" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
+          <div class="q-block"><div class="q-label"><span>Q6.</span>It was mentally demanding to keep up with the AI's pace or decisions.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-c-q2" value="1"><span>1</span></label><label><input type="radio" name="final-c-q2" value="2"><span>2</span></label><label><input type="radio" name="final-c-q2" value="3"><span>3</span></label><label><input type="radio" name="final-c-q2" value="4"><span>4</span></label><label><input type="radio" name="final-c-q2" value="5"><span>5</span></label><label><input type="radio" name="final-c-q2" value="6"><span>6</span></label><label><input type="radio" name="final-c-q2" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
+          <div class="q-block"><div class="q-label"><span>Q7.</span>Working under AI direction improved my understanding of automated inspection logic.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-c-q3" value="1"><span>1</span></label><label><input type="radio" name="final-c-q3" value="2"><span>2</span></label><label><input type="radio" name="final-c-q3" value="3"><span>3</span></label><label><input type="radio" name="final-c-q3" value="4"><span>4</span></label><label><input type="radio" name="final-c-q3" value="5"><span>5</span></label><label><input type="radio" name="final-c-q3" value="6"><span>6</span></label><label><input type="radio" name="final-c-q3" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
+          <div class="q-block"><div class="q-label"><span>Q8.</span>I felt mentally overloaded by the amount of information the AI produced.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-c-q4" value="1"><span>1</span></label><label><input type="radio" name="final-c-q4" value="2"><span>2</span></label><label><input type="radio" name="final-c-q4" value="3"><span>3</span></label><label><input type="radio" name="final-c-q4" value="4"><span>4</span></label><label><input type="radio" name="final-c-q4" value="5"><span>5</span></label><label><input type="radio" name="final-c-q4" value="6"><span>6</span></label><label><input type="radio" name="final-c-q4" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
+          <div class="q-block"><div class="q-label"><span>Q9.</span>The AI instructions were clear and easy to follow.</div><div class="likert-wrap"><div class="likert-scale"><label><input type="radio" name="final-c-q5" value="1"><span>1</span></label><label><input type="radio" name="final-c-q5" value="2"><span>2</span></label><label><input type="radio" name="final-c-q5" value="3"><span>3</span></label><label><input type="radio" name="final-c-q5" value="4"><span>4</span></label><label><input type="radio" name="final-c-q5" value="5"><span>5</span></label><label><input type="radio" name="final-c-q5" value="6"><span>6</span></label><label><input type="radio" name="final-c-q5" value="7"><span>7</span></label></div><div class="likert-endpoints"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
           <div class="survey-section-title">📋 Part 5 — Bridge Inspection Evaluation</div>
-
-          <div class="q-block">
-            <div class="q-label"><span>1.</span> Role</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-role" value="Student"> Student</label>
-              <label><input type="radio" name="p5-role" value="Industry Inspector"> Industry Inspector</label>
-              <label><input type="radio" name="p5-role" value="Faculty/Staff"> Faculty / Staff</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>2.</span> If you are a student, what is your year?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-year" value="Freshman"> Freshman</label>
-              <label><input type="radio" name="p5-year" value="Sophomore"> Sophomore</label>
-              <label><input type="radio" name="p5-year" value="Junior"> Junior</label>
-              <label><input type="radio" name="p5-year" value="Senior"> Senior</label>
-              <label><input type="radio" name="p5-year" value="N/A"> N/A</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>3.</span> Years of Bridge Inspection Experience</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-exp" value="0"> 0</label>
-              <label><input type="radio" name="p5-exp" value="1-3"> 1–3</label>
-              <label><input type="radio" name="p5-exp" value="4-7"> 4–7</label>
-              <label><input type="radio" name="p5-exp" value="8-15"> 8–15</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>4.</span> Prior Exposure to AI Tools (ChatGPT, Copilot, etc.)</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-ai" value="None"> None</label>
-              <label><input type="radio" name="p5-ai" value="Limited"> Limited</label>
-              <label><input type="radio" name="p5-ai" value="Moderate"> Moderate</label>
-              <label><input type="radio" name="p5-ai" value="Extensive"> Extensive</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>5.</span> Which inspection model made the workflow easiest to follow?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q5" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q5" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q5" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>6.</span> In which model did you feel most confident about your inspection decisions?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q6" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q6" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q6" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>7.</span> Which model allowed you to complete tasks fastest without losing accuracy?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q7" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q7" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q7" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>8.</span> Which model gave the clearest understanding of inspection priorities?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q8" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q8" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q8" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>9.</span> Which model best balanced human judgment and AI support?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q9" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q9" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q9" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>10.</span> In which model did you feel you had the highest level of control and autonomy?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q10" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q10" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q10" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>11.</span> Which model do you think can help your learning and understanding of bridge inspection concepts the most?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q11" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q11" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q11" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>12.</span> Which model do you think can produce the most reliable and complete inspection report?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q12" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q12" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q12" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
-          <div class="q-block">
-            <div class="q-label"><span>13.</span> Which model would be most practical for real-world bridge inspections?</div>
-            <div class="radio-group">
-              <label><input type="radio" name="p5-q13" value="A"> Model A (Human Only)</label>
-              <label><input type="radio" name="p5-q13" value="B"> Model B (Human-Led, AI-Assisted)</label>
-              <label><input type="radio" name="p5-q13" value="C"> Model C (AI-Led, Human-Assisted)</label>
-            </div>
-          </div>
-
+          <div class="q-block"><div class="q-label"><span>1.</span> Role</div><div class="radio-group"><label><input type="radio" name="p5-role" value="Student"> Student</label><label><input type="radio" name="p5-role" value="Industry Inspector"> Industry Inspector</label><label><input type="radio" name="p5-role" value="Faculty/Staff"> Faculty / Staff</label></div></div>
+          <div class="q-block"><div class="q-label"><span>2.</span> If you are a student, what is your year?</div><div class="radio-group"><label><input type="radio" name="p5-year" value="Freshman"> Freshman</label><label><input type="radio" name="p5-year" value="Sophomore"> Sophomore</label><label><input type="radio" name="p5-year" value="Junior"> Junior</label><label><input type="radio" name="p5-year" value="Senior"> Senior</label><label><input type="radio" name="p5-year" value="N/A"> N/A</label></div></div>
+          <div class="q-block"><div class="q-label"><span>3.</span> Years of Bridge Inspection Experience</div><div class="radio-group"><label><input type="radio" name="p5-exp" value="0"> 0</label><label><input type="radio" name="p5-exp" value="1-3"> 1–3</label><label><input type="radio" name="p5-exp" value="4-7"> 4–7</label><label><input type="radio" name="p5-exp" value="8-15"> 8–15</label></div></div>
+          <div class="q-block"><div class="q-label"><span>4.</span> Prior Exposure to AI Tools (ChatGPT, Copilot, etc.)</div><div class="radio-group"><label><input type="radio" name="p5-ai" value="None"> None</label><label><input type="radio" name="p5-ai" value="Limited"> Limited</label><label><input type="radio" name="p5-ai" value="Moderate"> Moderate</label><label><input type="radio" name="p5-ai" value="Extensive"> Extensive</label></div></div>
+          <div class="q-block"><div class="q-label"><span>5.</span> Which inspection model made the workflow easiest to follow?</div><div class="radio-group"><label><input type="radio" name="p5-q5" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q5" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q5" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>6.</span> In which model did you feel most confident about your inspection decisions?</div><div class="radio-group"><label><input type="radio" name="p5-q6" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q6" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q6" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>7.</span> Which model allowed you to complete tasks fastest without losing accuracy?</div><div class="radio-group"><label><input type="radio" name="p5-q7" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q7" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q7" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>8.</span> Which model gave the clearest understanding of inspection priorities?</div><div class="radio-group"><label><input type="radio" name="p5-q8" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q8" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q8" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>9.</span> Which model best balanced human judgment and AI support?</div><div class="radio-group"><label><input type="radio" name="p5-q9" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q9" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q9" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>10.</span> In which model did you feel you had the highest level of control and autonomy?</div><div class="radio-group"><label><input type="radio" name="p5-q10" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q10" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q10" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>11.</span> Which model do you think can help your learning and understanding of bridge inspection concepts the most?</div><div class="radio-group"><label><input type="radio" name="p5-q11" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q11" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q11" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>12.</span> Which model do you think can produce the most reliable and complete inspection report?</div><div class="radio-group"><label><input type="radio" name="p5-q12" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q12" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q12" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
+          <div class="q-block"><div class="q-label"><span>13.</span> Which model would be most practical for real-world bridge inspections?</div><div class="radio-group"><label><input type="radio" name="p5-q13" value="A"> Model A (Human Only)</label><label><input type="radio" name="p5-q13" value="B"> Model B (Human-Led, AI-Assisted)</label><label><input type="radio" name="p5-q13" value="C"> Model C (AI-Led, Human-Assisted)</label></div></div>
           <div class="error-box" id="final-error">⚠️ Please answer all questions before submitting.</div>
-          <button class="survey-submit-btn" id="final-btn" onclick="submitFinalSurvey()">
-            <div class="spinner" id="final-spinner"></div>
-            <span id="final-btntext">Submit Final Survey</span>
-          </button>
+          <button class="survey-submit-btn" id="final-btn" onclick="submitFinalSurvey()"><div class="spinner" id="final-spinner"></div><span id="final-btntext">Submit Final Survey</span></button>
         </div>
         <div class="survey-success" id="final-success">
           <div style="font-size:28px">🎉</div>
@@ -986,16 +477,16 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       </div>
     </div>
   </div>
-
-</div><!-- end session-final -->
+</div>
 
 </main>
 
-<footer>
-  AI-Augmented Scenario-Based Learning Platform · SIUE Department of Construction &amp; Civil Engineering · ASEE 2026 Annual Conference
-</footer>
+<footer>AI-Augmented Scenario-Based Learning Platform · SIUE Department of Construction &amp; Civil Engineering · ASEE 2026 Annual Conference</footer>
 
 <script>
+// ============================================================
+// FIXED SCRIPT BLOCK — replace entire <script>...</script> in index.html
+// ============================================================
 
   function checkConsent(sid) {
     const cb = document.getElementById(sid + '-consent');
@@ -1009,11 +500,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   }
 
   async function submitSurvey(sid, numQs, type) {
-    const studentId = document.getElementById(
-      sid === 'sva' ? 'a-studentId' :
-      sid === 'svb' ? 'b-studentId' : 'c-studentId'
-    )?.value?.trim() || document.getElementById('a-studentId')?.value?.trim() || 'unknown';
-
     let answers = {};
     let allFilled = true;
 
@@ -1024,7 +510,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         answers['q' + i] = val;
       }
     } else {
-      // likert
       const bNames = ['final-b-q1','final-b-q2','final-b-q3','final-b-q4'];
       const cNames = ['final-c-q1','final-c-q2','final-c-q3','final-c-q4','final-c-q5'];
       [...bNames, ...cNames].forEach((name, idx) => {
@@ -1046,15 +531,15 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     btntext.textContent = 'Submitting...';
 
     try {
-      // sva and svb: store in sessionStorage, don't send to n8n yet
+      // FIX: sva / svb — save to sessionStorage with correct key (sid + '_answers')
       if (sid === 'sva' || sid === 'svb') {
         sessionStorage.setItem(sid + '_answers', JSON.stringify(answers));
+        console.log('[submitSurvey] Saved', sid + '_answers', '→', answers);
         document.getElementById(sid + '-success').classList.add('show');
         document.getElementById(sid + '-form').style.display = 'none';
         if (sid === 'sva') markSessionDone('A');
         else if (sid === 'svb') markSessionDone('B');
       } else {
-        // final survey: handled by submitFinalSurvey()
         document.getElementById(sid + '-success').classList.add('show');
         document.getElementById(sid + '-form').style.display = 'none';
         markSessionDone('final');
@@ -1071,8 +556,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
 
   const CHATBOT_URL = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
-
-  // conversation history per mode
   const chatHistory = { b: [], c: [] };
 
   function getTime() {
@@ -1130,7 +613,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
     appendMsg(mid, 'user', text);
     chatHistory[mid].push({ role: 'user', content: text });
-
     showTyping(mid);
 
     try {
@@ -1153,7 +635,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       });
 
       clearTimeout(timeout);
-
       const data = await res.json();
       const reply = data.reply || data.message || data.content || 'Sorry, I could not generate a response. Please try again.';
 
@@ -1164,7 +645,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     } catch(err) {
       removeTyping(mid);
       if (err.name === 'AbortError') {
-        appendMsg('c', 'bot', '⏱️ Request timed out. Please try again.');
+        appendMsg(mid, 'bot', '⏱️ Request timed out. Please try again.');
       } else {
         appendMsg(mid, 'bot', '⚠️ Connection error: ' + err.message + '. Please check your network and try again.');
       }
@@ -1180,14 +661,13 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     btn.textContent = '⏳ Getting AI Assessment... (this may take 15-30 seconds)';
 
     const studentId = document.getElementById('a-studentId')?.value || 'student';
-
     const firstMsg = 'Please provide your complete professional bridge inspection assessment for the Bridge 9 scenario.';
     chatHistory['c'].push({ role: 'user', content: firstMsg });
     showTyping('c');
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      const timeout = setTimeout(() => controller.abort(), 60000);
 
       const res = await fetch(CHATBOT_URL, {
         method: 'POST',
@@ -1206,7 +686,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       });
 
       clearTimeout(timeout);
-
       const data = await res.json();
       const reply = data.reply || data.message || data.content || 'Unable to generate assessment. Please try again.';
 
@@ -1217,6 +696,12 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       btn.textContent = '✅ Assessment Received — Now Respond Below';
       btn.style.background = 'var(--success)';
       markSessionDone('C');
+
+      // FIX: Immediately save Mode C initial response to sessionStorage
+      // so it's available even if user navigates directly to Final tab
+      const initChatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\nAI Assistant:\n' + reply + '\n\n';
+      sessionStorage.setItem('modeC_chat', initChatText);
+      console.log('[triggerModeC] Initial Mode C chat saved to sessionStorage');
 
       document.getElementById('input-c').placeholder = 'Do you approve this recommendation? Or do you have critiques or questions?';
       document.getElementById('input-c').focus();
@@ -1252,63 +737,61 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     });
   }
 
+  // FIX: Completely rewritten submitFinalSurvey
+  // - Sends q1~q9 as flat fields (n8n reads $json.body.q1 etc.)
+  // - Sends Part 5 as flat fields (role, year, experience, ...)
+  // - No more nested 'answers' object mismatch
   async function submitFinalSurvey() {
     const btn = document.getElementById('final-btn');
     const spinner = document.getElementById('final-spinner');
     const btnText = document.getElementById('final-btntext');
     const errorBox = document.getElementById('final-error');
 
-    // Collect Final Survey likert answers (Q1-Q9)
-    const finalAnswers = {};
-    for (let i = 1; i <= 4; i++) {
-      const val = document.querySelector(`input[name="final-b-q${i}"]:checked`)?.value || '';
-      finalAnswers[`final_b_q${i}`] = val;
-    }
-    for (let i = 1; i <= 5; i++) {
-      const val = document.querySelector(`input[name="final-c-q${i}"]:checked`)?.value || '';
-      finalAnswers[`final_c_q${i}`] = val;
+    // Collect Likert answers as flat q1~q9
+    const bNames = ['final-b-q1','final-b-q2','final-b-q3','final-b-q4'];
+    const cNames = ['final-c-q1','final-c-q2','final-c-q3','final-c-q4','final-c-q5'];
+    const flatAnswers = {};
+    let allAnswered = true;
+    [...bNames, ...cNames].forEach((name, idx) => {
+      const sel = document.querySelector(`input[name="${name}"]:checked`);
+      if (!sel) allAnswered = false;
+      flatAnswers[`q${idx + 1}`] = sel ? sel.value : '';
+    });
+
+    if (!allAnswered) {
+      errorBox.textContent = '⚠️ Please answer all questions before submitting.';
+      errorBox.style.display = 'block';
+      return;
     }
 
-    // Collect Part 5 answers
+    // Collect Part 5 as flat fields
     const p5 = {
-      role: document.querySelector('input[name="p5-role"]:checked')?.value || '',
-      year: document.querySelector('input[name="p5-year"]:checked')?.value || '',
-      experience: document.querySelector('input[name="p5-exp"]:checked')?.value || '',
-      aiExposure: document.querySelector('input[name="p5-ai"]:checked')?.value || '',
-      p5q5: document.querySelector('input[name="p5-q5"]:checked')?.value || '',
-      p5q6: document.querySelector('input[name="p5-q6"]:checked')?.value || '',
-      p5q7: document.querySelector('input[name="p5-q7"]:checked')?.value || '',
-      p5q8: document.querySelector('input[name="p5-q8"]:checked')?.value || '',
-      p5q9: document.querySelector('input[name="p5-q9"]:checked')?.value || '',
+      role:       document.querySelector('input[name="p5-role"]:checked')?.value  || '',
+      year:       document.querySelector('input[name="p5-year"]:checked')?.value  || '',
+      experience: document.querySelector('input[name="p5-exp"]:checked')?.value   || '',
+      aiExposure: document.querySelector('input[name="p5-ai"]:checked')?.value    || '',
+      p5q5:  document.querySelector('input[name="p5-q5"]:checked')?.value  || '',
+      p5q6:  document.querySelector('input[name="p5-q6"]:checked')?.value  || '',
+      p5q7:  document.querySelector('input[name="p5-q7"]:checked')?.value  || '',
+      p5q8:  document.querySelector('input[name="p5-q8"]:checked')?.value  || '',
+      p5q9:  document.querySelector('input[name="p5-q9"]:checked')?.value  || '',
       p5q10: document.querySelector('input[name="p5-q10"]:checked')?.value || '',
       p5q11: document.querySelector('input[name="p5-q11"]:checked')?.value || '',
       p5q12: document.querySelector('input[name="p5-q12"]:checked')?.value || '',
       p5q13: document.querySelector('input[name="p5-q13"]:checked')?.value || '',
     };
 
-    // Retrieve stored sva and svb answers from sessionStorage
-    const svaData = JSON.parse(sessionStorage.getItem('sva_answers') || '{}');
-    const svbData = JSON.parse(sessionStorage.getItem('svb_answers') || '{}');
-
-    // Merge all data
+    // FIX: Flat payload — q1~q9 at top level, matching n8n's $json.body.q1
     const payload = {
       action: 'survey',
       surveyId: 'final',
       mode: 'FINAL',
-      // sva answers
-      sva_q1: svaData.q1 || '',
-      sva_q2: svaData.q2 || '',
-      sva_q3: svaData.q3 || '',
-      // svb answers
-      svb_q1: svbData.q1 || '',
-      svb_q2: svbData.q2 || '',
-      svb_q3: svbData.q3 || '',
-      // final likert
-      ...finalAnswers,
-      // Part 5
+      ...flatAnswers,
       ...p5,
       submittedAt: new Date().toISOString()
     };
+
+    console.log('[submitFinalSurvey] payload:', payload);
 
     btn.disabled = true;
     spinner.style.display = 'inline-block';
@@ -1321,13 +804,11 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      const data = await res.json();
+      console.log('[submitFinalSurvey] response status:', res.status);
       document.getElementById('final-form').style.display = 'none';
       document.getElementById('final-success').style.display = 'flex';
-      // Clear sessionStorage
-      sessionStorage.removeItem('sva_answers');
-      sessionStorage.removeItem('svb_answers');
     } catch(err) {
+      console.error('[submitFinalSurvey] error:', err);
       errorBox.textContent = '⚠️ Submission failed. Please try again.';
       errorBox.style.display = 'block';
       btn.disabled = false;
@@ -1335,6 +816,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       btnText.textContent = 'Submit Final Survey';
     }
   }
+
   const SCENARIO_ID = 'bridge-scenario-01';
   const BRIDGE_TYPE = 'Steel Truss Bridge';
   const ANOMALY = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
@@ -1346,10 +828,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   function goToModeC() { markSessionDone('B'); switchSession('C'); }
   function goToFinal() { markSessionDone('C'); switchSession('final'); }
 
-  // Track completed modes
   const completedSessions = { A: false, B: false, C: false };
-
-  // Map mode to required prerequisites
   const prerequisites = { A: [], B: ['A'], C: ['A','B'], final: ['A','B','C'] };
 
   function markSessionDone(mode) {
@@ -1360,7 +839,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       tab.classList.remove('active');
       tab.classList.remove('locked');
     }
-    // Unlock next tab
     const next = { A: 'B', B: 'C', C: 'final' };
     const nextMode = next[mode];
     if (nextMode) {
@@ -1404,33 +882,46 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
           const tokensText = tokenEl?.textContent || '';
           const tokensMatch = tokensText.match(/\d+/);
           sessionStorage.setItem('modeB_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
+          console.log('[switchSession C] modeB_chat saved, length:', chatText.length);
         }
       }
     }
 
-    // When switching to Final, collect Mode C data and submit everything
+    // FIX: When switching to Final — use correct sessionStorage keys and build modeA_answer properly
     if (mode === 'final') {
+      // Capture latest Mode C chat from DOM (in case user added more messages after initial save)
       const containerC = document.getElementById('messages-c');
       if (containerC) {
         const msgs = containerC.querySelectorAll('.msg');
-        let chatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\n';
-        msgs.forEach(msg => {
-          const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
-          const bubble = msg.querySelector('.msg-bubble');
-          if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
-        });
-        sessionStorage.setItem('modeC_chat', chatText);
-        const tokenEl = document.getElementById('c-tokenInfo');
-        const tokensText = tokenEl?.textContent || '';
-        const tokensMatch = tokensText.match(/\d+/);
-        sessionStorage.setItem('modeC_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
+        if (msgs.length > 1) { // more than just the initial bot message
+          let chatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\n';
+          msgs.forEach(msg => {
+            const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
+            const bubble = msg.querySelector('.msg-bubble');
+            if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+          });
+          sessionStorage.setItem('modeC_chat', chatText);
+          const tokenEl = document.getElementById('c-tokenInfo');
+          const tokensText = tokenEl?.textContent || '';
+          const tokensMatch = tokensText.match(/\d+/);
+          sessionStorage.setItem('modeC_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
+        }
       }
 
-      // Submit merged Submissions data
+      // FIX: Read sva_answers (correct key set by submitSurvey)
+      const svaData = JSON.parse(sessionStorage.getItem('sva_answers') || '{}');
+      const modeA_answer = [svaData.q1, svaData.q2, svaData.q3].filter(Boolean).join(' | ') || '';
+
+      console.log('[switchSession final] svaData:', svaData);
+      console.log('[switchSession final] modeA_answer:', modeA_answer.substring(0, 80));
+      console.log('[switchSession final] modeB_chat length:', (sessionStorage.getItem('modeB_chat') || '').length);
+      console.log('[switchSession final] modeC_chat length:', (sessionStorage.getItem('modeC_chat') || '').length);
+
+      // Submit merged Submissions data to Submissions sheet
       const payload = {
         action: 'submit',
         mode: 'MERGED',
-        modeA_answer: sessionStorage.getItem('modeA_answer') || '',
+        modeA_answer: modeA_answer,
         modeB_chat: sessionStorage.getItem('modeB_chat') || '',
         modeB_tokensUsed: sessionStorage.getItem('modeB_tokensUsed') || '0',
         modeC_chat: sessionStorage.getItem('modeC_chat') || '',
@@ -1442,12 +933,16 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      }).catch(err => console.log('Merged submission failed:', err));
+      })
+        .then(r => console.log('[switchSession final] MERGED submit status:', r.status))
+        .catch(err => console.error('[switchSession final] MERGED submit failed:', err));
 
-      ['modeA_answer','modeB_chat','modeB_tokensUsed','modeC_chat','modeC_tokensUsed'].forEach(k => sessionStorage.removeItem(k));
+      // FIX: Clear using correct keys
+      ['sva_answers', 'svb_answers', 'modeB_chat', 'modeB_tokensUsed', 'modeC_chat', 'modeC_tokensUsed']
+        .forEach(k => sessionStorage.removeItem(k));
     }
 
-    // Remove active + inline styles from all tabs
+    // Switch UI
     ['A','B','C','final'].forEach(m => {
       const el = document.getElementById('session-' + m);
       if (el) el.style.display = 'none';
@@ -1462,11 +957,9 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       }
     });
 
-    // Show target session
     const target = document.getElementById('session-' + mode);
     if (target) target.style.display = 'block';
 
-    // Set active tab
     const activeTab = document.getElementById('tab-' + mode);
     if (activeTab) {
       activeTab.classList.remove('locked');
@@ -1481,17 +974,13 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Initialize locked tabs on page load - visual only
   function initLocks() {
     ['B','C','final'].forEach(mode => {
       const tab = document.getElementById('tab-' + mode);
-      if (tab) {
-        tab.classList.add('locked');
-      }
+      if (tab) tab.classList.add('locked');
     });
   }
 
-  // Call initLocks after DOM ready
   document.addEventListener('DOMContentLoaded', function() {
     initLocks();
   });
@@ -1517,7 +1006,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     submitText.textContent = 'Submitting...';
 
     try {
-      // Mode A: store in sessionStorage, show results without n8n call
       if (mode === 'A') {
         sessionStorage.setItem('modeA_answer', answer);
         completedModes[mode] = true;
@@ -1577,6 +1065,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       submitText.textContent = 'Submit Mode ' + mode + ' Assessment';
     }
   }
+
 </script>
 
 </body>
