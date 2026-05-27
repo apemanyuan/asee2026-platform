@@ -1338,12 +1338,55 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   const SCENARIO_ID = 'bridge-scenario-01';
   const BRIDGE_TYPE = 'Steel Truss Bridge';
   const ANOMALY = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
+  const WEBHOOK = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
 
   let completedModes = { A: false, B: false, C: false };
 
   function goToModeB() { markSessionDone('A'); switchSession('B'); }
   function goToModeC() { markSessionDone('B'); switchSession('C'); }
-  function goToFinal() { markSessionDone('C'); switchSession('final'); }
+  function goToFinal() {
+    // Collect Mode C full chat
+    const containerC = document.getElementById('messages-c');
+    if (containerC) {
+      const msgs = containerC.querySelectorAll('.msg');
+      let chatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\n';
+      msgs.forEach(msg => {
+        const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
+        const bubble = msg.querySelector('.msg-bubble');
+        if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+      });
+      sessionStorage.setItem('modeC_chat', chatText);
+      // Store Mode C tokensUsed
+      const tokenEl = document.getElementById('c-tokenInfo');
+      const tokensText = tokenEl?.textContent || '';
+      const tokensMatch = tokensText.match(/\d+/);
+      sessionStorage.setItem('modeC_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
+    }
+
+    // Submit all merged data to n8n
+    const payload = {
+      action: 'submit',
+      mode: 'MERGED',
+      modeA_answer: sessionStorage.getItem('modeA_answer') || '',
+      modeB_chat: sessionStorage.getItem('modeB_chat') || '',
+      modeB_tokensUsed: sessionStorage.getItem('modeB_tokensUsed') || '0',
+      modeC_chat: sessionStorage.getItem('modeC_chat') || '',
+      modeC_tokensUsed: sessionStorage.getItem('modeC_tokensUsed') || '0',
+      submittedAt: new Date().toISOString()
+    };
+
+    fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(err => console.log('Merged submission failed:', err));
+
+    // Clear sessionStorage
+    ['modeA_answer','modeB_chat','modeB_tokensUsed','modeC_chat','modeC_tokensUsed'].forEach(k => sessionStorage.removeItem(k));
+
+    markSessionDone('C');
+    switchSession('final');
+  }
 
   // Track completed modes
   const completedSessions = { A: false, B: false, C: false };
@@ -1399,20 +1442,12 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
           if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
         });
         if (msgs.length > 0) {
-          fetch(WEBHOOK, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'submit',
-              mode: 'B',
-              studentId,
-              scenarioId: SCENARIO_ID,
-              bridgeType: BRIDGE_TYPE,
-              anomalyDescription: ANOMALY,
-              studentAnswer: chatText,
-              courseLevel: 'N/A'
-            })
-          }).catch(err => console.log('Mode B chat submit failed:', err));
+          sessionStorage.setItem('modeB_chat', chatText);
+          // Store tokensUsed from the token info element
+          const tokenEl = document.getElementById('b-tokenInfo');
+          const tokensText = tokenEl?.textContent || '';
+          const tokensMatch = tokensText.match(/\d+/);
+          sessionStorage.setItem('modeB_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
         }
       }
     }
@@ -1487,6 +1522,23 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     submitText.textContent = 'Submitting...';
 
     try {
+      // Mode A: store in sessionStorage, show results without n8n call
+      if (mode === 'A') {
+        sessionStorage.setItem('modeA_answer', answer);
+        completedModes[mode] = true;
+        const tab = document.getElementById('tab-' + mode);
+        if (tab) tab.classList.add('done');
+        const resultsEl = document.getElementById(m + '-results');
+        if (resultsEl) {
+          resultsEl.style.display = 'block';
+          document.getElementById(m + '-aiText').textContent = 'Assessment recorded. No AI assistance in this mode.';
+        }
+        setTimeout(() => {
+          resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+        return;
+      }
+
       const res = await fetch(WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1504,11 +1556,9 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       const data = await res.json();
       completedModes[mode] = true;
 
-      // Mark tab as done
       const tab = document.getElementById('tab-' + mode);
       if (tab) tab.classList.add('done');
 
-      // Show results
       const resultsEl = document.getElementById(m + '-results');
       if (resultsEl) {
         resultsEl.style.display = 'block';
@@ -1519,7 +1569,6 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
           tokenEl.textContent = 'Tokens used: ' + data.tokensUsed;
       }
 
-      // Scroll to results
       setTimeout(() => {
         resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 300);
