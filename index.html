@@ -567,7 +567,8 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     const div = document.createElement('div');
     div.className = 'msg ' + role;
     const initials = role === 'user' ? '👤' : '🤖';
-    const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/
+/g,'<br>');
     div.innerHTML = role === 'user'
       ? '<div class="msg-avatar">' + initials + '</div><div><div class="msg-bubble">' + safeText + '</div><div class="msg-time">' + getTime() + '</div></div>'
       : '<div class="msg-avatar">' + initials + '</div><div><div class="msg-bubble">' + safeText + '</div><div class="msg-time">' + getTime() + '</div></div>';
@@ -699,7 +700,13 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
 
       // FIX: Immediately save Mode C initial response to sessionStorage
       // so it's available even if user navigates directly to Final tab
-      const initChatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\nAI Assistant:\n' + reply + '\n\n';
+      const initChatText = 'Bridge Inspection Chat — Mode C
+' + '='.repeat(50) + '
+
+AI Assistant:
+' + reply + '
+
+';
       sessionStorage.setItem('modeC_chat', initChatText);
       console.log('[triggerModeC] Initial Mode C chat saved to sessionStorage');
 
@@ -721,12 +728,18 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   function copyChat(mid) {
     const container = document.getElementById('messages-' + mid);
     const msgs = container.querySelectorAll('.msg');
-    let text = 'Bridge Inspection Chat — Mode ' + mid.toUpperCase() + '\n';
-    text += '='.repeat(50) + '\n\n';
+    let text = 'Bridge Inspection Chat — Mode ' + mid.toUpperCase() + '
+';
+    text += '='.repeat(50) + '
+
+';
     msgs.forEach(msg => {
       const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
       const bubble = msg.querySelector('.msg-bubble');
-      if (bubble) text += role + ':\n' + bubble.innerText + '\n\n';
+      if (bubble) text += role + ':
+' + bubble.innerText + '
+
+';
     });
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.querySelector('#chatbot-' + mid + ' .copy-btn');
@@ -870,11 +883,17 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       const container = document.getElementById('messages-b');
       if (container) {
         const msgs = container.querySelectorAll('.msg');
-        let chatText = 'Bridge Inspection Chat — Mode B\n' + '='.repeat(50) + '\n\n';
+        let chatText = 'Bridge Inspection Chat — Mode B
+' + '='.repeat(50) + '
+
+';
         msgs.forEach(msg => {
           const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
           const bubble = msg.querySelector('.msg-bubble');
-          if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+          if (bubble) chatText += role + ':
+' + bubble.innerText + '
+
+';
         });
         if (msgs.length > 0) {
           sessionStorage.setItem('modeB_chat', chatText);
@@ -894,11 +913,17 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       if (containerC) {
         const msgs = containerC.querySelectorAll('.msg');
         if (msgs.length > 1) { // more than just the initial bot message
-          let chatText = 'Bridge Inspection Chat — Mode C\n' + '='.repeat(50) + '\n\n';
+          let chatText = 'Bridge Inspection Chat — Mode C
+' + '='.repeat(50) + '
+
+';
           msgs.forEach(msg => {
             const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
             const bubble = msg.querySelector('.msg-bubble');
-            if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+            if (bubble) chatText += role + ':
+' + bubble.innerText + '
+
+';
           });
           sessionStorage.setItem('modeC_chat', chatText);
           const tokenEl = document.getElementById('c-tokenInfo');
