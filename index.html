@@ -583,7 +583,8 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         </div>
         <div class="survey-success" id="svb-success">
           <div style="font-size:28px">✅</div>
-          <div><strong style="color:var(--success);font-size:14px">Survey Submitted!</strong><p style="font-size:13px;color:var(--text-secondary);margin-top:3px">Your response has been recorded. You may proceed to the next step.</p></div>
+          <div><strong style="color:var(--success);font-size:14px">Survey Submitted!</strong><p style="font-size:13px;color:var(--text-secondary);margin-top:3px">Your response has been recorded.</p></div>
+          <button class="primary-btn full" onclick="goToModeC()" style="margin-top:12px">Continue to Mode C →</button>
         </div>
       </div>
     </div>
@@ -1110,36 +1111,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   let completedModes = { A: false, B: false, C: false };
 
   function goToModeB() { markSessionDone('A'); switchSession('B'); }
-  function goToModeC() {
-    // Auto-submit Mode B chat history to Submissions
-    const studentId = document.getElementById('a-studentId')?.value || 'student';
-    const container = document.getElementById('messages-b');
-    if (container) {
-      const msgs = container.querySelectorAll('.msg');
-      let chatText = 'Bridge Inspection Chat — Mode B\n' + '='.repeat(50) + '\n\n';
-      msgs.forEach(msg => {
-        const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
-        const bubble = msg.querySelector('.msg-bubble');
-        if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
-      });
-      fetch(WEBHOOK, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'submit',
-          mode: 'B',
-          studentId,
-          scenarioId: SCENARIO_ID,
-          bridgeType: BRIDGE_TYPE,
-          anomalyDescription: ANOMALY,
-          studentAnswer: chatText,
-          courseLevel: document.getElementById('b-courseLevel')?.value || 'N/A'
-        })
-      }).catch(err => console.log('Mode B chat submit failed:', err));
-    }
-    markSessionDone('B');
-    switchSession('C');
-  }
+  function goToModeC() { markSessionDone('B'); switchSession('C'); }
   function goToFinal() { markSessionDone('C'); switchSession('final'); }
 
   // Track completed modes
@@ -1181,6 +1153,37 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       const modeNames = { A: 'Mode A', B: 'Mode B', C: 'Mode C' };
       alert('🔒 Please complete ' + missing.map(m => modeNames[m]).join(' and ') + ' before accessing this section.');
       return;
+    }
+
+    // When switching to Mode C, auto-submit Mode B chat history
+    if (mode === 'C') {
+      const studentId = document.getElementById('a-studentId')?.value || 'student';
+      const container = document.getElementById('messages-b');
+      if (container) {
+        const msgs = container.querySelectorAll('.msg');
+        let chatText = 'Bridge Inspection Chat — Mode B\n' + '='.repeat(50) + '\n\n';
+        msgs.forEach(msg => {
+          const role = msg.classList.contains('user') ? 'Student' : 'AI Assistant';
+          const bubble = msg.querySelector('.msg-bubble');
+          if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
+        });
+        if (msgs.length > 0) {
+          fetch(WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'submit',
+              mode: 'B',
+              studentId,
+              scenarioId: SCENARIO_ID,
+              bridgeType: BRIDGE_TYPE,
+              anomalyDescription: ANOMALY,
+              studentAnswer: chatText,
+              courseLevel: 'N/A'
+            })
+          }).catch(err => console.log('Mode B chat submit failed:', err));
+        }
+      }
     }
 
     // Remove active + inline styles from all tabs
