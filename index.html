@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bridge Inspection Learning Platform</title>
+<title>Bridge Inspection Learning Platform Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,600;0,8..60,700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -216,11 +216,10 @@
     <div class="header-brand">
       <div class="header-icon">🌉</div>
       <div>
-        <div class="header-title">Bridge Inspection Learning Platform</div>
+        <div class="header-title">Bridge Inspection Learning Platform Demo</div>
         <div class="header-subtitle">AI-Augmented Scenario-Based Learning · SIUE Engineering</div>
       </div>
     </div>
-    <div class="header-badge">ASEE 2026</div>
   </div>
 </header>
 
@@ -421,6 +420,9 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
         <div class="chatbot-input-wrap"><textarea class="chatbot-input" id="input-c" placeholder="Respond to the AI assessment — approve, critique, or ask follow-up questions..." onkeydown="handleKey(event, 'c')"></textarea><button class="chatbot-send" id="send-c" onclick="sendMessage('c')">➤</button></div>
       </div>
       <div style="background:#fffbea;border:1px solid #f0e08a;border-radius:6px;padding:10px 14px;margin-top:12px;font-size:12.5px;color:#7a6000;">💡 <strong>Suggested responses:</strong> "I approve this assessment because..." &nbsp;|&nbsp; "I disagree with [finding] because..." &nbsp;|&nbsp; "Can you explain why you rated the deck as Fair?"</div>
+      <div id="c-proceed-btn-wrap" style="display:none;margin-top:16px;">
+        <button class="primary-btn full" onclick="goToFinal()">Proceed to Final Survey →</button>
+      </div>
     </div>
   </div>
   <div class="card" id="c-results" style="display:none">
@@ -620,6 +622,21 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       removeTyping(mid);
       appendMsg(mid, 'bot', reply);
       chatHistory[mid].push({ role: 'assistant', content: reply });
+      // --- token tracking fix ---
+      if (data.tokensUsed && data.tokensUsed > 0) {
+        const storageKey = 'mode' + mid.toUpperCase() + '_tokensUsed';
+        const prev = parseInt(sessionStorage.getItem(storageKey) || '0', 10);
+        const newTotal = prev + parseInt(data.tokensUsed, 10);
+        sessionStorage.setItem(storageKey, String(newTotal));
+        const tokenEl = document.getElementById(mid + '-tokenInfo');
+        if (tokenEl) tokenEl.textContent = 'Tokens used this session: ' + newTotal;
+      }
+      // --- end fix ---
+      // Show "Proceed to Final Survey" after student replies in Mode C
+      if (mid === 'c') {
+        const proceedWrap = document.getElementById('c-proceed-btn-wrap');
+        if (proceedWrap) proceedWrap.style.display = 'block';
+      }
     } catch(err) {
       removeTyping(mid);
       appendMsg(mid, 'bot', err.name === 'AbortError' ? 'Request timed out. Please try again.' : 'Connection error: ' + err.message);
@@ -658,7 +675,16 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
       btn.style.background = 'var(--success)';
       markSessionDone('C');
       sessionStorage.setItem('modeC_chat', 'Bridge Inspection Chat - Mode C\n' + '='.repeat(50) + '\nAI Assistant:\n' + reply + '\n');
-      console.log('[triggerModeC] modeC_chat saved to sessionStorage');
+      // --- token tracking fix ---
+      if (data.tokensUsed && data.tokensUsed > 0) {
+        const prev = parseInt(sessionStorage.getItem('modeC_tokensUsed') || '0', 10);
+        const newTotal = prev + parseInt(data.tokensUsed, 10);
+        sessionStorage.setItem('modeC_tokensUsed', String(newTotal));
+        const tokenEl = document.getElementById('c-tokenInfo');
+        if (tokenEl) tokenEl.textContent = 'Tokens used this session: ' + newTotal;
+      }
+      // --- end fix ---
+      console.log('[triggerModeC] modeC_chat saved, tokensUsed:', sessionStorage.getItem('modeC_tokensUsed'));
       document.getElementById('input-c').placeholder = 'Do you approve this recommendation? Or do you have critiques or questions?';
       document.getElementById('input-c').focus();
     } catch(err) {
@@ -779,10 +805,8 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
             if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
           });
           sessionStorage.setItem('modeB_chat', chatText);
-          const tokenEl = document.getElementById('b-tokenInfo');
-          const tokensMatch = (tokenEl ? tokenEl.textContent : '').match(/\d+/);
-          sessionStorage.setItem('modeB_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
-          console.log('[switchSession C] modeB_chat saved, length:', chatText.length);
+          // tokensUsed already accumulated in sessionStorage during chat
+          console.log('[switchSession C] modeB_chat saved, length:', chatText.length, 'tokensUsed:', sessionStorage.getItem('modeB_tokensUsed'));
         }
       }
     }
@@ -799,9 +823,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
             if (bubble) chatText += role + ':\n' + bubble.innerText + '\n\n';
           });
           sessionStorage.setItem('modeC_chat', chatText);
-          const tokenEl = document.getElementById('c-tokenInfo');
-          const tokensMatch = (tokenEl ? tokenEl.textContent : '').match(/\d+/);
-          sessionStorage.setItem('modeC_tokensUsed', tokensMatch ? tokensMatch[0] : '0');
+          // tokensUsed already accumulated in sessionStorage during chat
         }
       }
       const svaData = JSON.parse(sessionStorage.getItem('sva_answers') || '{}');
