@@ -553,7 +553,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
     }
   }
 
-  const CHATBOT_URL = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
+  const CHATBOT_URL = 'https://n8n.tcislab.org/webhook/asee2026';
   const chatHistory = { b: [], c: [] };
 
   function getTime() {
@@ -761,7 +761,7 @@ Feel free to ask me about the Bridge 9 inspection report, request suggestions on
   const SCENARIO_ID = 'bridge-scenario-01';
   const BRIDGE_TYPE = 'Steel Truss Bridge';
   const ANOMALY = 'Visible corrosion on main load-bearing beam, estimated 15-30% cross-section loss at mid-span';
-  const WEBHOOK = 'https://chenxiyuan.app.n8n.cloud/webhook/asee2026';
+  const WEBHOOK = 'https://n8n.tcislab.org/webhook/asee2026';
   let completedModes = { A: false, B: false, C: false };
   function goToModeB() { markSessionDone('A'); switchSession('B'); }
   function goToModeC() { markSessionDone('B'); switchSession('C'); }
